@@ -1,20 +1,20 @@
 #!/usr/bin/env pwsh
-# Install squiz on Windows: binary on PATH + SKILL.md into ~\.claude\skills\squiz\.
+# Install squiz on Windows: binary on PATH + SKILL.md files into ~\.claude\skills\<skill>\.
 #
 # Usage:
 #   irm https://raw.githubusercontent.com/ptetau/squiz/main/install.ps1 | iex
 #
 # Env overrides:
-#   $env:VERSION          pin a specific version (default: latest GitHub release)
-#   $env:SQUIZ_BIN_DIR    where to install squiz.exe (default: %LOCALAPPDATA%\Programs\squiz)
-#   $env:SQUIZ_SKILL_DIR  where to install SKILL.md (default: %USERPROFILE%\.claude\skills\squiz)
+#   $env:VERSION            pin a specific version (default: latest GitHub release)
+#   $env:SQUIZ_BIN_DIR      where to install squiz.exe (default: %LOCALAPPDATA%\Programs\squiz)
+#   $env:SQUIZ_SKILLS_ROOT  root for skill dirs (default: %USERPROFILE%\.claude\skills)
 
 $ErrorActionPreference = 'Stop'
 
-$Owner    = 'ptetau'
-$Repo     = 'squiz'
-$BinDir   = if ($env:SQUIZ_BIN_DIR)   { $env:SQUIZ_BIN_DIR }   else { "$env:LOCALAPPDATA\Programs\squiz" }
-$SkillDir = if ($env:SQUIZ_SKILL_DIR) { $env:SQUIZ_SKILL_DIR } else { "$env:USERPROFILE\.claude\skills\squiz" }
+$Owner       = 'ptetau'
+$Repo        = 'squiz'
+$BinDir      = if ($env:SQUIZ_BIN_DIR)     { $env:SQUIZ_BIN_DIR }     else { "$env:LOCALAPPDATA\Programs\squiz" }
+$SkillsRoot  = if ($env:SQUIZ_SKILLS_ROOT) { $env:SQUIZ_SKILLS_ROOT } else { "$env:USERPROFILE\.claude\skills" }
 
 $arch = switch ($env:PROCESSOR_ARCHITECTURE) {
   'AMD64' { 'x86_64' }
@@ -50,9 +50,22 @@ try {
   Write-Host "-> extracting"
   Expand-Archive -Path (Join-Path $tmp $archive) -DestinationPath $tmp -Force
 
-  New-Item -ItemType Directory -Path $BinDir, $SkillDir -Force | Out-Null
+  New-Item -ItemType Directory -Path $BinDir -Force | Out-Null
   Move-Item -Path (Join-Path $tmp 'squiz.exe') -Destination (Join-Path $BinDir 'squiz.exe') -Force
-  Move-Item -Path (Join-Path $tmp 'SKILL.md')  -Destination (Join-Path $SkillDir 'SKILL.md') -Force
+
+  # Install every SKILL.md the archive ships under skills\<name>\.
+  $skillsDir = Join-Path $tmp 'skills'
+  if (Test-Path $skillsDir) {
+    Get-ChildItem $skillsDir -Directory | ForEach-Object {
+      $src = Join-Path $_.FullName 'SKILL.md'
+      if (Test-Path $src) {
+        $dst = Join-Path $SkillsRoot $_.Name
+        New-Item -ItemType Directory -Path $dst -Force | Out-Null
+        Move-Item -Path $src -Destination (Join-Path $dst 'SKILL.md') -Force
+        Write-Host "  skill:   $dst\SKILL.md"
+      }
+    }
+  }
 
   # Add BinDir to user PATH if missing.
   $userPath = [Environment]::GetEnvironmentVariable('Path','User')
@@ -65,7 +78,6 @@ try {
   Write-Host ""
   Write-Host "OK installed squiz $version"
   Write-Host "  binary:  $BinDir\squiz.exe"
-  Write-Host "  skill:   $SkillDir\SKILL.md"
   try { & (Join-Path $BinDir 'squiz.exe') version } catch { }
 } finally {
   Remove-Item -Recurse -Force $tmp -ErrorAction SilentlyContinue

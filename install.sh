@@ -1,19 +1,19 @@
 #!/usr/bin/env sh
-# Install squiz: binary on PATH + SKILL.md into ~/.claude/skills/squiz/.
+# Install squiz: binary on PATH + SKILL.md files into ~/.claude/skills/<skill>/.
 #
 # Usage:
 #   curl -fsSL https://raw.githubusercontent.com/ptetau/squiz/main/install.sh | sh
 #
 # Env overrides:
-#   VERSION           pin a specific version (default: latest GitHub release)
-#   SQUIZ_BIN_DIR     where to install the binary (default: ~/.local/bin)
-#   SQUIZ_SKILL_DIR   where to install SKILL.md (default: ~/.claude/skills/squiz)
+#   VERSION             pin a specific version (default: latest GitHub release)
+#   SQUIZ_BIN_DIR       where to install the binary (default: ~/.local/bin)
+#   SQUIZ_SKILLS_ROOT   where skill dirs land (default: ~/.claude/skills)
 set -eu
 
 OWNER="ptetau"
 REPO="squiz"
 BIN_DIR="${SQUIZ_BIN_DIR:-$HOME/.local/bin}"
-SKILL_DIR="${SQUIZ_SKILL_DIR:-$HOME/.claude/skills/squiz}"
+SKILLS_ROOT="${SQUIZ_SKILLS_ROOT:-$HOME/.claude/skills}"
 
 err() { printf '%s\n' "$*" >&2; exit 1; }
 
@@ -58,9 +58,18 @@ fi
 printf '→ extracting\n'
 tar -C "$tmp" -xzf "$tmp/$archive"
 
-mkdir -p "$BIN_DIR" "$SKILL_DIR"
-install -m 0755 "$tmp/squiz"    "$BIN_DIR/squiz"
-install -m 0644 "$tmp/SKILL.md" "$SKILL_DIR/SKILL.md"
+mkdir -p "$BIN_DIR"
+install -m 0755 "$tmp/squiz" "$BIN_DIR/squiz"
+
+# Install every SKILL.md the archive ships under skills/<name>/.
+for skill_src in "$tmp"/skills/*/SKILL.md; do
+  [ -e "$skill_src" ] || continue
+  skill_name=$(basename "$(dirname "$skill_src")")
+  skill_dst="$SKILLS_ROOT/$skill_name"
+  mkdir -p "$skill_dst"
+  install -m 0644 "$skill_src" "$skill_dst/SKILL.md"
+  printf '  skill:   %s/SKILL.md\n' "$skill_dst"
+done
 
 case ":$PATH:" in
   *":$BIN_DIR:"*) ;;
@@ -70,6 +79,5 @@ case ":$PATH:" in
     ;;
 esac
 
-printf '✓ installed squiz %s\n  binary:  %s/squiz\n  skill:   %s/SKILL.md\n' \
-  "$version" "$BIN_DIR" "$SKILL_DIR"
+printf '✓ installed squiz %s\n  binary:  %s/squiz\n' "$version" "$BIN_DIR"
 "$BIN_DIR/squiz" version 2>/dev/null || true

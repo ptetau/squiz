@@ -18,13 +18,13 @@ irm https://raw.githubusercontent.com/ptetau/squiz/main/install.ps1 | iex
 
 **From source** (Go ≥ 1.22)
 ```sh
-go install github.com/ptetau/squiz@latest
+go install github.com/ptetau/squiz/cmd/squiz@latest
 mkdir -p ~/.claude/skills/squiz
-curl -fsSL https://raw.githubusercontent.com/ptetau/squiz/main/SKILL.md \
+curl -fsSL https://raw.githubusercontent.com/ptetau/squiz/main/skills/squiz/SKILL.md \
   -o ~/.claude/skills/squiz/SKILL.md
 ```
 
-The install scripts drop the `squiz` binary on PATH and copy `SKILL.md` into `~/.claude/skills/squiz/` so the Claude Code agent picks it up.
+The install scripts drop the `squiz` binary on PATH and copy each `skills/<name>/SKILL.md` into `~/.claude/skills/<name>/` so the Claude Code agent picks them up. Today that's `squiz` plus a placeholder `squiz-plan` stub (full implementation in v0.3.0).
 
 ## Quick start
 
@@ -54,17 +54,26 @@ squiz version
 squiz help
 ```
 
-## How the skill works
+## How the skills work
 
-See [SKILL.md](./SKILL.md) for the full agent-facing contract: the JSON schema, the 50 named wireframes, the 7 DSL primitives, the 8 themes, and the export payload shape.
+- **[skills/squiz/SKILL.md](./skills/squiz/SKILL.md)** — the active skill: JSON schema, 50 named wireframes, 7 DSL primitives, 8 themes, export payload shape.
+- **[skills/squiz-plan/SKILL.md](./skills/squiz-plan/SKILL.md)** — sibling skill (placeholder; v0.3.0).
+
+## Layout
+
+```
+cmd/squiz/        # CLI entry point
+pkg/renderer/     # exported library: themes, art, DSL, templates
+skills/<name>/    # SKILL.md per skill
+```
 
 ## Build
 
 ```sh
-go build -o squiz .
+go build -o squiz ./cmd/squiz
 ```
 
-The templates and CSS are embedded via `//go:embed`, so the binary is fully self-contained.
+The templates and CSS are embedded via `//go:embed` in `pkg/renderer`, so the binary is fully self-contained.
 
 ## License
 

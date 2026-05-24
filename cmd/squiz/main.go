@@ -7,6 +7,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/ptetau/squiz/pkg/renderer"
 )
 
 // version is overridden at release time via -ldflags "-X main.version=…".
@@ -66,7 +68,7 @@ func cmdRender(args []string) {
 		os.Exit(1)
 	}
 
-	doc, err := ParseDocument(data)
+	doc, err := renderer.ParseDocument(data)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "parse input: %v\n", err)
 		os.Exit(1)
@@ -87,7 +89,7 @@ func cmdRender(args []string) {
 		os.Exit(1)
 	}
 
-	html, err := Render(doc, RenderOpts{
+	html, err := renderer.Render(doc, renderer.RenderOpts{
 		OutputPath:    absOut,
 		ThemeOverride: *theme,
 		WorkDir:       filepath.Dir(absInput),

@@ -1,4 +1,4 @@
-package main
+package renderer
 
 // WFLibrary — named wireframe registry. Agents reference these via
 // `"art": "wf:<name>"`. Each entry is a self-contained SVG fragment

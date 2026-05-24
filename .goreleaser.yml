@@ -8,15 +8,11 @@ before:
 builds:
   - id: squiz
     binary: squiz
+    main: ./cmd/squiz
     env:
       - CGO_ENABLED=0
-    goos:
-      - linux
-      - darwin
-      - windows
-    goarch:
-      - amd64
-      - arm64
+    goos: [linux, darwin, windows]
+    goarch: [amd64, arm64]
     ldflags:
       - -s -w
       - -X main.version={{.Version}}
@@ -34,7 +30,8 @@ archives:
     files:
       - LICENSE
       - README.md
-      - SKILL.md
+      - skills/squiz/SKILL.md
+      - skills/squiz-plan/SKILL.md
 
 checksum:
   name_template: 'checksums.txt'

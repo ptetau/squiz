@@ -45,7 +45,9 @@ Write a `<name>.json` file (see Schema below), then invoke the renderer:
 squiz <name>.json
 ```
 
-That's it. The `squiz` binary (installed via `go install` of `<this-skill>/go-renderer`) reads the JSON, picks a theme for the repo (auto, sequential, persisted), and emits `<name>.html` next to the JSON. With no extra flag it does **not** auto-open — pass the path to the user so they can open it (or use `--open` if the user prefers).
+That's it. The `squiz` binary (installed via `go install` of `<this-skill>/go-renderer`) reads the JSON, picks a theme for the repo (auto, sequential, persisted), and emits `<name>.html` next to the JSON. With no extra flag it does **not** auto-open.
+
+**Always hand the user a clickable `file://` URL** when you tell them the path. Bare Windows paths like `C:\Users\…\foo.html` aren't clickable in most terminals; `file:///C:/Users/.../foo.html` is. POSIX form: `file:///home/u/foo.html`. Use `--open` only when the user has asked for automatic browser launch — and even then, still print the URL alongside.
 
 **Default file location:** write `squiz.json` (or a named variant like `squiz-onboarding.json`) **next to the work the squiz is about** — typically the project root or the relevant subdirectory. Output `.html` lands next to the `.json` with the same basename. Both paths are deterministic.
 
@@ -236,6 +238,7 @@ The rendered HTML ships with: a skip-to-decisions link, `radiogroup` ARIA roles 
 6. **Spec narrative is optional.** Include it only when you have real prose to quote with `{{markers}}` that map to squizzes.
 7. **The `quote` field on a squiz is optional.** Use it when you can point to a specific spec line that motivates the question.
 8. **Self-contained.** The doc should make sense to a user opening it cold. `SPEC_LEDE` is the one-liner that does this work.
+9. **Clickable links.** When you hand the user the rendered file, format it as a `file://` URL (`file:///C:/Users/.../foo.html` on Windows). Bare paths aren't clickable; URLs are.
 
 ## Files in this skill
 
