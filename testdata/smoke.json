@@ -1,0 +1,57 @@
+{
+  "spec": {
+    "path": "/usr/specs/smoke.md",
+    "title": "Smoke test — every art form, every shape",
+    "lede": "Exercises raw SVG, named wireframes, every DSL primitive, auto-art defaults, and explicit no-art suppression. Theme should auto-derive per repo.",
+    "paragraphs": [
+      { "text": "Visual previews come from {{namedlib}} and {{dslparams}}; when nothing fits, the agent can rely on the {{autoart}} default or {{hidden}} the art slot entirely." }
+    ]
+  },
+  "squizzes": [
+    {
+      "id": "namedlib",
+      "title": "Named library: wf:* references",
+      "desc": "All from the registry.",
+      "options": [
+        { "id": "cal",    "name": "calendar-grid",  "desc": "Monthly heatmap.",            "art": "wf:calendar-grid" },
+        { "id": "spark",  "name": "spark-rising",   "desc": "Sparkline trending up.",      "art": "wf:spark-rising" },
+        { "id": "av",     "name": "avatar-circle",  "desc": "Accountability circle.",      "art": "wf:avatar-circle" },
+        { "id": "graph",  "name": "graph-force",    "desc": "Force-directed graph.",       "art": "wf:graph-force" }
+      ]
+    },
+    {
+      "id": "dslparams",
+      "title": "DSL primitives",
+      "desc": "Each option exercises one DSL form.",
+      "options": [
+        { "id": "g",  "name": "grid",        "desc": "grid:7x7@0.55",                   "art": "grid:7x7@0.55" },
+        { "id": "s",  "name": "spark",       "desc": "spark:[3,5,4,7,6,9,11,9,12]",     "art": "spark:[3,5,4,7,6,9,11,9,12]" },
+        { "id": "b",  "name": "bars",        "desc": "bars:[3,5,4,7,6,9,11]",           "art": "bars:[3,5,4,7,6,9,11]" },
+        { "id": "sw", "name": "swatches",    "desc": "swatches:#f1ebde,#1a1814,#b34a1a","art": "swatches:#f1ebde,#1a1814,#b34a1a" },
+        { "id": "p",  "name": "pills",       "desc": "pills:morning*|midday|evening*",  "art": "pills:morning*|midday|evening*" },
+        { "id": "sa", "name": "sample serif","desc": "sample:\"Quiet welcome back.\"@serif", "art": "sample:\"Quiet welcome back.\"@serif" },
+        { "id": "cp", "name": "circle-pack", "desc": "circle-pack:12",                  "art": "circle-pack:12" }
+      ]
+    },
+    {
+      "id": "autoart",
+      "title": "Auto-art when omitted",
+      "desc": "No art field set — should render per-letter abstract patterns.",
+      "options": [
+        { "id": "a", "name": "Option A", "desc": "Hatched pattern auto-default." },
+        { "id": "b", "name": "Option B", "desc": "Dotted pattern auto-default." },
+        { "id": "c", "name": "Option C", "desc": "Striped pattern auto-default." },
+        { "id": "d", "name": "Option D", "desc": "Grid pattern auto-default." }
+      ]
+    },
+    {
+      "id": "hidden",
+      "title": "Explicit no-art (art:\"none\")",
+      "desc": "These options have art:\"none\" — the art slot should be hidden entirely (cards collapse).",
+      "options": [
+        { "id": "x", "name": "First",  "desc": "No art slot at all.", "art": "none" },
+        { "id": "y", "name": "Second", "desc": "No art slot at all.", "art": "none" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+# build artifacts
+/squiz
+/squiz.exe
+/dist/
+
+# generated test output (smoke.html etc.)
+/testdata/*.html
+
+# editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp

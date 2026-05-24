@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="{{.Doc.Theme}}" data-density="{{.Doc.Density}}" data-scanlines="{{.ScanlinesAttr}}" data-cursor="{{.CursorAttr}}">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{{.Doc.Spec.Title}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>{{.CSS}}</style>
+</head>
+<body>
+<a href="#decisions" class="skip-link">Skip to decisions</a>
+
+<main class="page">
+  <div class="topbar">
+    <div class="left"><span class="squiz">squiz</span> · {{.Doc.Spec.Path}}</div>
+    <div class="right topbar-clock" aria-hidden="true"></div>
+  </div>
+
+  <section class="intro">
+    <h1 class="intro-title">{{.Doc.Spec.Title}}</h1>
+    <p class="intro-lede">{{.Doc.Spec.Lede}}</p>
+    <div class="intro-meta">
+      {{.Total}} decision{{plural .Total}}<span class="dot">·</span>copy json when done
+    </div>
+  </section>
+
+  {{if .ShowSpec}}
+  <section class="spec" aria-label="Spec narrative">
+    <div class="spec-label">the spec</div>
+    <div class="spec-body">
+      {{range .SpecParagraphs}}<p>{{.}}</p>{{end}}
+    </div>
+  </section>
+  {{end}}
+
+  <div class="section-head" id="decisions">
+    <h2>Decisions</h2>
+    <div class="count" role="status" aria-live="polite" aria-atomic="true">
+      <span class="resolved-count">00</span> / {{pad2 .Total}} resolved
+    </div>
+  </div>
+
+  {{range $i, $squiz := .Squizzes}}
+  <article class="squiz" id="squiz-{{$squiz.ID}}">
+    <header class="squiz-header">
+      <div class="squiz-num" aria-hidden="true">
+        {{pad2 (inc $i)}}.
+        <div class="squiz-num-suffix">of {{pad2 $.Total}}</div>
+      </div>
+      <div>
+        <h3 class="squiz-title" id="squiz-title-{{$squiz.ID}}">{{$squiz.Title}}</h3>
+        {{if $squiz.Desc}}<p class="squiz-desc">{{$squiz.Desc}}</p>{{end}}
+        {{if $squiz.Quote}}<blockquote class="squiz-quote">"{{$squiz.Quote}}"</blockquote>{{end}}
+      </div>
+    </header>
+    <div class="options" role="radiogroup" aria-labelledby="squiz-title-{{$squiz.ID}}">
+      {{range $oi, $opt := $squiz.Options}}
+      <button type="button" class="option" role="radio"
+              aria-checked="false"
+              tabindex="{{if eq $oi 0}}0{{else}}-1{{end}}"
+              data-squiz="{{$squiz.ID}}" data-option="{{$opt.ID}}" data-letter="{{$opt.Letter}}"
+              aria-label="{{$opt.Label}}: {{$opt.Name}}{{if $opt.Desc}} — {{$opt.Desc}}{{end}}">
+        <div class="option-check" aria-hidden="true">✓</div>
+        {{if not $opt.HideArt}}<div class="option-art" aria-hidden="true">{{safesvg $opt.ArtHTML}}</div>{{end}}
+        <div class="option-body">
+          <span class="option-label" aria-hidden="true">{{$opt.Label}}</span>
+          <span class="option-name">{{$opt.Name}}</span>
+          {{if $opt.Desc}}<span class="option-desc">{{$opt.Desc}}</span>{{end}}
+        </div>
+      </button>
+      {{end}}
+    </div>
+    <div class="squiz-notes">
+      <label class="notes-label" for="notes-{{$squiz.ID}}">notes for the engineer</label>
+      <textarea id="notes-{{$squiz.ID}}" class="notes-input" data-squiz="{{$squiz.ID}}"
+                placeholder="edge cases, references, things to skip…" rows="1"></textarea>
+    </div>
+  </article>
+  {{end}}
+
+  <footer class="docfoot">
+    <span class="left">end of document</span>
+    <span>squiz · paste json back to continue</span>
+  </footer>
+</main>
+
+<div class="statusbar" role="region" aria-label="Progress">
+  <div class="statusbar-progress">
+    <span class="statusbar-count" aria-hidden="true">00/{{pad2 .Total}}</span>
+    <div class="progress-track" aria-hidden="true">
+      {{range .Doc.Squizzes}}<div class="progress-cell"></div>{{end}}
+    </div>
+  </div>
+  <div class="statusbar-divider"></div>
+  <button type="button" class="export-btn" disabled>copy json</button>
+</div>
+
+<div class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true" style="display: none;">
+  <div class="modal">
+    <header class="modal-head">
+      <h3 id="modal-title">squiz.json</h3>
+      <button type="button" class="x" aria-label="Close dialog">✕</button>
+    </header>
+    <div class="modal-body">
+      <pre></pre>
+    </div>
+    <footer class="modal-foot">
+      <span class="hint">→ paste into your prompt to claude code</span>
+      <button type="button" class="copy-btn">copy to json</button>
+    </footer>
+  </div>
+</div>
+
+<script>
+(function () {
+  const SPEC_TITLE = {{.SpecTitleJSON}};
+  const SQUIZZES = {{.SquizzesJSON}};
+  const SOURCE = {{.SourceJSON}};
+  const total = SQUIZZES.length;
+  const state = { selections: {}, notes: {} };
+
+  // ── selection (click) ────────────────────────────────────────────
+  document.querySelectorAll('.option').forEach(btn => {
+    btn.addEventListener('click', () => selectOption(btn));
+  });
+
+  function selectOption(btn) {
+    const squizId = btn.dataset.squiz;
+    const optionId = btn.dataset.option;
+    state.selections[squizId] = optionId;
+    document.querySelectorAll('.option[data-squiz="' + squizId + '"]').forEach(o => {
+      const isMe = o === btn;
+      o.classList.toggle('selected', isMe);
+      o.setAttribute('aria-checked', isMe ? 'true' : 'false');
+      o.setAttribute('tabindex', isMe ? '0' : '-1');
+    });
+    document.querySelectorAll('.squiz-mark[data-squiz="' + squizId + '"]').forEach(m => m.classList.add('resolved'));
+    updateProgress();
+  }
+
+  // ── selection (keyboard: arrow nav within a radiogroup) ─────────
+  document.querySelectorAll('.options').forEach(group => {
+    const opts = Array.from(group.querySelectorAll('.option'));
+    group.addEventListener('keydown', (e) => {
+      const current = document.activeElement;
+      const idx = opts.indexOf(current);
+      if (idx < 0) return;
+      let next = null;
+      switch (e.key) {
+        case 'ArrowRight':
+        case 'ArrowDown':
+          next = opts[(idx + 1) % opts.length];
+          break;
+        case 'ArrowLeft':
+        case 'ArrowUp':
+          next = opts[(idx - 1 + opts.length) % opts.length];
+          break;
+        case 'Home':
+          next = opts[0]; break;
+        case 'End':
+          next = opts[opts.length - 1]; break;
+        case ' ':
+        case 'Enter':
+          e.preventDefault();
+          selectOption(current);
+          return;
+        default:
+          return;
+      }
+      if (next) {
+        e.preventDefault();
+        opts.forEach(o => o.setAttribute('tabindex', o === next ? '0' : '-1'));
+        next.focus();
+      }
+    });
+  });
+
+  // ── notes (autosize textareas) ───────────────────────────────────
+  document.querySelectorAll('.notes-input').forEach(ta => {
+    ta.addEventListener('input', () => {
+      state.notes[ta.dataset.squiz] = ta.value;
+      ta.style.height = 'auto';
+      ta.style.height = ta.scrollHeight + 'px';
+    });
+  });
+
+  // ── spec chip → smooth scroll + flash + focus the squiz ──────────
+  document.querySelectorAll('.squiz-mark').forEach(m => {
+    m.addEventListener('click', e => {
+      e.preventDefault();
+      const squizId = m.dataset.squiz;
+      const target = document.getElementById('squiz-' + squizId);
+      if (!target) return;
+      const top = target.getBoundingClientRect().top + window.pageYOffset - 16;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+      target.animate(
+        [{ backgroundColor: 'rgba(243,223,135,0)' },
+         { backgroundColor: 'rgba(243,223,135,0.4)' },
+         { backgroundColor: 'rgba(243,223,135,0)' }],
+        { duration: 1200, easing: 'ease-out' }
+      );
+      // Move keyboard focus to the first option in that squiz for a11y.
+      const first = target.querySelector('.option[tabindex="0"]') || target.querySelector('.option');
+      if (first) setTimeout(() => first.focus({ preventScroll: true }), 250);
+    });
+  });
+
+  // ── progress update ──────────────────────────────────────────────
+  function updateProgress() {
+    const resolved = Object.keys(state.selections).length;
+    const pad = n => String(n).padStart(2, '0');
+    document.querySelector('.statusbar-count').textContent = pad(resolved) + '/' + pad(total);
+    document.querySelector('.resolved-count').textContent = pad(resolved);
+    document.querySelectorAll('.progress-cell').forEach((c, i) => c.classList.toggle('filled', i < resolved));
+    const btn = document.querySelector('.export-btn');
+    btn.disabled = resolved === 0;
+    btn.classList.toggle('done', resolved === total);
+  }
+
+  // ── export builder (source + anchors) ────────────────────────────
+  function buildExport() {
+    const decisions = SQUIZZES.map(s => {
+      const choiceId = state.selections[s.id] || null;
+      const choice = choiceId ? s.options.find(o => o.id === choiceId) : null;
+      return {
+        id: s.id,
+        question: s.title,
+        anchor: s.anchor,
+        choice: choice ? { id: choice.id, name: choice.name, summary: choice.desc || null } : null,
+        notes: (state.notes[s.id] || '').trim() || null,
+      };
+    });
+    return {
+      spec: SPEC_TITLE,
+      source: SOURCE,
+      generatedAt: new Date().toISOString().slice(0, 19) + 'Z',
+      decisions: decisions,
+      summary: {
+        total: SQUIZZES.length,
+        resolved: decisions.filter(d => d.choice).length,
+        withNotes: decisions.filter(d => d.notes).length,
+      },
+    };
+  }
+
+  function syntaxHighlight(json) {
+    return json
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/("(\\u[a-fA-F0-9]{4}|\\[^u]|[^\\"])*")(\s*:)?/g, function (m, p1, p2, p3) {
+        if (p3) return '<span class="k">' + p1 + '</span>' + p3;
+        return '<span class="s">' + p1 + '</span>';
+      })
+      .replace(/\b(true|false|null)\b/g, '<span class="b">$1</span>')
+      .replace(/(?<!["\w-])(-?\d+(\.\d+)?)/g, '<span class="n">$1</span>');
+  }
+
+  // ── clock (isolated component, only it re-ticks per second) ──────
+  function tickClock() {
+    const now = new Date();
+    const d = now.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).toUpperCase();
+    const t = now.toLocaleTimeString('en-US', { hour12: false });
+    document.querySelector('.topbar-clock').textContent = d + ' · ' + t;
+  }
+  setInterval(tickClock, 1000);
+  tickClock();
+
+  // ── export modal (focus trap + return focus) ─────────────────────
+  const modal = document.querySelector('.modal-overlay');
+  const modalPre = modal.querySelector('pre');
+  const exportBtn = document.querySelector('.export-btn');
+  const closeBtn = modal.querySelector('.x');
+  const copyBtn = modal.querySelector('.copy-btn');
+  let modalReturnFocus = null;
+
+  function openModal() {
+    if (exportBtn.disabled) return;
+    const json = JSON.stringify(buildExport(), null, 2);
+    modalPre.innerHTML = syntaxHighlight(json);
+    modalPre.dataset.raw = json;
+    modalReturnFocus = document.activeElement;
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
+    // Focus first focusable (copy button — primary action).
+    setTimeout(() => copyBtn.focus(), 0);
+  }
+  function closeModal() {
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    if (modalReturnFocus && typeof modalReturnFocus.focus === 'function') {
+      modalReturnFocus.focus();
+    }
+  }
+
+  exportBtn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => {
+    if (modal.style.display === 'none') return;
+    if (e.key === 'Escape') { e.preventDefault(); closeModal(); return; }
+    if (e.key === 'Tab') {
+      // Focus trap: cycle between the two focusables (close + copy).
+      const focusables = [closeBtn, copyBtn];
+      const idx = focusables.indexOf(document.activeElement);
+      if (idx < 0) return;
+      e.preventDefault();
+      const dir = e.shiftKey ? -1 : 1;
+      focusables[(idx + dir + focusables.length) % focusables.length].focus();
+    }
+  });
+
+  copyBtn.addEventListener('click', async () => {
+    const raw = modalPre.dataset.raw || '';
+    try {
+      await navigator.clipboard.writeText(raw);
+    } catch (e) {
+      const ta = document.createElement('textarea');
+      ta.value = raw;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    copyBtn.classList.add('copied');
+    copyBtn.textContent = 'copied';
+    setTimeout(() => { copyBtn.classList.remove('copied'); copyBtn.textContent = 'copy to json'; }, 2000);
+  });
+})();
+</script>
+</body>
+</html>
