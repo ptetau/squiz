@@ -241,7 +241,19 @@ The rendered HTML ships with: a skip-to-decisions link, `radiogroup` ARIA roles 
 2. **3-12 questions** is the sweet spot. Fewer → `/quiz`. More → the user bails.
 3. **Stable IDs.** Both squiz `id` and option `id` are stable — they come back in the JSON. Pick short kebab-or-camel slugs that will still make sense in a week.
 4. **Omit `theme`** unless you have a reason to override. Auto-rotation does the right thing.
-5. **Make `art` earn its slot.** Authoring preference is `wf:` / `arch:` > DSL > `"none"` > raw SVG. Use `arch:*` for system-architecture diagrams and `wf:*` for UI wireframes; reach for DSL primitives (`flow:`, `box:`, `arrow:`, `text:`, etc.) when you need to compose; raw SVG only for bespoke metaphors. Use `"none"` instead of forcing irrelevant art.
+5. **Art must distill the text, not decorate it.** Every `art` block should be a clear, single-idea visual reformulation of what the option's name/desc says. Test it: *if a reader saw only this art and not the text, what would they understand?* — if the answer isn't a sharper version of the desc's point, the art isn't earning its slot, and generic decoration is **worse** than `"art": "none"`.
+
+   **Good distillation (copy the pattern):**
+   - desc *"SQLite (single file)"* → `wf:file-icons` — concretely shows one file
+   - desc *"3 times per week"* → `pills:M*|T|W*|T|F*|S|S` — literally shows three lit days
+   - desc *"systemd binary deploy"* → `text:"systemctl enable\nclipsi.service"@mono?size=10&color=accent` — the actual command
+   - desc *"hot path: browser → api → cache → db"* → `flow:[browser?icon=browser,api?icon=api,cache?icon=cache,db?icon=database]` — the pipeline, drawn
+
+   **Weak art (decoration, avoid):**
+   - desc *"Audience: small teams"* with `arch:user` — generic person icon doesn't say "small *teams*" (sharper: `wf:avatar-circle` showing 5 people)
+   - desc *"Three storage choices"* with `arch:database` — too generic for the question (sharper: a swatch of three differentiated `wf:file-icons` / `arch:table` / `arch:storage` AS THE THREE OPTIONS, not as the parent's art)
+
+   **Authoring preference:** `wf:` / `arch:` > DSL > `"none"` > raw SVG. Use `arch:*` for system-architecture diagrams and `wf:*` for UI wireframes; reach for DSL primitives (`flow:`, `box:`, `arrow:`, `text:`, `pills:`, etc.) when you need to compose something distilled; raw SVG only for bespoke metaphors nothing else captures. Before committing an art form, name in one sentence what the picture says — if that sentence doesn't reproduce a key noun or verb from the desc, pick a different form or use `"none"`.
 6. **Spec narrative is optional.** Include it only when you have real prose to quote with `{{markers}}` that map to squizzes.
 7. **The `quote` field on a squiz is optional.** Use it when you can point to a specific spec line that motivates the question.
 8. **Self-contained.** The doc should make sense to a user opening it cold. `SPEC_LEDE` is the one-liner that does this work.

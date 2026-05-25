@@ -307,7 +307,20 @@ The rendered HTML ships with: a skip-to-tabs link, `tablist`/`tab`/`tabpanel` AR
 2. **Refs upward only by default.** `build` → `engineering` → `func/non-func` → `overview`. Sideways refs are fine occasionally; never make refs into a spaghetti.
 3. **Stable IDs with section prefix.** `FR-1`, not `req-1`. The prefix is what the validator checks against the section name.
 4. **Omit `theme`** unless overriding. Auto-rotation does the right thing.
-5. **Make `art` earn its slot.** Reach for `wf:` first, DSL second, raw SVG only when nothing else captures the idea. `"none"` is fine.
+5. **Art must distill the text, not decorate it.** Every `art` block should be a clear, single-idea visual reformulation of what the item's title/desc says. Test it: *if a reader saw only this art and not the text, what would they understand?* — if the answer isn't a sharper version of the desc's point, the art isn't earning its slot, and generic decoration is **worse** than `"art": "none"`.
+
+   **Good distillation (copy the pattern):**
+   - desc *"SQLite (single file)"* → `wf:file-icons` — concretely shows one file
+   - desc *"Hot path: browser → api → cache → db, < 50 ms p99"* → `flow:[browser?icon=browser,api?icon=api,cache?icon=cache,db?icon=database]` — the pipeline, drawn
+   - desc *"systemd binary deploy"* → `text:"systemctl enable\nclipsi.service"@mono?size=10&color=accent` — the actual command
+   - desc *"Mission — kill the copy-json round-trip"* → `text:"copy → paste → revise\n→\nstream → revise"@mono?size=11&color=accent` — the before/after
+
+   **Weak art (decoration, avoid):**
+   - desc *"Audience: small teams"* with `arch:user` — generic person icon doesn't say "small *teams*" (sharper: `wf:avatar-circle` showing 5 people)
+   - desc *"Loopback security with a token in the URL"* with `arch:secret` — generic secret icon doesn't say "loopback" (sharper: a `flow:` showing 127.0.0.1 ↔ server + a `key-icon` inside one of the boxes)
+   - any item with the per-section default art when something more specific exists — defaults are a backstop, not a goal
+
+   Authoring preference: `wf:` / `arch:` > DSL > `"none"` > raw SVG. Before committing an art form, name in one sentence what the picture says — if that sentence doesn't reproduce a key noun or verb from the desc, pick a different form or use `"none"`.
 6. **Cases sell the plan.** A plan with no `cases.json` section feels abstract. Even 2-3 short cases make the rest feel concrete.
 7. **Self-contained.** Title + lede must let a reader understand the plan in 10 seconds. The lede is the elevator pitch.
 8. **Clickable links.** When you hand the user the rendered file, format as `file:///...` — bare paths aren't clickable in most terminals.
