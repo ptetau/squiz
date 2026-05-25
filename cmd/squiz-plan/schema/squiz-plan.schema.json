@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ptetau/squiz/schemas/squiz-plan.schema.json",
+  "title": "Squiz Plan Index",
+  "description": "Top-level descriptor at plan/index.json. Declares metadata + which sections this plan includes. Section data lives in sibling files (plan/overview.json, plan/functional.json, plan/non-functional.json, plan/cases.json, plan/engineering.json, plan/build.json, plus any custom sections). Each sibling section file is a SectionFile (see $defs.sectionFile) — not validated by this schema since it covers only index.json.",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Plan H1 — the headline shown above the tab strip."
+    },
+    "lede": {
+      "type": "string",
+      "description": "One-line summary above the tabs."
+    },
+    "theme": {
+      "type": "string",
+      "description": "Optional theme name; same precedence as squiz. One of: paper, phosphor, amber, beige, rose, ocean, forest, slate. Empty/omitted lets the renderer's per-repo auto-rotation pick one.",
+      "enum": [
+        "",
+        "paper",
+        "phosphor",
+        "amber",
+        "beige",
+        "rose",
+        "ocean",
+        "forest",
+        "slate"
+      ]
+    },
+    "density": {
+      "type": "string",
+      "description": "compact (default) or comfortable.",
+      "enum": ["", "compact", "comfortable"]
+    },
+    "sections": {
+      "type": "array",
+      "description": "Section IDs to load + render order. Canonical IDs (overview, functional, non-functional, cases, engineering, build) sort to their canonical position; unknown IDs append. Each ID NAME corresponds to a sibling file <NAME>.json next to this index.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "required": ["title", "sections"],
+  "additionalProperties": false,
+  "$defs": {
+    "sectionFile": {
+      "type": "object",
+      "description": "Per-section payload at plan/<sectionId>.json. NOT validated by this schema; described here for reference only.",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/item" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "item": {
+      "type": "object",
+      "description": "One entry in a section. ID must use the section's prefix (validated by the parser). Refs are IDs of parent items the validator confirms exist. When Options is non-empty the item is a *decision* — the renderer shows a chooser (same shape as squiz options) and the user's pick is captured in the feedback export as `chose: \"optionId\"`. When Options is empty (the v0.3.0 default) the item is a *statement* — flat card, no chooser.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Full item ID with section prefix (e.g. OVR-1, FR-3.2, BUILD-cli-flags)."
+        },
+        "title": {
+          "type": "string",
+          "description": "Displayed as the card heading."
+        },
+        "desc": {
+          "type": "string",
+          "description": "1-3 sentences."
+        },
+        "art": {
+          "description": "Same forms as squiz Option.art (wf:/arch:/DSL/raw SVG/\"none\"/omitted).",
+          "oneOf": [
+            { "type": "string", "maxLength": 0 },
+            { "type": "string", "const": "none" },
+            { "type": "string", "pattern": "^<svg" },
+            { "type": "string", "pattern": "^wf:[a-zA-Z][a-zA-Z0-9_-]*$" },
+            { "type": "string", "pattern": "^arch:[a-zA-Z][a-zA-Z0-9_-]*$" },
+            { "type": "string", "pattern": "^(grid|spark|bars|swatches|pills|sample|circle-pack):" }
+          ]
+        },
+        "refs": {
+          "type": "array",
+          "description": "IDs of parent items (validator checks they exist).",
+          "items": { "type": "string" }
+        },
+        "options": {
+          "type": "array",
+          "description": "v0.4.0: optional in-item chooser. When non-empty, the item is a decision; when empty/omitted, it's a statement.",
+          "items": { "$ref": "#/$defs/option" }
+        }
+      },
+      "required": ["id"],
+      "additionalProperties": false
+    },
+    "option": {
+      "type": "object",
+      "description": "One branch of an in-item decision. Same shape as squiz's Option (id/label/name/desc/art) so authors can copy patterns between the two tools. IDs are local to the item — collisions across items are fine; collisions within one item are not (validated).",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable slug, comes back in feedback as `chose`."
+        },
+        "label": {
+          "type": "string",
+          "description": "OPTIONAL — auto-derived from index (\"Option A\", \"B\"…)."
+        },
+        "name": {
+          "type": "string",
+          "description": "Short display."
+        },
+        "desc": {
+          "type": "string",
+          "description": "1-2 sentence trade-off."
+        },
+        "art": {
+          "description": "Same forms as Item.art.",
+          "oneOf": [
+            { "type": "string", "maxLength": 0 },
+            { "type": "string", "const": "none" },
+            { "type": "string", "pattern": "^<svg" },
+            { "type": "string", "pattern": "^wf:[a-zA-Z][a-zA-Z0-9_-]*$" },
+            { "type": "string", "pattern": "^arch:[a-zA-Z][a-zA-Z0-9_-]*$" },
+            { "type": "string", "pattern": "^(grid|spark|bars|swatches|pills|sample|circle-pack):" }
+          ]
+        },
+        "recommendation": {
+          "type": "string",
+          "description": "When non-empty, marks this option as the author's recommended choice and carries the explanation. The renderer shows a \"★ RECOMMENDED\" chip + the explanation as a small editorial callout under the option's desc. At most one option per item should carry one; multiple renders all of them but is usually an authoring mistake."
+        }
+      },
+      "required": ["id"],
+      "additionalProperties": false
+    }
+  }
+}

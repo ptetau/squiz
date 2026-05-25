@@ -58,18 +58,47 @@ Then in Claude Code:
 
 > /squiz-plan turn the resolved decisions into a structured build plan
 
-**New in v0.4.0:** plan items can carry per-item `options:` (squiz-style choosers — the user's pick comes back as `chose: "<optionId>"`); user feedback now includes per-section notes and a plan-level note in addition to per-item notes; and each section's tab has an `+ add item` button so users can propose new items (returned as a typed `proposed_items[]` array). The art system also gains an `arch:*` namespace (~30 system-design icons) plus new DSL primitives (`text:`, `flow:`, `box:`, `arrow:`) for composing architecture diagrams.
+**New in v0.6.0 (agent-native CLI surface):** both binaries now expose introspection verbs so agents can author + validate input without reading external docs.
+
+```sh
+squiz schema                       # JSON Schema for the input format
+squiz validate <input.json>        # parse + business-rule check; exit 0/1
+squiz catalog wf                   # list all wireframes with descriptions
+squiz catalog wf --previews        # gallery HTML of every wireframe
+squiz catalog arch                 # 30 system-design icons
+squiz catalog dsl                  # 11 DSL primitives with grammar
+squiz catalog themes               # 8 themes with vibe descriptions
+squiz preview wf:calendar-grid     # render one art form to a standalone page
+squiz help                         # list topical help (art, themes, dsl, …)
+squiz help art                     # deep reference on art forms
+squiz skill                        # dump the embedded SKILL.md to stdout
+```
+
+All catalog/validate verbs accept `--json` for machine output. The same verbs exist on `squiz-plan` (with extra topics: `sections`, `refs`, `notes`, `proposed-items`).
+
+**Earlier highlights:** v0.5.0 added per-option `recommendation` (with explanation); v0.4.0 added plan-item `options:` choosers, three note channels, `arch:*` icons, and the `text:` / `flow:` / `box:` / `arrow:` DSL primitives.
 
 ## CLI
 
 ```
-squiz       <input.json>   [--out path] [--stdout] [--open] [--theme name]
-squiz       example        [--out path] [--stdout]
-squiz-plan  <index.json>   [--out path] [--stdout] [--open] [--theme name]
-squiz-plan  example        [--out dir]
+squiz       <input.json>          [--out path] [--stdout] [--open] [--theme name]
+squiz       render <input.json>   [--out path] [--stdout] [--open] [--theme name]
+squiz       example               [--out path] [--stdout]
+squiz       schema                [--out path]
+squiz       validate <input.json> [--json]
+squiz       catalog [wf|arch|dsl|themes]  [--json] [--previews [--out path] [--theme name]]
+squiz       preview <art-spec>    [--out path] [--stdout] [--theme name]
+squiz       help [topic]
+squiz       skill                 [--out path]
+squiz       version
+
+squiz-plan  <index.json>          [--out path] [--stdout] [--open] [--theme name]
+squiz-plan  example               [--out dir]
+squiz-plan  schema | validate | catalog | preview | help | skill | version
+            (same shapes as squiz)
 ```
 
-Both accept flags before or after the positional argument. Both support `version` and `help` subcommands.
+Flags may appear before or after the positional argument. `--help` on any subcommand prints flag-level help; `squiz help <topic>` gives the long-form reference.
 
 ## Skills
 

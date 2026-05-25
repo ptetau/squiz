@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ptetau/squiz/schemas/squiz.schema.json",
+  "title": "Squiz Document",
+  "description": "The JSON contract between the agent and the renderer. The agent writes one of these to a file, then runs `squiz <file>`.",
+  "type": "object",
+  "properties": {
+    "theme": {
+      "type": "string",
+      "description": "Theme name. One of: paper, phosphor, amber, beige, rose, ocean, forest, slate. Empty/omitted lets the renderer's per-repo auto-rotation pick one.",
+      "enum": [
+        "",
+        "paper",
+        "phosphor",
+        "amber",
+        "beige",
+        "rose",
+        "ocean",
+        "forest",
+        "slate"
+      ]
+    },
+    "density": {
+      "type": "string",
+      "description": "Visual density. compact (default) or comfortable.",
+      "enum": ["", "compact", "comfortable"]
+    },
+    "scanlines": {
+      "type": "boolean",
+      "description": "CRT scanline overlay across the whole page."
+    },
+    "cursor": {
+      "type": ["boolean", "null"],
+      "description": "Blinking terminal cursor in the topbar. Defaults to true when omitted; set false to suppress."
+    },
+    "spec": {
+      "$ref": "#/$defs/spec",
+      "description": "The narrative spec rendered above the squizzes."
+    },
+    "squizzes": {
+      "type": "array",
+      "description": "The list of decisions presented to the user.",
+      "items": { "$ref": "#/$defs/squiz" }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "spec": {
+      "type": "object",
+      "description": "Spec narrative shown at the top of the page.",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "Path string shown in the topbar (e.g. a source file path)."
+        },
+        "title": {
+          "type": "string",
+          "description": "Page H1 — the spec's headline."
+        },
+        "lede": {
+          "type": "string",
+          "description": "One-line summary shown under the title."
+        },
+        "paragraphs": {
+          "type": "array",
+          "description": "Optional spec narrative paragraphs.",
+          "items": { "$ref": "#/$defs/paragraph" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "paragraph": {
+      "type": "object",
+      "description": "A single paragraph of spec text. May contain {{squizId}} markers that render as in-page anchor chips.",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "Paragraph text. May contain {{squizId}} markers."
+        }
+      },
+      "required": ["text"],
+      "additionalProperties": false
+    },
+    "squiz": {
+      "type": "object",
+      "description": "One decision presented to the user as a chooser with options.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable slug identifying this squiz. Used as an anchor target and as the export key.",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+        },
+        "title": {
+          "type": "string",
+          "description": "Card heading — the question being asked."
+        },
+        "desc": {
+          "type": "string",
+          "description": "Short framing under the title."
+        },
+        "quote": {
+          "type": "string",
+          "description": "Optional pull-quote from the spec, shown beside the title."
+        },
+        "options": {
+          "type": "array",
+          "description": "The branches the user picks between.",
+          "items": { "$ref": "#/$defs/option" }
+        }
+      },
+      "required": ["id"],
+      "additionalProperties": false
+    },
+    "option": {
+      "type": "object",
+      "description": "One branch of a squiz. The user picks exactly one per squiz.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable slug, comes back in feedback as `chose`."
+        },
+        "label": {
+          "type": "string",
+          "description": "e.g. \"Option A\" — auto-derived from index if empty."
+        },
+        "name": {
+          "type": "string",
+          "description": "Short display name shown in the card title."
+        },
+        "desc": {
+          "type": "string",
+          "description": "1-2 sentence trade-off."
+        },
+        "art": {
+          "description": "Unified visual-preview field. Five forms supported: raw SVG markup (\"<svg viewBox='...'>...</svg>\"), named library (\"wf:calendar-grid\"), DSL primitive (\"grid:7x7@0.55\", \"spark:[3,5,4,7]\", etc.), explicit hide (\"none\" — no art slot at all), or omitted/empty (auto per-letter abstract pattern).",
+          "oneOf": [
+            {
+              "type": "string",
+              "description": "Omitted/empty — auto per-letter abstract pattern.",
+              "maxLength": 0
+            },
+            {
+              "type": "string",
+              "description": "Explicit hide — no art slot at all.",
+              "const": "none"
+            },
+            {
+              "type": "string",
+              "description": "Raw SVG markup.",
+              "pattern": "^<svg"
+            },
+            {
+              "type": "string",
+              "description": "Named wireframe from the library.",
+              "pattern": "^wf:[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            {
+              "type": "string",
+              "description": "Named architecture diagram from the library.",
+              "pattern": "^arch:[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            {
+              "type": "string",
+              "description": "DSL primitive (grid, spark, bars, swatches, pills, sample, circle-pack).",
+              "pattern": "^(grid|spark|bars|swatches|pills|sample|circle-pack):"
+            }
+          ]
+        },
+        "art_svg": {
+          "type": "string",
+          "description": "Legacy field — treated as raw SVG only. Use `art` for new code."
+        },
+        "recommendation": {
+          "type": "string",
+          "description": "When non-empty, marks this option as the author's recommended choice and carries the explanation of *why*. The renderer shows a \"★ RECOMMENDED\" chip + the explanation as a small editorial callout under the option's desc. Empty → option is one among equals. At most one option per squiz should carry a recommendation; multiple renders all of them but is almost always an authoring mistake."
+        }
+      },
+      "required": ["id"],
+      "additionalProperties": false
+    }
+  }
+}

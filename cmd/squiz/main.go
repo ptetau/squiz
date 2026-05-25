@@ -25,10 +25,20 @@ func main() {
 		cmdRender(os.Args[2:])
 	case "example":
 		cmdExample(os.Args[2:])
+	case "schema":
+		cmdSchema(os.Args[2:])
+	case "validate":
+		cmdValidate(os.Args[2:])
+	case "catalog":
+		cmdCatalog(os.Args[2:])
+	case "preview":
+		cmdPreview(os.Args[2:])
+	case "skill":
+		cmdSkill(os.Args[2:])
 	case "version", "--version", "-v":
 		fmt.Println("squiz " + version)
 	case "help", "--help", "-h":
-		printUsage()
+		cmdHelp(os.Args[2:])
 	default:
 		// Shorthand: `squiz foo.json [flags…]` == `squiz render foo.json [flags…] --open`.
 		// Any flags the user already passed are forwarded verbatim; --open is
