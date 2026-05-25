@@ -27,6 +27,7 @@ type RenderOpts struct {
 	OutputPath    string // absolute path of the .html being written
 	ThemeOverride string // from --theme; trumps plan.Theme
 	WorkDir       string // dir used for repo→theme resolution
+	Version       string // generator version (squiz-plan binary) — shown in topbar + export JSON
 }
 
 // PlanView is the top-level template view-model. All HTML-safe content
@@ -39,6 +40,7 @@ type PlanView struct {
 	Lede          string
 	Theme         string
 	Density       string
+	Version       string // generator version, e.g. "0.4.0" or "dev"; empty → no badge
 	ThemeAttr     string
 	DensityAttr   string
 	ScanlinesAttr string
@@ -46,7 +48,7 @@ type PlanView struct {
 	CSS           template.CSS
 	Sections      []SectionView
 	PlanJSON      template.JS // for the client-side JS (item index + nav)
-	SourceJSON    template.JS // {file, basename} — embedded in export payload
+	SourceJSON    template.JS // {file, basename, version} — embedded in export payload
 }
 
 // SectionView is one tab in the rendered doc. Index is 0-based and
@@ -241,6 +243,7 @@ func Render(p *Plan, opts RenderOpts) (string, error) {
 	sourceJSON, _ := json.Marshal(map[string]any{
 		"file":     opts.OutputPath,
 		"basename": filepath.Base(opts.OutputPath),
+		"version":  opts.Version,
 	})
 
 	density := p.Density
@@ -253,6 +256,7 @@ func Render(p *Plan, opts RenderOpts) (string, error) {
 		Lede:     p.Lede,
 		Theme:    theme,
 		Density:  density,
+		Version:  opts.Version,
 		// data-* attrs the template wires onto <html>. Scanlines/cursor
 		// don't currently surface in the plan JSON schema; defaults
 		// mirror squiz's "off/on" semantics so the same CSS rules apply.

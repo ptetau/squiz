@@ -100,6 +100,7 @@ func cmdRender(args []string) {
 		OutputPath:    absOut,
 		ThemeOverride: *theme,
 		WorkDir:       filepath.Dir(absInput),
+		Version:       version,
 	})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "render: %v\n", err)

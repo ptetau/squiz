@@ -39,6 +39,17 @@
 html[data-cursor="on"] .plan-wordmark::after {
   animation: blink 1.1s steps(2) infinite;
 }
+.plan-version {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  padding: 1px 5px;
+  border: 1px solid var(--rule-2);
+  border-radius: 2px;
+  margin-left: 6px;
+  text-transform: lowercase;
+}
 .plan-intro {
   margin-bottom: 22px;
 }

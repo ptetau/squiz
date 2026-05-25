@@ -1045,6 +1045,17 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
 html[data-cursor="on"] .plan-wordmark::after {
   animation: blink 1.1s steps(2) infinite;
 }
+.plan-version {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  padding: 1px 5px;
+  border: 1px solid var(--rule-2);
+  border-radius: 2px;
+  margin-left: 6px;
+  text-transform: lowercase;
+}
 .plan-intro {
   margin-bottom: 22px;
 }
@@ -3276,7 +3287,7 @@ html[data-theme="slate"]    .item-options .option-art {
 
 <script>
 const PLAN = {"lede":"A small offline-first home temperature logger. Six load-bearing sections, traceable from goal to build step.","sections":[{"id":"overview","items":[{"desc":"Track temperature in 4 rooms of a home, alert on anomalies, and let the homeowner answer 'was the heating off when we were away?' months later.","id":"OVR-1","title":"Mission"},{"desc":"One homeowner. Comfortable with a phone, not with a CLI. Will never SSH into anything.","id":"OVR-2","title":"Audience"},{"desc":"Runs entirely on-premise: no cloud sync, no account, no internet dependency. Must survive a 2-week internet outage with full functionality.","id":"OVR-3","title":"Hard constraints"}],"label":"Overview"},{"id":"functional","items":[{"desc":"Each sensor reports °C every minute; the logger writes one row per sensor per minute.","id":"FR-1","title":"Log temperature every 60 s"},{"desc":"Per-room view: last 24h, 7d, 30d, all-time. Touchable on a phone.","id":"FR-2","title":"Chart room history"},{"desc":"Push a notification when a room is \u003e5 °C outside its 7-day band for more than 20 minutes.","id":"FR-3","title":"Anomaly alerts"},{"desc":"Download all historical readings as CSV from the web UI. One file per room.","id":"FR-4","title":"CSV export"}],"label":"Functional"},{"id":"non-functional","items":[{"desc":"All features work with the WAN disconnected. No background sync, no \"cloud login required\" splash.","id":"NFR-1","title":"Offline-first"},{"desc":"Whole system draws \u003c 5 W idle. Logger lives on a Pi Zero 2 W; sensors run on coin cells for \u003e 12 months.","id":"NFR-2","title":"Low-power"},{"desc":"No data ever leaves the house network. Alerts use a local push gateway, not Apple/Google push.","id":"NFR-3","title":"Local-only data"}],"label":"Non-functional"},{"id":"cases","items":[{"desc":"Homeowner returns from a 10-day trip, opens the app, jumps to the timeframe of the trip, sees the temperature line for the living room and confirms it stayed above 16 °C the whole time.","id":"CASE-1","title":"\"Did the heating fail while we were away?\""},{"desc":"Mid-winter, 2 am. Bedroom drops to 11 °C, the alert fires on the phone, homeowner gets up to investigate before the pipes freeze.","id":"CASE-2","title":"\"The bedroom is freezing tonight\""},{"desc":"End of winter. Homeowner exports a year of CSV, drops it into a spreadsheet next to the gas bill, decides whether next year's boiler tune-up is worth it.","id":"CASE-3","title":"\"What does our heating cost actually buy us?\""}],"label":"Cases"},{"id":"engineering","items":[{"desc":"Read from 4 cheap Bluetooth LE thermometers. Pi scans every 60 s, writes the latest reading per sensor.","id":"ENG-1","title":"Sensor driver (BLE)"},{"desc":"Where the year-long history actually lives on the Pi. Trade-off between query speed, disk footprint, and tooling overhead.","id":"ENG-2","title":"Local storage choice"},{"desc":"Single-page app on the Pi, served on the LAN. Chart + room picker + CSV download. No build step beyond `make`.","id":"ENG-3","title":"Web UI"},{"desc":"Rolling-window check every 5 min; fires to a local ntfy.sh instance, which the homeowner has subscribed to from their phone.","id":"ENG-4","title":"Alert pipeline"}],"label":"Engineering"},{"id":"build","items":[{"desc":"Pi Zero 2 W, 4 × Xiaomi LYWSDCGQ sensors, 1 × ntfy.sh container on the LAN. Total cost target \u003c £80.","id":"BUILD-1","title":"BOM + initial wiring"},{"desc":"Go binary on the Pi: ble-scanner + storage-writer + alert-checker as one process. systemd unit, no Docker.","id":"BUILD-2","title":"Pi firmware"},{"desc":"Static HTML/CSS/JS embedded in the Go binary via go:embed. Charts via uPlot. CSV download by serving the SQLite query result as text/csv.","id":"BUILD-3","title":"Web UI"},{"desc":"One install script: scp the binary, install the unit, set Wi-Fi sensor credentials, test alert end-to-end, hand the homeowner a printed cheat-sheet.","id":"BUILD-4","title":"Deploy + handover"}],"label":"Build"}],"title":"ThermoLog — home temperature logger"};
-const SOURCE = {"basename":"plan.html","file":"/test/plan.html"};
+const SOURCE = {"basename":"plan.html","file":"/test/plan.html","version":""};
 window.PLAN = PLAN;
 window.SOURCE = SOURCE;
 

@@ -14,7 +14,7 @@
 
 <main class="plan-page" id="main">
   <div class="plan-topbar">
-    <div class="left"><span class="plan-wordmark">squiz-plan</span> &middot; {{.Title}}</div>
+    <div class="left"><span class="plan-wordmark">squiz-plan</span>{{if .Version}}<span class="plan-version" aria-label="squiz-plan version">v{{.Version}}</span>{{end}} &middot; {{.Title}}</div>
     <div class="right" aria-hidden="true">plan</div>
   </div>
 
