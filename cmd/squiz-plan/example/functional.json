@@ -4,14 +4,14 @@
       "id": "FR-1",
       "title": "Create a short link",
       "desc": "POST /api/links with a target URL → returns a slug. Web form mirrors the API. Auth is optional per-instance (open / api-key / OAuth).",
-      "art": "arch:api",
+      "art": "<svg viewBox='0 0 100 60' style='width:90%;height:auto'><text x='4' y='14' font-family='IBM Plex Mono' font-size='5' fill='var(--ink)'>POST /api/links</text><rect x='4' y='18' width='52' height='22' fill='none' stroke='var(--ink-2)' stroke-width='0.6'/><text x='8' y='27' font-family='IBM Plex Mono' font-size='3.8' fill='var(--ink-2)'>{ &quot;url&quot;:</text><text x='8' y='34' font-family='IBM Plex Mono' font-size='3.8' fill='var(--ink-2)'>  &quot;https://example.com/&quot; }</text><line x1='58' y1='29' x2='74' y2='29' stroke='var(--accent)' stroke-width='1.2'/><polygon points='70,26 74,29 70,32' fill='var(--accent)'/><rect x='76' y='20' width='22' height='18' fill='none' stroke='var(--accent)' stroke-width='1'/><text x='87' y='32' font-family='IBM Plex Mono' font-size='5' fill='var(--accent)' text-anchor='middle'>/aB3xZ</text><text x='4' y='52' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-3)'>auth: open | api-key | OAuth</text></svg>",
       "refs": ["OVR-1"]
     },
     {
       "id": "FR-2",
       "title": "Redirect by slug",
       "desc": "GET /:slug → HTTP 302 to the stored target. The hot path of the service: cheap, cacheable, no auth, no DB write.",
-      "art": "arch:gateway",
+      "art": "<svg viewBox='0 0 100 60' style='width:90%;height:auto'><use href='arch:browser' x='2' y='10' width='26' height='16'/><text x='15' y='32' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-3)' text-anchor='middle'>GET /aB3xZ</text><line x1='30' y1='18' x2='44' y2='18' stroke='var(--ink-2)' stroke-width='0.8'/><polygon points='40,15 44,18 40,21' fill='var(--ink-2)'/><use href='arch:cache' x='46' y='10' width='22' height='16'/><text x='57' y='32' font-family='IBM Plex Mono' font-size='4' fill='var(--accent)' text-anchor='middle'>hit</text><line x1='68' y1='18' x2='80' y2='14' stroke='var(--accent)' stroke-width='1.2'/><polygon points='76,11 80,14 76,17' fill='var(--accent)'/><text x='91' y='12' font-family='IBM Plex Mono' font-size='5' fill='var(--accent)' text-anchor='middle'>302</text><text x='91' y='18' font-family='IBM Plex Mono' font-size='3.5' fill='var(--ink-3)' text-anchor='middle'>→ target</text><text x='50' y='48' font-family='IBM Plex Mono' font-size='3.8' fill='var(--ink-3)' text-anchor='middle'>no auth · no DB write · cacheable</text></svg>",
       "refs": ["OVR-1", "OVR-2"]
     },
     {
@@ -25,14 +25,14 @@
       "id": "FR-4",
       "title": "Link expiry (optional)",
       "desc": "Per-link TTL: \"expires in 30 days\" or \"after 1000 clicks\". A nightly job sweeps expired links. Expired slugs return HTTP 410 Gone.",
-      "art": "wf:clock",
+      "art": "<svg viewBox='0 0 100 60' style='width:90%;height:auto'><use href='wf:clock' x='2' y='4' width='30' height='26'/><text x='17' y='36' font-family='IBM Plex Mono' font-size='5' fill='var(--accent)' text-anchor='middle'>30 days</text><text x='50' y='20' font-family='IBM Plex Mono' font-size='5' fill='var(--ink-3)' text-anchor='middle'>OR</text><text x='75' y='14' font-family='IBM Plex Mono' font-size='9' fill='var(--accent)' text-anchor='middle'>×1000</text><text x='75' y='22' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-3)' text-anchor='middle'>clicks</text><line x1='4' y1='42' x2='96' y2='42' stroke='var(--ink-3)' stroke-width='0.5' stroke-dasharray='2 2'/><text x='4' y='52' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-2)'>nightly sweep →</text><text x='96' y='52' font-family='IBM Plex Mono' font-size='5' fill='var(--accent)' text-anchor='end'>HTTP 410</text></svg>",
       "refs": ["FR-1"]
     },
     {
       "id": "FR-5",
       "title": "Per-link analytics (no PII)",
       "desc": "Per-slug dashboard: total clicks, referrers, rough geo (country only), user agent buckets. IPs are hashed; no cookies; no individual user records — only aggregates.",
-      "art": "wf:phone-stats",
+      "art": "<svg viewBox='0 0 100 60' style='width:90%;height:auto'><use href='wf:phone-stats' x='2' y='2' width='28' height='56'/><line x1='32' y1='30' x2='40' y2='30' stroke='var(--ink-3)' stroke-width='0.5' stroke-dasharray='2 2'/><text x='44' y='10' font-family='IBM Plex Mono' font-size='4.5' fill='var(--ink-2)'>aggregates only:</text><text x='44' y='18' font-family='IBM Plex Mono' font-size='4' fill='var(--accent)'>· total clicks</text><text x='44' y='24' font-family='IBM Plex Mono' font-size='4' fill='var(--accent)'>· referrer host</text><text x='44' y='30' font-family='IBM Plex Mono' font-size='4' fill='var(--accent)'>· country (geo)</text><text x='44' y='36' font-family='IBM Plex Mono' font-size='4' fill='var(--accent)'>· UA bucket</text><line x1='42' y1='42' x2='98' y2='42' stroke='var(--ink-3)' stroke-width='0.3' stroke-dasharray='1.5 1.5'/><text x='44' y='50' font-family='IBM Plex Mono' font-size='3.8' fill='var(--ink-3)'>IP: SHA-256(ip + salt)</text><text x='44' y='56' font-family='IBM Plex Mono' font-size='3.8' fill='var(--ink-3)'>no cookies · no user rows</text></svg>",
       "refs": ["OVR-1"]
     }
   ]

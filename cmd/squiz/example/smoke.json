@@ -2,16 +2,16 @@
   "spec": {
     "path": "/usr/specs/smoke.md",
     "title": "Smoke test — every art form, every shape",
-    "lede": "Exercises raw SVG, named wireframes, every DSL primitive, auto-art defaults, and explicit no-art suppression. Theme should auto-derive per repo.",
+    "lede": "Exercises raw SVG, named wireframes, every DSL primitive, auto-art defaults, explicit no-art suppression, and the v0.8.0 composition recipe. Theme should auto-derive per repo.",
     "paragraphs": [
-      { "text": "Visual previews come from {{namedlib}} and {{dslparams}}; when nothing fits, the agent can rely on the {{autoart}} default or {{hidden}} the art slot entirely." }
+      { "text": "Visual previews come from {{namedlib}} and {{dslparams}}; when nothing fits, the agent can rely on the {{autoart}} default or {{hidden}} the art slot entirely. The synthesis lives in {{composed}}: raw <svg> that embeds library + DSL primitives via <use href='…'/> + custom labels + annotation marks." }
     ]
   },
   "squizzes": [
     {
       "id": "namedlib",
       "title": "Named library: wf:* references",
-      "desc": "All from the registry.",
+      "desc": "All from the registry — each option is one finished library glyph.",
       "options": [
         { "id": "cal",    "name": "calendar-grid",  "desc": "Monthly heatmap.",            "art": "wf:calendar-grid", "recommendation": "Most familiar pattern — almost every user has used GitHub's contribution graph or a calendar widget. Dense, scannable, no learning curve." },
         { "id": "spark",  "name": "spark-rising",   "desc": "Sparkline trending up.",      "art": "wf:spark-rising" },
@@ -22,7 +22,7 @@
     {
       "id": "dslparams",
       "title": "DSL primitives",
-      "desc": "Each option exercises one DSL form.",
+      "desc": "Each option exercises one DSL form in isolation.",
       "options": [
         { "id": "g",  "name": "grid",        "desc": "grid:7x7@0.55",                   "art": "grid:7x7@0.55" },
         { "id": "s",  "name": "spark",       "desc": "spark:[3,5,4,7,6,9,11,9,12]",     "art": "spark:[3,5,4,7,6,9,11,9,12]" },
@@ -36,7 +36,7 @@
     {
       "id": "autoart",
       "title": "Auto-art when omitted",
-      "desc": "No art field set — should render per-letter abstract patterns.",
+      "desc": "No art field set — the renderer falls back to per-letter abstract patterns. This is what happens when you SKIP authoring art; production usage should compose instead (see the composed squiz at the end).",
       "options": [
         { "id": "a", "name": "Option A", "desc": "Hatched pattern auto-default." },
         { "id": "b", "name": "Option B", "desc": "Dotted pattern auto-default." },
@@ -51,6 +51,38 @@
       "options": [
         { "id": "x", "name": "First",  "desc": "No art slot at all.", "art": "none" },
         { "id": "y", "name": "Second", "desc": "No art slot at all.", "art": "none" }
+      ]
+    },
+    {
+      "id": "composed",
+      "title": "Composition recipe (v0.8.0)",
+      "desc": "Each option is a bespoke <svg> with embedded <use href='wf:…'/> + <use href='arch:…'/> + a labeled arrow + an annotation primitive. This is the canonical authoring shape; the previous squizzes show the parts in isolation.",
+      "options": [
+        {
+          "id": "labeled",
+          "name": "labeled-object",
+          "desc": "A library glyph + a callout marking the part that matters.",
+          "art": "<svg viewBox='0 0 100 60' xmlns='http://www.w3.org/2000/svg'><use href='wf:phone-card' x='5' y='0' width='55' height='60'/><use href='callout:\"tap target\"@70,18->58,32'/><text x='95' y='55' text-anchor='end' font-family='IBM Plex Mono' font-size='6' fill='var(--ink-2)'>card-front</text></svg>",
+          "recommendation": "Composition is the production shape — agents authoring real squizzes should reach for this pattern, not the per-form catalogs above."
+        },
+        {
+          "id": "flow",
+          "name": "flow",
+          "desc": "arch:* nodes wired with custom arrows + a tick badge marking the verified hop.",
+          "art": "<svg viewBox='0 0 100 60' xmlns='http://www.w3.org/2000/svg'><use href='arch:user' x='2' y='14' width='28' height='32'/><use href='arch:api' x='36' y='14' width='28' height='32'/><use href='arch:database' x='70' y='14' width='28' height='32'/><line x1='30' y1='30' x2='36' y2='30' stroke='var(--ink)' stroke-width='0.8'/><polygon points='36,30 33,28 33,32' fill='var(--ink)'/><line x1='64' y1='30' x2='70' y2='30' stroke='var(--ink)' stroke-width='0.8'/><polygon points='70,30 67,28 67,32' fill='var(--ink)'/><use href='badge:tick@50,8'/></svg>"
+        },
+        {
+          "id": "metric",
+          "name": "metric-with-context",
+          "desc": "A sparkline with a dashed baseline overlay calling out the SLO target.",
+          "art": "<svg viewBox='0 0 100 60' xmlns='http://www.w3.org/2000/svg'><use href='wf:spark-rising' x='5' y='8' width='90' height='40'/><use href='baseline:50@10,22,80?label=p99 target'/><text x='5' y='58' font-family='IBM Plex Mono' font-size='6' fill='var(--ink-2)'>last 7d</text></svg>"
+        },
+        {
+          "id": "beforeafter",
+          "name": "before-after",
+          "desc": "Two states separated by divider:vs, with a times: multiplier annotating the delta.",
+          "art": "<svg viewBox='0 0 100 60' xmlns='http://www.w3.org/2000/svg'><use href='bars:[2,3,2,4,3]' x='0' y='6' width='40' height='40'/><use href='bars:[4,7,9,11,13]' x='60' y='6' width='40' height='40'/><use href='divider:vs@50'/><text x='20' y='55' text-anchor='middle' font-family='IBM Plex Mono' font-size='6' fill='var(--ink-2)'>before</text><text x='80' y='55' text-anchor='middle' font-family='IBM Plex Mono' font-size='6' fill='var(--ink-2)'>after</text></svg>"
+        }
       ]
     }
   ]

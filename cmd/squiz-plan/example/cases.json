@@ -4,7 +4,7 @@
       "id": "CASE-1",
       "title": "\"Our newsletter went viral\"",
       "desc": "Marketing sends an email with one tracked link. 10 000 req/s for 90 seconds. The redirect path must hold; the analytics pipeline can fall behind and catch up — but no redirect can drop.",
-      "art": "wf:spark-rising",
+      "art": "<svg viewBox='0 0 100 60' style='width:90%;height:auto'><line x1='4' y1='44' x2='96' y2='44' stroke='var(--ink-3)' stroke-width='0.5' stroke-dasharray='2 2'/><text x='98' y='42' font-family='IBM Plex Mono' font-size='3.5' fill='var(--ink-3)' text-anchor='end'>idle</text><polyline points='4,44 18,44 22,44 26,12 34,10 40,11 44,40 96,44' fill='none' stroke='var(--accent)' stroke-width='1.4'/><text x='34' y='8' font-family='IBM Plex Mono' font-size='6' fill='var(--accent)' text-anchor='middle'>10k req/s</text><line x1='22' y1='48' x2='44' y2='48' stroke='var(--accent)' stroke-width='1.2'/><text x='33' y='55' font-family='IBM Plex Mono' font-size='4' fill='var(--accent)' text-anchor='middle'>~90s</text><text x='4' y='14' font-family='IBM Plex Mono' font-size='3.8' fill='var(--ink-3)'>redirects: must hold</text><text x='60' y='28' font-family='IBM Plex Mono' font-size='3.8' fill='var(--ink-3)'>analytics: may lag, never drop</text></svg>",
       "refs": ["FR-2", "NFR-1"]
     },
     {
@@ -18,13 +18,14 @@
       "id": "CASE-3",
       "title": "\"We printed it on a flyer\"",
       "desc": "A short URL was printed on 5 000 flyers six months ago. The slug must still resolve. Expiry never set; data never lost; the link works as long as the box is up.",
-      "art": "none",
+      "art": "<svg viewBox='0 0 100 60' style='width:90%;height:auto'><rect x='4' y='10' width='22' height='30' fill='none' stroke='var(--ink-2)' stroke-width='0.6'/><text x='15' y='20' font-family='IBM Plex Mono' font-size='5' fill='var(--ink)' text-anchor='middle'>FLYER</text><text x='15' y='30' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-2)' text-anchor='middle'>×5000</text><text x='15' y='37' font-family='IBM Plex Mono' font-size='3.5' fill='var(--accent)' text-anchor='middle'>/q4-launch</text><line x1='28' y1='25' x2='92' y2='25' stroke='var(--ink-3)' stroke-width='0.5' stroke-dasharray='2 2'/><circle cx='30' cy='25' r='1.6' fill='var(--ink-2)'/><circle cx='90' cy='25' r='1.6' fill='var(--accent)'/><text x='30' y='18' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-3)' text-anchor='middle'>printed</text><text x='90' y='18' font-family='IBM Plex Mono' font-size='4' fill='var(--accent)' text-anchor='middle'>today</text><text x='60' y='34' font-family='IBM Plex Mono' font-size='4.5' fill='var(--ink-3)' text-anchor='middle'>+6 months</text><text x='60' y='50' font-family='IBM Plex Mono' font-size='5' fill='var(--accent)' text-anchor='middle'>still 302s</text><text x='60' y='56' font-family='IBM Plex Mono' font-size='3.5' fill='var(--ink-3)' text-anchor='middle'>no TTL · box still up</text></svg>",
       "refs": ["FR-2", "NFR-2"]
     },
     {
       "id": "CASE-priority",
       "title": "Primary scenario to optimise for",
       "desc": "All three cases above are real, but they pull in slightly different directions (CASE-1 wants raw throughput; CASE-2 wants UX speed; CASE-3 wants permanence). v1 can serve them all decently but should be tuned for one. Which?",
+      "art": "<svg viewBox='0 0 100 60' style='width:90%;height:auto'><circle cx='20' cy='26' r='16' fill='none' stroke='var(--ink-2)' stroke-width='0.8'/><text x='20' y='25' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-2)' text-anchor='middle'>throughput</text><text x='20' y='31' font-family='IBM Plex Mono' font-size='3.5' fill='var(--ink-3)' text-anchor='middle'>(CASE-1)</text><circle cx='50' cy='26' r='16' fill='none' stroke='var(--ink-2)' stroke-width='0.8'/><text x='50' y='25' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-2)' text-anchor='middle'>UX speed</text><text x='50' y='31' font-family='IBM Plex Mono' font-size='3.5' fill='var(--ink-3)' text-anchor='middle'>(CASE-2)</text><circle cx='80' cy='26' r='16' fill='none' stroke='var(--ink-2)' stroke-width='0.8'/><text x='80' y='25' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-2)' text-anchor='middle'>permanence</text><text x='80' y='31' font-family='IBM Plex Mono' font-size='3.5' fill='var(--ink-3)' text-anchor='middle'>(CASE-3)</text><text x='50' y='52' font-family='IBM Plex Mono' font-size='4.5' fill='var(--accent)' text-anchor='middle'>tune for ONE</text></svg>",
       "refs": ["CASE-1", "CASE-2", "CASE-3"],
       "options": [
         {
@@ -37,14 +38,14 @@
           "id": "ux",
           "name": "CASE-2 — memorable slug (UX speed)",
           "desc": "Optimise dashboard speed + create-link friction; throughput is good enough out of the box.",
-          "art": "text:\"clipsi.co/...\"@mono?size=10&color=accent",
+          "art": "<svg viewBox='0 0 100 60' style='width:90%;height:auto'><text x='50' y='20' font-family='IBM Plex Mono' font-size='6' fill='var(--accent)' text-anchor='middle'>clipsi.co/all-hands-q4</text><line x1='8' y1='34' x2='92' y2='34' stroke='var(--accent)' stroke-width='1.2'/><circle cx='10' cy='34' r='1.5' fill='var(--accent)'/><circle cx='90' cy='34' r='1.5' fill='var(--accent)'/><text x='10' y='44' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-3)' text-anchor='middle'>type</text><text x='50' y='44' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-3)' text-anchor='middle'>copy</text><text x='90' y='44' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-3)' text-anchor='middle'>paste</text><text x='50' y='54' font-family='IBM Plex Mono' font-size='5' fill='var(--accent)' text-anchor='middle'>&lt; 30 s</text></svg>",
           "recommendation": "OVR-2's recommended audience is small teams sharing internal short-links — they create links daily and serve modest traffic. Optimising CASE-2 directly serves their main interaction; CASE-1 throughput is met for free by the simple architecture (NFR-1 already specifies <50ms p99); CASE-3 permanence is a property of the storage choice, not something we tune."
         },
         {
           "id": "permanence",
           "name": "CASE-3 — printed flyer (permanence)",
           "desc": "Lean into durability + zero-config backup. UX and throughput take second priority.",
-          "art": "arch:database"
+          "art": "arch:storage"
         }
       ]
     }

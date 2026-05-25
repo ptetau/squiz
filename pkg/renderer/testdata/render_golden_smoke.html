@@ -1070,9 +1070,9 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
 
   <section class="intro">
     <h1 class="intro-title">Smoke test — every art form, every shape</h1>
-    <p class="intro-lede">Exercises raw SVG, named wireframes, every DSL primitive, auto-art defaults, and explicit no-art suppression. Theme should auto-derive per repo.</p>
+    <p class="intro-lede">Exercises raw SVG, named wireframes, every DSL primitive, auto-art defaults, explicit no-art suppression, and the v0.8.0 composition recipe. Theme should auto-derive per repo.</p>
     <div class="intro-meta">
-      4 decisions<span class="dot">·</span>copy json when done
+      5 decisions<span class="dot">·</span>copy json when done
     </div>
   </section>
 
@@ -1080,7 +1080,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
   <section class="spec" aria-label="Spec narrative">
     <div class="spec-label">the spec</div>
     <div class="spec-body">
-      <p>Visual previews come from <a href="#squiz-namedlib" class="squiz-mark" data-squiz="namedlib">named library wf* references</a> and <a href="#squiz-dslparams" class="squiz-mark" data-squiz="dslparams">dsl primitives</a>; when nothing fits, the agent can rely on the <a href="#squiz-autoart" class="squiz-mark" data-squiz="autoart">auto-art when omitted</a> default or <a href="#squiz-hidden" class="squiz-mark" data-squiz="hidden">explicit no-art (art&#34;none&#34;)</a> the art slot entirely.</p>
+      <p>Visual previews come from <a href="#squiz-namedlib" class="squiz-mark" data-squiz="namedlib">named library wf* references</a> and <a href="#squiz-dslparams" class="squiz-mark" data-squiz="dslparams">dsl primitives</a>; when nothing fits, the agent can rely on the <a href="#squiz-autoart" class="squiz-mark" data-squiz="autoart">auto-art when omitted</a> default or <a href="#squiz-hidden" class="squiz-mark" data-squiz="hidden">explicit no-art (art&#34;none&#34;)</a> the art slot entirely. The synthesis lives in <a href="#squiz-composed" class="squiz-mark" data-squiz="composed">composition recipe (v080)</a>: raw &lt;svg&gt; that embeds library + DSL primitives via &lt;use href=&#39;…&#39;/&gt; + custom labels + annotation marks.</p>
     </div>
   </section>
   
@@ -1088,7 +1088,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
   <div class="section-head" id="decisions">
     <h2>Decisions</h2>
     <div class="count" role="status" aria-live="polite" aria-atomic="true">
-      <span class="resolved-count">00</span> / 04 resolved
+      <span class="resolved-count">00</span> / 05 resolved
     </div>
   </div>
 
@@ -1097,11 +1097,11 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
     <header class="squiz-header">
       <div class="squiz-num" aria-hidden="true">
         01.
-        <div class="squiz-num-suffix">of 04</div>
+        <div class="squiz-num-suffix">of 05</div>
       </div>
       <div>
         <h3 class="squiz-title" id="squiz-title-namedlib">Named library: wf:* references</h3>
-        <p class="squiz-desc">All from the registry.</p>
+        <p class="squiz-desc">All from the registry — each option is one finished library glyph.</p>
         
       </div>
     </header>
@@ -1183,11 +1183,11 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
     <header class="squiz-header">
       <div class="squiz-num" aria-hidden="true">
         02.
-        <div class="squiz-num-suffix">of 04</div>
+        <div class="squiz-num-suffix">of 05</div>
       </div>
       <div>
         <h3 class="squiz-title" id="squiz-title-dslparams">DSL primitives</h3>
-        <p class="squiz-desc">Each option exercises one DSL form.</p>
+        <p class="squiz-desc">Each option exercises one DSL form in isolation.</p>
         
       </div>
     </header>
@@ -1317,11 +1317,11 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
     <header class="squiz-header">
       <div class="squiz-num" aria-hidden="true">
         03.
-        <div class="squiz-num-suffix">of 04</div>
+        <div class="squiz-num-suffix">of 05</div>
       </div>
       <div>
         <h3 class="squiz-title" id="squiz-title-autoart">Auto-art when omitted</h3>
-        <p class="squiz-desc">No art field set — should render per-letter abstract patterns.</p>
+        <p class="squiz-desc">No art field set — the renderer falls back to per-letter abstract patterns. This is what happens when you SKIP authoring art; production usage should compose instead (see the composed squiz at the end).</p>
         
       </div>
     </header>
@@ -1403,7 +1403,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
     <header class="squiz-header">
       <div class="squiz-num" aria-hidden="true">
         04.
-        <div class="squiz-num-suffix">of 04</div>
+        <div class="squiz-num-suffix">of 05</div>
       </div>
       <div>
         <h3 class="squiz-title" id="squiz-title-hidden">Explicit no-art (art:&#34;none&#34;)</h3>
@@ -1453,6 +1453,92 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
     </div>
   </article>
   
+  <article class="squiz" id="squiz-composed">
+    <header class="squiz-header">
+      <div class="squiz-num" aria-hidden="true">
+        05.
+        <div class="squiz-num-suffix">of 05</div>
+      </div>
+      <div>
+        <h3 class="squiz-title" id="squiz-title-composed">Composition recipe (v0.8.0)</h3>
+        <p class="squiz-desc">Each option is a bespoke &lt;svg&gt; with embedded &lt;use href=&#39;wf:…&#39;/&gt; &#43; &lt;use href=&#39;arch:…&#39;/&gt; &#43; a labeled arrow &#43; an annotation primitive. This is the canonical authoring shape; the previous squizzes show the parts in isolation.</p>
+        
+      </div>
+    </header>
+    <div class="options" role="radiogroup" aria-labelledby="squiz-title-composed">
+      
+      <button type="button" class="option is-recommended" role="radio"
+              aria-checked="false"
+              tabindex="0"
+              data-squiz="composed" data-option="labeled" data-letter="A"
+              data-recommended="true"
+              aria-label="Option A: labeled-object — A library glyph &#43; a callout marking the part that matters. — recommended: Composition is the production shape — agents authoring real squizzes should reach for this pattern, not the per-form catalogs above.">
+        <div class="option-check" aria-hidden="true">✓</div>
+        <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' xmlns='http://www.w3.org/2000/svg'><defs><symbol id="wf-phone-card" viewBox="0 0 100 60"><g transform='translate(30,4)'><rect x='0' y='0' width='42' height='52' rx='4' fill='var(--surface)' stroke='var(--ink)' stroke-width='1.2'/><line x1='15' y1='4' x2='27' y2='4' stroke='var(--ink-3)' stroke-width='0.5'/><rect x='4' y='8' width='34' height='28' fill='none' stroke='var(--accent)' stroke-width='0.8'/><rect x='6' y='10' width='14' height='14' fill='var(--accent)' opacity='0.3'/><rect x='6' y='28' width='22' height='2.5' fill='var(--ink)' opacity='0.6'/><rect x='6' y='32' width='18' height='2.5' fill='var(--ink)' opacity='0.4'/></g></symbol></defs><use href='#wf-phone-card' x='5' y='0' width='55' height='60'/><use href='callout:"tap target"@70,18->58,32'/><text x='95' y='55' text-anchor='end' font-family='IBM Plex Mono' font-size='6' fill='var(--ink-2)'>card-front</text></svg></div>
+        <div class="option-body">
+          <span class="option-label" aria-hidden="true">Option A</span>
+          <span class="option-name">labeled-object <span class="option-rec-chip" aria-hidden="true">★ RECOMMENDED</span></span>
+          <span class="option-desc">A library glyph &#43; a callout marking the part that matters.</span>
+          <aside class="option-rec" aria-label="Recommendation rationale"><span class="option-rec-label" aria-hidden="true">why:</span> Composition is the production shape — agents authoring real squizzes should reach for this pattern, not the per-form catalogs above.</aside>
+        </div>
+      </button>
+      
+      <button type="button" class="option" role="radio"
+              aria-checked="false"
+              tabindex="-1"
+              data-squiz="composed" data-option="flow" data-letter="B"
+              
+              aria-label="Option B: flow — arch:* nodes wired with custom arrows &#43; a tick badge marking the verified hop.">
+        <div class="option-check" aria-hidden="true">✓</div>
+        <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' xmlns='http://www.w3.org/2000/svg'><defs><symbol id="arch-user" viewBox="0 0 100 60"><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><circle cx='50' cy='22' r='7'/><path d='M 34 46 Q 34 32 50 32 Q 66 32 66 46'/></g></symbol><symbol id="arch-api" viewBox="0 0 100 60"><g fill='none' stroke='var(--accent)' stroke-width='1.6' stroke-linejoin='round' stroke-linecap='round'><path d='M 38 16 Q 30 16 30 22 L 30 28 Q 30 30 28 30 Q 30 30 30 32 L 30 38 Q 30 44 38 44'/><path d='M 62 16 Q 70 16 70 22 L 70 28 Q 70 30 72 30 Q 70 30 70 32 L 70 38 Q 70 44 62 44'/><circle cx='44' cy='30' r='1.8' fill='var(--accent)' stroke='none'/><circle cx='50' cy='30' r='1.8' fill='var(--accent)' stroke='none'/><circle cx='56' cy='30' r='1.8' fill='var(--accent)' stroke='none'/></g></symbol><symbol id="arch-database" viewBox="0 0 100 60"><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><ellipse cx='50' cy='16' rx='16' ry='4' fill='var(--accent-soft)'/><path d='M 34 16 L 34 44 A 16 4 0 0 0 66 44 L 66 16'/><path d='M 34 26 A 16 4 0 0 0 66 26' stroke='var(--ink)' stroke-width='1'/><path d='M 34 36 A 16 4 0 0 0 66 36' stroke='var(--ink)' stroke-width='1'/></g></symbol><symbol id="badge-tick_50_8" viewBox="0 0 100 60"><circle cx='50.00' cy='8.00' r='6.00' fill='var(--accent)'/><path d='M 47.00 8.00 L 49.00 10.50 L 53.00 5.50' fill='none' stroke='var(--bg)' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/></symbol></defs><use href='#arch-user' x='2' y='14' width='28' height='32'/><use href='#arch-api' x='36' y='14' width='28' height='32'/><use href='#arch-database' x='70' y='14' width='28' height='32'/><line x1='30' y1='30' x2='36' y2='30' stroke='var(--ink)' stroke-width='0.8'/><polygon points='36,30 33,28 33,32' fill='var(--ink)'/><line x1='64' y1='30' x2='70' y2='30' stroke='var(--ink)' stroke-width='0.8'/><polygon points='70,30 67,28 67,32' fill='var(--ink)'/><use href='#badge-tick_50_8'/></svg></div>
+        <div class="option-body">
+          <span class="option-label" aria-hidden="true">Option B</span>
+          <span class="option-name">flow</span>
+          <span class="option-desc">arch:* nodes wired with custom arrows &#43; a tick badge marking the verified hop.</span>
+          
+        </div>
+      </button>
+      
+      <button type="button" class="option" role="radio"
+              aria-checked="false"
+              tabindex="-1"
+              data-squiz="composed" data-option="metric" data-letter="C"
+              
+              aria-label="Option C: metric-with-context — A sparkline with a dashed baseline overlay calling out the SLO target.">
+        <div class="option-check" aria-hidden="true">✓</div>
+        <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' xmlns='http://www.w3.org/2000/svg'><defs><symbol id="wf-spark-rising" viewBox="0 0 100 60"><path d='M 10 48 L 22 44 L 34 40 L 46 35 L 58 28 L 70 22 L 82 14 L 90 8 L 90 52 L 10 52 Z' fill='var(--accent)' opacity='0.15'/><path d='M 10 48 L 22 44 L 34 40 L 46 35 L 58 28 L 70 22 L 82 14 L 90 8' fill='none' stroke='var(--accent)' stroke-width='1.6' stroke-linejoin='round'/><circle cx='90' cy='8' r='2.2' fill='var(--accent)'/></symbol><symbol id="baseline-50_10_22_80_label_p99_target" viewBox="0 0 100 60"><line x1='10.00' y1='22.00' x2='90.00' y2='22.00' stroke='var(--accent)' stroke-width='1' stroke-dasharray='3 2'/><text x='90.00' y='20.50' text-anchor='end' font-family='IBM Plex Mono' font-size='6' font-weight='600' fill='var(--accent)'>50 · p99 target</text></symbol></defs><use href='#wf-spark-rising' x='5' y='8' width='90' height='40'/><use href='#baseline-50_10_22_80_label_p99_target'/><text x='5' y='58' font-family='IBM Plex Mono' font-size='6' fill='var(--ink-2)'>last 7d</text></svg></div>
+        <div class="option-body">
+          <span class="option-label" aria-hidden="true">Option C</span>
+          <span class="option-name">metric-with-context</span>
+          <span class="option-desc">A sparkline with a dashed baseline overlay calling out the SLO target.</span>
+          
+        </div>
+      </button>
+      
+      <button type="button" class="option" role="radio"
+              aria-checked="false"
+              tabindex="-1"
+              data-squiz="composed" data-option="beforeafter" data-letter="D"
+              
+              aria-label="Option D: before-after — Two states separated by divider:vs, with a times: multiplier annotating the delta.">
+        <div class="option-check" aria-hidden="true">✓</div>
+        <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' xmlns='http://www.w3.org/2000/svg'><defs><symbol id="bars-_2_3_2_4_3_" viewBox="0 0 100 60"><rect x='10.00' y='30.00' width='14.40' height='22.00' fill='var(--accent)' rx='1'/><rect x='26.40' y='19.00' width='14.40' height='33.00' fill='var(--accent)' rx='1'/><rect x='42.80' y='30.00' width='14.40' height='22.00' fill='var(--accent)' rx='1'/><rect x='59.20' y='8.00' width='14.40' height='44.00' fill='var(--accent)' rx='1'/><rect x='75.60' y='19.00' width='14.40' height='33.00' fill='var(--accent)' rx='1'/></symbol><symbol id="bars-_4_7_9_11_13_" viewBox="0 0 100 60"><rect x='10.00' y='38.46' width='14.40' height='13.54' fill='var(--accent)' rx='1'/><rect x='26.40' y='28.31' width='14.40' height='23.69' fill='var(--accent)' rx='1'/><rect x='42.80' y='21.54' width='14.40' height='30.46' fill='var(--accent)' rx='1'/><rect x='59.20' y='14.77' width='14.40' height='37.23' fill='var(--accent)' rx='1'/><rect x='75.60' y='8.00' width='14.40' height='44.00' fill='var(--accent)' rx='1'/></symbol><symbol id="divider-vs_50" viewBox="0 0 100 60"><line x1='50.00' y1='6.00' x2='50.00' y2='54.00' stroke='var(--rule-2)' stroke-width='0.8' stroke-dasharray='3 2'/><circle cx='50.00' cy='30' r='5.00' fill='var(--bg)' stroke='var(--accent)' stroke-width='0.8'/><text x='50.00' y='32' text-anchor='middle' font-family='IBM Plex Mono' font-size='6' font-weight='700' fill='var(--accent)'>vs</text></symbol></defs><use href='#bars-_2_3_2_4_3_' x='0' y='6' width='40' height='40'/><use href='#bars-_4_7_9_11_13_' x='60' y='6' width='40' height='40'/><use href='#divider-vs_50'/><text x='20' y='55' text-anchor='middle' font-family='IBM Plex Mono' font-size='6' fill='var(--ink-2)'>before</text><text x='80' y='55' text-anchor='middle' font-family='IBM Plex Mono' font-size='6' fill='var(--ink-2)'>after</text></svg></div>
+        <div class="option-body">
+          <span class="option-label" aria-hidden="true">Option D</span>
+          <span class="option-name">before-after</span>
+          <span class="option-desc">Two states separated by divider:vs, with a times: multiplier annotating the delta.</span>
+          
+        </div>
+      </button>
+      
+    </div>
+    <div class="squiz-notes">
+      <label class="notes-label" for="notes-composed">notes for the engineer</label>
+      <textarea id="notes-composed" class="notes-input" data-squiz="composed"
+                placeholder="edge cases, references, things to skip…" rows="1"></textarea>
+    </div>
+  </article>
+  
 
   <footer class="docfoot">
     <span class="left">end of document</span>
@@ -1462,9 +1548,9 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
 
 <div class="statusbar" role="region" aria-label="Progress">
   <div class="statusbar-progress">
-    <span class="statusbar-count" aria-hidden="true">00/04</span>
+    <span class="statusbar-count" aria-hidden="true">00/05</span>
     <div class="progress-track" aria-hidden="true">
-      <div class="progress-cell"></div><div class="progress-cell"></div><div class="progress-cell"></div><div class="progress-cell"></div>
+      <div class="progress-cell"></div><div class="progress-cell"></div><div class="progress-cell"></div><div class="progress-cell"></div><div class="progress-cell"></div>
     </div>
   </div>
   <div class="statusbar-divider"></div>
@@ -1490,7 +1576,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
 <script>
 (function () {
   const SPEC_TITLE = "Smoke test — every art form, every shape";
-  const SQUIZZES = [{"anchor":"#squiz-namedlib","id":"namedlib","options":[{"desc":"Monthly heatmap.","id":"cal","name":"calendar-grid"},{"desc":"Sparkline trending up.","id":"spark","name":"spark-rising"},{"desc":"Accountability circle.","id":"av","name":"avatar-circle"},{"desc":"Force-directed graph.","id":"graph","name":"graph-force"}],"title":"Named library: wf:* references"},{"anchor":"#squiz-dslparams","id":"dslparams","options":[{"desc":"grid:7x7@0.55","id":"g","name":"grid"},{"desc":"spark:[3,5,4,7,6,9,11,9,12]","id":"s","name":"spark"},{"desc":"bars:[3,5,4,7,6,9,11]","id":"b","name":"bars"},{"desc":"swatches:#f1ebde,#1a1814,#b34a1a","id":"sw","name":"swatches"},{"desc":"pills:morning*|midday|evening*","id":"p","name":"pills"},{"desc":"sample:\"Quiet welcome back.\"@serif","id":"sa","name":"sample serif"},{"desc":"circle-pack:12","id":"cp","name":"circle-pack"}],"title":"DSL primitives"},{"anchor":"#squiz-autoart","id":"autoart","options":[{"desc":"Hatched pattern auto-default.","id":"a","name":"Option A"},{"desc":"Dotted pattern auto-default.","id":"b","name":"Option B"},{"desc":"Striped pattern auto-default.","id":"c","name":"Option C"},{"desc":"Grid pattern auto-default.","id":"d","name":"Option D"}],"title":"Auto-art when omitted"},{"anchor":"#squiz-hidden","id":"hidden","options":[{"desc":"No art slot at all.","id":"x","name":"First"},{"desc":"No art slot at all.","id":"y","name":"Second"}],"title":"Explicit no-art (art:\"none\")"}];
+  const SQUIZZES = [{"anchor":"#squiz-namedlib","id":"namedlib","options":[{"desc":"Monthly heatmap.","id":"cal","name":"calendar-grid"},{"desc":"Sparkline trending up.","id":"spark","name":"spark-rising"},{"desc":"Accountability circle.","id":"av","name":"avatar-circle"},{"desc":"Force-directed graph.","id":"graph","name":"graph-force"}],"title":"Named library: wf:* references"},{"anchor":"#squiz-dslparams","id":"dslparams","options":[{"desc":"grid:7x7@0.55","id":"g","name":"grid"},{"desc":"spark:[3,5,4,7,6,9,11,9,12]","id":"s","name":"spark"},{"desc":"bars:[3,5,4,7,6,9,11]","id":"b","name":"bars"},{"desc":"swatches:#f1ebde,#1a1814,#b34a1a","id":"sw","name":"swatches"},{"desc":"pills:morning*|midday|evening*","id":"p","name":"pills"},{"desc":"sample:\"Quiet welcome back.\"@serif","id":"sa","name":"sample serif"},{"desc":"circle-pack:12","id":"cp","name":"circle-pack"}],"title":"DSL primitives"},{"anchor":"#squiz-autoart","id":"autoart","options":[{"desc":"Hatched pattern auto-default.","id":"a","name":"Option A"},{"desc":"Dotted pattern auto-default.","id":"b","name":"Option B"},{"desc":"Striped pattern auto-default.","id":"c","name":"Option C"},{"desc":"Grid pattern auto-default.","id":"d","name":"Option D"}],"title":"Auto-art when omitted"},{"anchor":"#squiz-hidden","id":"hidden","options":[{"desc":"No art slot at all.","id":"x","name":"First"},{"desc":"No art slot at all.","id":"y","name":"Second"}],"title":"Explicit no-art (art:\"none\")"},{"anchor":"#squiz-composed","id":"composed","options":[{"desc":"A library glyph + a callout marking the part that matters.","id":"labeled","name":"labeled-object"},{"desc":"arch:* nodes wired with custom arrows + a tick badge marking the verified hop.","id":"flow","name":"flow"},{"desc":"A sparkline with a dashed baseline overlay calling out the SLO target.","id":"metric","name":"metric-with-context"},{"desc":"Two states separated by divider:vs, with a times: multiplier annotating the delta.","id":"beforeafter","name":"before-after"}],"title":"Composition recipe (v0.8.0)"}];
   const SOURCE = {"basename":"smoke.html","file":"/test/smoke.html","version":""};
   const total = SQUIZZES.length;
   const state = { selections: {}, notes: {} };

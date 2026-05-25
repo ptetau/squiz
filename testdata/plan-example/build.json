@@ -4,7 +4,7 @@
       "id": "BUILD-1",
       "title": "API scaffolding + slug generation",
       "desc": "Stand up the HTTP server, define the routes, implement base62 ID generation, wire collision-check for custom slugs. Auth modes (open / api-key / OAuth) gated behind config.",
-      "art": "arch:server",
+      "art": "<svg viewBox='0 0 100 60' style='width:90%;height:auto'><use href='arch:server' x='2' y='8' width='28' height='18'/><text x='16' y='32' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-2)' text-anchor='middle'>net/http</text><line x1='30' y1='17' x2='42' y2='17' stroke='var(--ink-3)' stroke-width='0.5' stroke-dasharray='2 2'/><text x='66' y='10' font-family='IBM Plex Mono' font-size='3.8' fill='var(--ink-2)'>base62.Gen(7)</text><text x='66' y='16' font-family='IBM Plex Mono' font-size='4.5' fill='var(--accent)'>→ &quot;aB3xZ9q&quot;</text><line x1='44' y1='24' x2='98' y2='24' stroke='var(--ink-3)' stroke-width='0.3' stroke-dasharray='1.5 1.5'/><text x='66' y='32' font-family='IBM Plex Mono' font-size='3.8' fill='var(--ink-2)'>SELECT 1 FROM links</text><text x='66' y='38' font-family='IBM Plex Mono' font-size='3.5' fill='var(--ink-3)'>if exists → retry</text><text x='4' y='52' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-3)'>auth modes (config):</text><text x='4' y='58' font-family='IBM Plex Mono' font-size='3.8' fill='var(--accent)'>open · api-key · OAuth</text></svg>",
       "refs": ["ENG-1", "ENG-2"]
     },
     {
@@ -18,7 +18,7 @@
       "id": "BUILD-3",
       "title": "Dashboard + create-link UI",
       "desc": "Tiny embedded HTML/JS dashboard: list links, create, see per-slug stats. Served from go:embed, no separate web server. Tailwind-flavored CSS in one stylesheet.",
-      "art": "wf:phone-tabs",
+      "art": "<svg viewBox='0 0 100 60' style='width:90%;height:auto'><use href='wf:phone-list' x='2' y='2' width='30' height='56'/><use href='wf:phone-input' x='34' y='2' width='30' height='56'/><use href='wf:phone-stats' x='66' y='2' width='30' height='56'/><text x='17' y='12' font-family='IBM Plex Mono' font-size='3.5' fill='var(--accent)' text-anchor='middle'>list</text><text x='49' y='12' font-family='IBM Plex Mono' font-size='3.5' fill='var(--accent)' text-anchor='middle'>create</text><text x='81' y='12' font-family='IBM Plex Mono' font-size='3.5' fill='var(--accent)' text-anchor='middle'>stats</text></svg>",
       "refs": ["ENG-1", "FR-1", "FR-5"]
     },
     {
@@ -39,12 +39,14 @@
       "id": "BUILD-sequence",
       "title": "Ship sequence — order to ship the 5 builds in",
       "desc": "BUILD-1..5 are roughly equal in size; the order changes what the user sees first and how usable each intermediate cut is.",
+      "art": "<svg viewBox='0 0 100 60' style='width:90%;height:auto'><circle cx='10' cy='30' r='5' fill='none' stroke='var(--ink-2)' stroke-width='0.8'/><text x='10' y='32' font-family='IBM Plex Mono' font-size='4.5' fill='var(--ink)' text-anchor='middle'>1</text><circle cx='28' cy='30' r='5' fill='none' stroke='var(--ink-2)' stroke-width='0.8'/><text x='28' y='32' font-family='IBM Plex Mono' font-size='4.5' fill='var(--ink)' text-anchor='middle'>2</text><circle cx='46' cy='30' r='5' fill='none' stroke='var(--ink-2)' stroke-width='0.8'/><text x='46' y='32' font-family='IBM Plex Mono' font-size='4.5' fill='var(--ink)' text-anchor='middle'>3</text><circle cx='64' cy='30' r='5' fill='none' stroke='var(--ink-2)' stroke-width='0.8'/><text x='64' y='32' font-family='IBM Plex Mono' font-size='4.5' fill='var(--ink)' text-anchor='middle'>4</text><circle cx='82' cy='30' r='5' fill='none' stroke='var(--accent)' stroke-width='1.4'/><text x='82' y='32' font-family='IBM Plex Mono' font-size='4.5' fill='var(--accent)' text-anchor='middle'>5</text><line x1='15' y1='30' x2='23' y2='30' stroke='var(--ink-2)' stroke-width='0.6'/><line x1='33' y1='30' x2='41' y2='30' stroke='var(--ink-2)' stroke-width='0.6'/><line x1='51' y1='30' x2='59' y2='30' stroke='var(--ink-2)' stroke-width='0.6'/><line x1='69' y1='30' x2='77' y2='30' stroke='var(--ink-2)' stroke-width='0.6'/><text x='50' y='14' font-family='IBM Plex Mono' font-size='3.8' fill='var(--ink-3)' text-anchor='middle'>order changes the first useful demo</text><text x='50' y='48' font-family='IBM Plex Mono' font-size='3.8' fill='var(--ink-3)' text-anchor='middle'>each step ≈ equal size</text><text x='50' y='56' font-family='IBM Plex Mono' font-size='4' fill='var(--accent)' text-anchor='middle'>finish = shippable</text></svg>",
       "refs": ["BUILD-1", "BUILD-2", "BUILD-3", "BUILD-4", "BUILD-5"],
       "options": [
         {
           "id": "vertical",
           "name": "Vertical slice — create+redirect end-to-end first",
           "desc": "BUILD-1 (API scaffold) → BUILD-2 (redirect) → BUILD-3 (minimal UI) → BUILD-4 (analytics) → BUILD-5 (deploy). Every intermediate state has at least the core feature working.",
+          "art": "<svg viewBox='0 0 100 60' style='width:90%;height:auto'><text x='4' y='12' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-3)'>step:</text><text x='4' y='22' font-family='IBM Plex Mono' font-size='4' fill='var(--accent)'>1 API scaffold</text><text x='4' y='30' font-family='IBM Plex Mono' font-size='4' fill='var(--accent)'>2 redirect (hot path)</text><text x='4' y='38' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-2)'>3 minimal UI</text><text x='4' y='46' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-2)'>4 analytics</text><text x='4' y='54' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-2)'>5 deploy</text><line x1='62' y1='18' x2='62' y2='32' stroke='var(--accent)' stroke-width='1.5'/><text x='75' y='25' font-family='IBM Plex Mono' font-size='4.5' fill='var(--accent)' text-anchor='middle'>core</text><text x='75' y='31' font-family='IBM Plex Mono' font-size='4.5' fill='var(--accent)' text-anchor='middle'>by step 2</text></svg>",
           "recommendation": "Matches the team-of-3-to-50 audience (OVR-2 default): they want to deploy SOMETHING by end of week one and add analytics next sprint. Vertical means the hot path (BUILD-2) is real by step 2, not step 4. Backend-first defers the first useful demo until ~half-done."
         },
         {

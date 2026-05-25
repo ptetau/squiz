@@ -94,6 +94,8 @@ squiz skill                        # dump the embedded SKILL.md to stdout
 
 All catalog/validate verbs accept `--json` for machine output. The same verbs exist on `squiz-plan` (with extra topics: `sections`, `refs`, `notes`, `proposed-items`).
 
+**New in v0.8.0 (composition mechanism):** raw SVG can now embed library + DSL primitives via `<use href="wf:phone-card"/>` / `<use href="arch:database"/>` / `<use href="callout:..."/>`. The library + DSL items are PARTS the agent remixes into bespoke illustrations — not finished pictures to pick from. Seven new annotation primitives (`callout:`, `brace:`, `divider:vs`, `badge:tick/cross/warn/star/dot`, `range:LO-HI`, `baseline:N`, `times:N`) give you the labels, arrows, and baselines that turn nouns into statements. `squiz catalog wf --json` now emits `naturalBox` per entry so `<use>` sizing is precise. `squiz validate` adds composition-health warnings (single-token-heavy sections, sibling-art-collision, missing viewBox, unknown wf/arch refs).
+
 **Earlier highlights:** v0.5.0 added per-option `recommendation` (with explanation); v0.4.0 added plan-item `options:` choosers, three note channels, `arch:*` icons, and the `text:` / `flow:` / `box:` / `arrow:` DSL primitives.
 
 ## CLI

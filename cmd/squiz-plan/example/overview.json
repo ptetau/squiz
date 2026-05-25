@@ -3,18 +3,20 @@
     {
       "id": "OVR-1",
       "title": "Mission",
-      "desc": "A self-hostable URL shortener that small teams can stand up on their own domain in an afternoon. Bring-your-own-domain, real analytics, no third party tracking your users."
+      "desc": "A self-hostable URL shortener that small teams can stand up on their own domain in an afternoon. Bring-your-own-domain, real analytics, no third party tracking your users.",
+      "art": "<svg viewBox='0 0 100 60' style='width:90%;height:auto'><use href='arch:server' x='2' y='14' width='28' height='17'/><text x='16' y='40' font-family='IBM Plex Mono' font-size='4.5' fill='var(--ink-2)' text-anchor='middle'>your VPS</text><line x1='32' y1='22' x2='62' y2='22' stroke='var(--accent)' stroke-width='1.2'/><polygon points='58,19 62,22 58,25' fill='var(--accent)'/><text x='47' y='19' font-family='IBM Plex Mono' font-size='4.5' fill='var(--accent)' text-anchor='middle'>302</text><use href='arch:browser' x='64' y='14' width='28' height='17'/><text x='78' y='40' font-family='IBM Plex Mono' font-size='4.5' fill='var(--ink-2)' text-anchor='middle'>go.team.co</text><text x='50' y='53' font-family='IBM Plex Mono' font-size='4.5' fill='var(--ink-3)' text-anchor='middle'>no third party in the path</text></svg>"
     },
     {
       "id": "OVR-2",
       "title": "Audience — who comes first?",
       "desc": "We can frame v1 around different primary users. The choice cascades into FR scope, default config, and dashboard density. Pick one to optimise FOR; the others still work, just second-class.",
-      "art": "arch:user",
+      "art": "<svg viewBox='0 0 100 60' style='width:90%;height:auto'><use href='wf:avatar-pair' x='8' y='8' width='26' height='26'/><use href='wf:avatar-single' x='40' y='8' width='20' height='26'/><use href='wf:avatar-circle' x='64' y='6' width='30' height='28'/><text x='21' y='42' font-family='IBM Plex Mono' font-size='4.5' fill='var(--accent)' text-anchor='middle'>team</text><text x='50' y='42' font-family='IBM Plex Mono' font-size='4.5' fill='var(--ink-2)' text-anchor='middle'>solo</text><text x='79' y='42' font-family='IBM Plex Mono' font-size='4.5' fill='var(--ink-2)' text-anchor='middle'>big-co</text><line x1='8' y1='48' x2='34' y2='48' stroke='var(--accent)' stroke-width='1.5'/><line x1='36' y1='48' x2='94' y2='48' stroke='var(--ink-3)' stroke-width='0.6' stroke-dasharray='2 2'/><text x='50' y='56' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-3)' text-anchor='middle'>v1 optimised for one; others still work</text></svg>",
       "options": [
         {
           "id": "small-team",
           "name": "Small teams (3-50 people, internal short-links)",
           "desc": "Marketing + ops sharing internal redirects on a custom domain. Light analytics, occasional bursts.",
+          "art": "<svg viewBox='0 0 100 60' style='width:90%;height:auto'><use href='wf:avatar-pair' x='6' y='14' width='28' height='28'/><use href='wf:avatar-single' x='36' y='14' width='24' height='28'/><use href='wf:avatar-pair' x='62' y='14' width='28' height='28'/><text x='50' y='52' font-family='IBM Plex Mono' font-size='5' fill='var(--accent)' text-anchor='middle'>3-50 people</text></svg>",
           "recommendation": "OVR-1's lede already specifies \"small teams\"; framing v1 around them gives the dashboard a natural shape (per-link stats, recent activity feed) and keeps the $5-VPS hard constraint comfortable. Indie hackers and big-co marketing teams both still work fine downstream."
         },
         {
@@ -27,14 +29,15 @@
           "id": "bigco-marketing",
           "name": "Big-company marketing teams",
           "desc": "More user roles, more audit, more granular analytics. Compatible with everything else; pulls the scope in a different direction.",
-          "art": "arch:user"
+          "art": "wf:avatar-feed"
         }
       ]
     },
     {
       "id": "OVR-3",
       "title": "Hard constraints",
-      "desc": "One static binary. One config file. Must run on a $5/month VPS with 1 GB RAM. No SaaS dependencies for the redirect path — even if every other service is down, slugs still resolve."
+      "desc": "One static binary. One config file. Must run on a $5/month VPS with 1 GB RAM. No SaaS dependencies for the redirect path — even if every other service is down, slugs still resolve.",
+      "art": "<svg viewBox='0 0 100 60' style='width:90%;height:auto'><rect x='6' y='10' width='38' height='40' fill='none' stroke='var(--ink-2)' stroke-width='0.8'/><text x='25' y='22' font-family='IBM Plex Mono' font-size='5' fill='var(--ink)' text-anchor='middle'>clipsi</text><text x='25' y='30' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-3)' text-anchor='middle'>(1 binary)</text><text x='25' y='40' font-family='IBM Plex Mono' font-size='4.5' fill='var(--ink)' text-anchor='middle'>clipsi.toml</text><text x='25' y='46' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-3)' text-anchor='middle'>(1 config)</text><line x1='48' y1='30' x2='58' y2='30' stroke='var(--ink-3)' stroke-width='0.6' stroke-dasharray='2 2'/><rect x='60' y='14' width='34' height='32' fill='none' stroke='var(--accent)' stroke-width='1.2'/><text x='77' y='25' font-family='IBM Plex Mono' font-size='6.5' fill='var(--accent)' text-anchor='middle'>$5</text><text x='77' y='34' font-family='IBM Plex Mono' font-size='4' fill='var(--accent)' text-anchor='middle'>VPS</text><text x='77' y='41' font-family='IBM Plex Mono' font-size='3.8' fill='var(--ink-3)' text-anchor='middle'>1 GB RAM</text><text x='50' y='56' font-family='IBM Plex Mono' font-size='4' fill='var(--ink-3)' text-anchor='middle'>redirect path: zero SaaS deps</text></svg>"
     }
   ]
 }

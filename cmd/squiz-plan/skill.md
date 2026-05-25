@@ -160,7 +160,7 @@ The `art` field uses the same forms — see `/squiz` SKILL.md for the full refer
 5. `"art": "none"` — explicitly hide the art slot for this item
 6. `art` omitted — no art shown (plan items don't get a per-letter auto-pattern like squiz options; they just have no art)
 
-Reach for `wf:` / `arch:` / DSL first; raw SVG only for bespoke metaphors. Reach for `"none"` instead of forcing irrelevant art.
+> **Authoring preference (see Rule 5):** composition with library parts is the default; single library tokens only when one shape IS the picture.
 
 ## Cross-references (`refs`)
 
@@ -307,20 +307,44 @@ The rendered HTML ships with: a skip-to-tabs link, `tablist`/`tab`/`tabpanel` AR
 2. **Refs upward only by default.** `build` → `engineering` → `func/non-func` → `overview`. Sideways refs are fine occasionally; never make refs into a spaghetti.
 3. **Stable IDs with section prefix.** `FR-1`, not `req-1`. The prefix is what the validator checks against the section name.
 4. **Omit `theme`** unless overriding. Auto-rotation does the right thing.
-5. **Art must distill the text, not decorate it.** Every `art` block should be a clear, single-idea visual reformulation of what the item's title/desc says. Test it: *if a reader saw only this art and not the text, what would they understand?* — if the answer isn't a sharper version of the desc's point, the art isn't earning its slot, and generic decoration is **worse** than `"art": "none"`.
+5. **Art is a bespoke illustration composed from parts. The library is clipart, not finished pictures.**
 
-   **Good distillation (copy the pattern):**
-   - desc *"SQLite (single file)"* → `wf:file-icons` — concretely shows one file
-   - desc *"Hot path: browser → api → cache → db, < 50 ms p99"* → `flow:[browser?icon=browser,api?icon=api,cache?icon=cache,db?icon=database]` — the pipeline, drawn
-   - desc *"systemd binary deploy"* → `text:"systemctl enable\nclipsi.service"@mono?size=10&color=accent` — the actual command
-   - desc *"Mission — kill the copy-json round-trip"* → `text:"copy → paste → revise\n→\nstream → revise"@mono?size=11&color=accent` — the before/after
+   The `wf:` / `arch:` / DSL items are **parts** meant to be remixed inside a custom drawing — a labeled box of your own words, an arrow you draw between two icons, a small composition that shows the *specific* idea this item is about. **The default mode is composition: raw SVG that embeds one or more library references plus your own text and connecting marks.** Treat a single library token alone as a deliberate exception, not the norm.
 
-   **Weak art (decoration, avoid):**
-   - desc *"Audience: small teams"* with `arch:user` — generic person icon doesn't say "small *teams*" (sharper: `wf:avatar-circle` showing 5 people)
-   - desc *"Loopback security with a token in the URL"* with `arch:secret` — generic secret icon doesn't say "loopback" (sharper: a `flow:` showing 127.0.0.1 ↔ server + a `key-icon` inside one of the boxes)
-   - any item with the per-section default art when something more specific exists — defaults are a backstop, not a goal
+   The composition mechanism (v0.8.0+): inside raw SVG, write `<use href="wf:phone-card" x="0" y="5" width="30" height="50"/>` to drop in a library shape; the renderer inlines it as a `<symbol>` and you get a bespoke composition with library parts. Use `squiz-plan catalog wf --json` to discover sizing — every entry reports its `naturalBox` so you size `<use>` boxes without guessing.
 
-   Authoring preference: `wf:` / `arch:` > DSL > `"none"` > raw SVG. Before committing an art form, name in one sentence what the picture says — if that sentence doesn't reproduce a key noun or verb from the desc, pick a different form or use `"none"`.
+   **Pick the kind of diagram first, THEN compose.** Six shapes consistently read at a glance:
+
+   | Shape | When it fits | Typical recipe |
+   |---|---|---|
+   | **labeled-object** | one thing with one part that matters | wf/arch icon + callout pointing at the part |
+   | **flow** | a process or path (request → ack, raw → cooked) | 2-4 boxes with arrows between; one highlighted |
+   | **contrast / vs** | before/after, this/that, chosen/rejected | two mini-panels with `divider:vs` between them |
+   | **part-whole** | scope, subset, "this slice of that" | container with one cell emphasized |
+   | **metric-with-context** | a number that means something only vs a reference | sparkline + `baseline:N` reference line + label |
+   | **typed-list** | a choice among siblings or named modes | `pills:a*\|b\|c*` or N rows with one accent |
+
+   **Visual budget at 100×60.** Four "ink events" max — one silhouette, one accent, one ≤6-char label, one relationship-line. More than that and the eye gives up. One accent color in one place only; if two things are accented neither is. ~30-40% of the viewBox should be empty. Asymmetric composition (centered = decorative; off-center = informative).
+
+   **Authoring checklist — run before committing each art form:**
+   1. **Caption it.** In one sentence, what does the picture I'm about to write actually show?
+   2. **Key-noun match.** Does the caption reproduce at least two load-bearing nouns or verbs from the desc? If desc says *"hot path: browser → cache → db, 50ms p99"*, the caption must say browser/cache/db/50ms.
+   3. **Sibling diff check.** If this is one of N options in a chooser, would the same single token be defensible on each? If yes, mine isn't specific enough.
+   4. **Compose-vs-single test.** Could a label, arrow, or second icon make this read more specifically? If yes, compose; if the primitive truly IS the picture, single is fine.
+   5. **"None" check.** If after all the above the best I can do is a generic library icon, use `"art": "none"` instead. Generic decoration is worse than no art.
+
+   **A single library token alone is correct only when the primitive IS the picture.** Three legitimate cases:
+   - `text:"systemctl enable\nclipsi.service"@mono?size=10&color=accent` — the literal command IS the thing
+   - `pills:M*|T|W*|T|F*|S|S` — three lit days IS the desc "3× / week"
+   - `wf:calendar-grid` alone — only when the item is literally about a calendar grid
+
+   If you reach for one library token, finish the sentence "the picture I want to draw IS this exact icon, alone, with no label." If you can't say that, compose.
+
+   **Anti-patterns to avoid:**
+   - Two options in a chooser share the same `art` (the icon means nothing if siblings collide — the validator warns `sibling-art-collision`)
+   - Generic `arch:user` / `arch:server` / `arch:database` where the desc names something specific (give it a label or compose around it)
+   - Default fallback art left in place when 30 seconds of composition would say something concrete (the validator warns `composition-thin` per section)
+   - Decoration that "looks plausible" but reproduces zero key nouns from the desc
 6. **Cases sell the plan.** A plan with no `cases.json` section feels abstract. Even 2-3 short cases make the rest feel concrete.
 7. **Self-contained.** Title + lede must let a reader understand the plan in 10 seconds. The lede is the elevator pitch.
 8. **Clickable links.** When you hand the user the rendered file, format as `file:///...` — bare paths aren't clickable in most terminals.
@@ -336,7 +360,7 @@ The rendered HTML ships with: a skip-to-tabs link, `tablist`/`tab`/`tabpanel` AR
 
     Use the recommendation field on each (Rule 11) when the spec genuinely points at one. Items that aren't decisions stay as flat statements — don't fabricate ambiguity to look thorough.
 
-13. **Every item carries visual weight by default.** When you omit `art` on an item in a canonical section, the renderer fills in a section-appropriate default so every card has an anchor — not just engineering and build. The defaults:
+13. **Per-section default art is a backstop, not a goal.** When you omit `art`, the renderer fills in a section-default. The validator now flags items relying on this (`default-art-fallback`). Treat the default as "you forgot to compose"; reach for an `"art": "none"` or a deliberate composition instead. The defaults exist so partial plans don't render blank, not so you can skip the composing work.
 
     | Section | Default art (when `art` is omitted) |
     |---|---|
@@ -347,7 +371,7 @@ The rendered HTML ships with: a skip-to-tabs link, `tablist`/`tab`/`tabpanel` AR
     | engineering | `arch:server` |
     | build | `wf:cmd-palette` |
 
-    Override per item when something more specific fits (a `flow:` for a case that's really a pipeline; an `arch:queue` for an ENG item about messaging). Use `"art": "none"` to explicitly suppress for items that genuinely shouldn't have one. Custom sections get no default (omitted == no art).
+    Use `"art": "none"` to explicitly suppress for items that genuinely shouldn't have one. Custom sections get no default (omitted == no art).
 
 ## Files in this skill
 

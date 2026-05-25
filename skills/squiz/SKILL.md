@@ -102,25 +102,14 @@ When they paste, parse it (see "Export JSON shape" below) — the payload includ
 
 Five shapes, detected from the string content:
 
-### 1. `"art": "wf:<name>"` — named library (preferred)
+### 1. `"art": "wf:<name>"` or `"art": "arch:<name>"` — named library
 
-The binary ships ~50 curated wireframes baked in. Pick one by name. Theme-aware via CSS vars.
+Two namespaces of curated, theme-aware SVG parts baked into the binary:
 
-**Categories & names** (50 total):
+- **`wf:*`** — UI/UX wireframe parts (calendars, charts, avatars, phone screens, controls, status, typography, graphs, metaphors, misc) — ~50 items
+- **`arch:*`** — system-design / architecture parts (servers, databases, caches, queues, network primitives, identities) — ~30 items
 
-- **calendars/dates** — `calendar-grid`, `calendar-week`, `streak-counter`, `day-strip`, `year-heatmap`, `time-of-day`, `clock`
-- **charts** — `spark-rising`, `spark-flat`, `spark-noisy`, `bars-up`, `donut`, `gauge`, `dot-trend`
-- **identities/avatars** — `avatar-single`, `avatar-pair`, `avatar-circle`, `avatar-feed`, `avatar-private`
-- **phone screens** — `phone-blank`, `phone-list`, `phone-card`, `phone-input`, `phone-tabs`, `phone-onboard`, `phone-stats`
-- **controls** — `toggle-on`, `toggle-off`, `button-accent`, `button-ghost`, `slider`, `dropdown`
-- **status** — `badge-new`, `pill-row`, `snowflake`, `lock`, `check-large`
-- **typography** — `serif-sample`, `sans-sample`, `mono-sample`
-- **connections/graphs** — `graph-force`, `tree-hier`, `radial-burst`, `matrix-heatmap`
-- **metaphors** — `plant-grow`, `garden`, `paper-fold`
-- **misc** — `cmd-palette`, `text-cursor`, `file-icons`
-- **system-design icons (arch:* namespace)** — server, database, cache, queue, load-balancer, cdn, gateway, api, worker, function, scheduler, user, browser, mobile, firewall, storage, blob, table, stream, log, metric, trace, container, pod, vpc, subnet, dns, secret, key-icon, topic (30 total)
-
-> **Note:** `arch:*` and `wf:*` are distinct namespaces that coexist. `arch:*` icons are for system-design / architecture diagrams (servers, queues, databases); `wf:*` is for UI wireframes (phone screens, controls, charts). Pick the namespace that matches the *kind* of picture you're making.
+Run `squiz catalog wf|arch|dsl` for the authoritative list with descriptions and natural-box dimensions — these are PARTS to remix, not pictures to pick from. The catalog's `--json` flag reports each entry's `naturalBox` so you can size `<use>` references in composed SVG without guessing.
 
 ### 2. `"art": "<dsl-string>"` — parametric DSL
 
@@ -152,7 +141,7 @@ Drops the art slot entirely. Card collapses. Use when **no visual is appropriate
 
 Subtle patterns based on option position: A = hatched, B = dotted, C = striped, D = grid, E = cross-hatch, F = waves. Looks intentional without authoring. Use as the default when you're moving fast and the visuals don't matter.
 
-**Authoring order of preference:** `wf:` / `arch:` > DSL > `"none"` > raw SVG. Use `arch:*` for any system-architecture diagram (servers, queues, data stores, network topology); `wf:*` for UI/UX wireframes. Reach for raw SVG only when the option needs a bespoke metaphor (a "living garden" plant, a custom diagram) that nothing else captures. Reach for `"none"` instead of forcing art that doesn't help.
+> **Authoring preference (see Rule 5):** composition with library parts is the default; single library tokens only when one shape IS the picture.
 
 ## Theme (auto by default — don't set unless overriding)
 
@@ -241,19 +230,44 @@ The rendered HTML ships with: a skip-to-decisions link, `radiogroup` ARIA roles 
 2. **3-12 questions** is the sweet spot. Fewer → `/quiz`. More → the user bails.
 3. **Stable IDs.** Both squiz `id` and option `id` are stable — they come back in the JSON. Pick short kebab-or-camel slugs that will still make sense in a week.
 4. **Omit `theme`** unless you have a reason to override. Auto-rotation does the right thing.
-5. **Art must distill the text, not decorate it.** Every `art` block should be a clear, single-idea visual reformulation of what the option's name/desc says. Test it: *if a reader saw only this art and not the text, what would they understand?* — if the answer isn't a sharper version of the desc's point, the art isn't earning its slot, and generic decoration is **worse** than `"art": "none"`.
+5. **Art is a bespoke illustration composed from parts. The library is clipart, not finished pictures.**
 
-   **Good distillation (copy the pattern):**
-   - desc *"SQLite (single file)"* → `wf:file-icons` — concretely shows one file
-   - desc *"3 times per week"* → `pills:M*|T|W*|T|F*|S|S` — literally shows three lit days
-   - desc *"systemd binary deploy"* → `text:"systemctl enable\nclipsi.service"@mono?size=10&color=accent` — the actual command
-   - desc *"hot path: browser → api → cache → db"* → `flow:[browser?icon=browser,api?icon=api,cache?icon=cache,db?icon=database]` — the pipeline, drawn
+   The `wf:` / `arch:` / DSL items are **parts** meant to be remixed inside a custom drawing — a labeled box of your own words, an arrow you draw between two icons, a small composition that shows the *specific* idea this option is about. **The default mode is composition: raw SVG that embeds one or more library references plus your own text and connecting marks.** Treat a single library token alone as a deliberate exception, not the norm.
 
-   **Weak art (decoration, avoid):**
-   - desc *"Audience: small teams"* with `arch:user` — generic person icon doesn't say "small *teams*" (sharper: `wf:avatar-circle` showing 5 people)
-   - desc *"Three storage choices"* with `arch:database` — too generic for the question (sharper: a swatch of three differentiated `wf:file-icons` / `arch:table` / `arch:storage` AS THE THREE OPTIONS, not as the parent's art)
+   The composition mechanism (v0.8.0+): inside raw SVG, write `<use href="wf:phone-card" x="0" y="5" width="30" height="50"/>` to drop in a library shape; the renderer inlines it as a `<symbol>` and you get a bespoke composition with library parts. Use `squiz catalog wf --json` to discover sizing — every entry reports its `naturalBox` so you size `<use>` boxes without guessing.
 
-   **Authoring preference:** `wf:` / `arch:` > DSL > `"none"` > raw SVG. Use `arch:*` for system-architecture diagrams and `wf:*` for UI wireframes; reach for DSL primitives (`flow:`, `box:`, `arrow:`, `text:`, `pills:`, etc.) when you need to compose something distilled; raw SVG only for bespoke metaphors nothing else captures. Before committing an art form, name in one sentence what the picture says — if that sentence doesn't reproduce a key noun or verb from the desc, pick a different form or use `"none"`.
+   **Pick the kind of diagram first, THEN compose.** Six shapes consistently read at a glance:
+
+   | Shape | When it fits | Typical recipe |
+   |---|---|---|
+   | **labeled-object** | one thing with one part that matters | wf/arch icon + callout pointing at the part |
+   | **flow** | a process or path (request → ack, raw → cooked) | 2-4 boxes with arrows between; one highlighted |
+   | **contrast / vs** | before/after, this/that, chosen/rejected | two mini-panels with `divider:vs` between them |
+   | **part-whole** | scope, subset, "this slice of that" | container with one cell emphasized |
+   | **metric-with-context** | a number that means something only vs a reference | sparkline + `baseline:N` reference line + label |
+   | **typed-list** | a choice among siblings or named modes | `pills:a*\|b\|c*` or N rows with one accent |
+
+   **Visual budget at 100×60.** Four "ink events" max — one silhouette, one accent, one ≤6-char label, one relationship-line. More than that and the eye gives up. One accent color in one place only; if two things are accented neither is. ~30-40% of the viewBox should be empty. Asymmetric composition (centered = decorative; off-center = informative).
+
+   **Authoring checklist — run before committing each art form:**
+   1. **Caption it.** In one sentence, what does the picture I'm about to write actually show?
+   2. **Key-noun match.** Does the caption reproduce at least two load-bearing nouns or verbs from the desc? If desc says *"hot path: browser → cache → db, 50ms p99"*, the caption must say browser/cache/db/50ms.
+   3. **Sibling diff check.** If this is one of N options in a chooser, would the same single token be defensible on each? If yes, mine isn't specific enough.
+   4. **Compose-vs-single test.** Could a label, arrow, or second icon make this read more specifically? If yes, compose; if the primitive truly IS the picture, single is fine.
+   5. **"None" check.** If after all the above the best I can do is a generic library icon, use `"art": "none"` instead. Generic decoration is worse than no art.
+
+   **A single library token alone is correct only when the primitive IS the picture.** Three legitimate cases:
+   - `text:"systemctl enable\nclipsi.service"@mono?size=10&color=accent` — the literal command IS the thing
+   - `pills:M*|T|W*|T|F*|S|S` — three lit days IS the desc "3× / week"
+   - `wf:calendar-grid` alone — only when the option is literally about a calendar grid
+
+   If you reach for one library token, finish the sentence "the picture I want to draw IS this exact icon, alone, with no label." If you can't say that, compose.
+
+   **Anti-patterns to avoid:**
+   - Two options in a chooser share the same `art` (the icon means nothing if siblings collide — the validator warns `sibling-art-collision`)
+   - Generic `arch:user` / `arch:server` / `arch:database` where the desc names something specific (give it a label or compose around it)
+   - Default fallback art left in place when 30 seconds of composition would say something concrete (the validator warns `composition-thin` per section)
+   - Decoration that "looks plausible" but reproduces zero key nouns from the desc
 6. **Spec narrative is optional.** Include it only when you have real prose to quote with `{{markers}}` that map to squizzes.
 7. **The `quote` field on a squiz is optional.** Use it when you can point to a specific spec line that motivates the question.
 8. **Self-contained.** The doc should make sense to a user opening it cold. `SPEC_LEDE` is the one-liner that does this work.

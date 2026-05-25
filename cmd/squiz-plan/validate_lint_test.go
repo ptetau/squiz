@@ -146,9 +146,13 @@ func TestValidateLint_SectionCollision(t *testing.T) {
 }
 
 // TestValidateLint_NoWarningsOnGoodFixture loads the real plan-example
-// fixture and asserts the lints DON'T error (exit 0). Warnings are
-// allowed — we record the current baseline in the test log so a follow-up
-// in v0.8.1 can drive it down.
+// fixture and asserts the lints emit ZERO warnings (exit 0). The fixture
+// was rewritten in v0.8.1 to model the composition-first art pattern:
+// every section uses bespoke <svg> compositions for items where a
+// single-token glyph would under-describe the desc, and uses "none" or
+// distinct sibling art where appropriate. This test is the contract that
+// the canonical example stays clean as both the lint rules and the
+// fixture evolve.
 func TestValidateLint_NoWarningsOnGoodFixture(t *testing.T) {
 	root := repoRoot(t)
 	input := filepath.Join(root, "testdata", "plan-example", "index.json")
@@ -159,9 +163,11 @@ func TestValidateLint_NoWarningsOnGoodFixture(t *testing.T) {
 	if exit != 0 {
 		t.Fatalf("exit = %d, want 0 on good fixture\n%s", exit, out)
 	}
-	warnings := strings.Count(out, "warn:")
-	t.Logf("plan-example baseline: %d lint warning(s)", warnings)
 	if !strings.Contains(out, "valid (") {
 		t.Errorf("missing valid summary\n%s", out)
+	}
+	warnings := strings.Count(out, "warn:")
+	if warnings != 0 {
+		t.Fatalf("plan-example fixture emits %d lint warning(s); want 0 — fixture has regressed off the composition-first pattern\n%s", warnings, out)
 	}
 }

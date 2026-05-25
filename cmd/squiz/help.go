@@ -115,7 +115,7 @@ var topicOrder = map[string]int{
 }
 
 var topicSummaries = map[string]string{
-	"art":             `The 5 art forms; when to pick wf:, arch:, DSL, raw SVG, "none".`,
+	"art":             `Art is composition from parts; the grammar, the visual budget, the checklist.`,
 	"themes":          `The 8 themes; precedence; auto-rotation behavior.`,
 	"dsl":             `The 11 parametric DSL primitives with grammar.`,
 	"schema":          `High-level JSON shape (use "squiz schema" for machine-readable).`,
@@ -128,96 +128,154 @@ var topicSummaries = map[string]string{
 // Each value is a stand-alone reference (30-100 lines) — readers should not
 // need to consult SKILL.md to use the topic correctly.
 var topics = map[string]string{
-	"art": `squiz help art — the 5 art forms
+	"art": `squiz help art — composition with library parts
 
-Every option in a squiz can carry an "art" field. The renderer detects which
-of five forms you've used from the string's shape, then renders themed SVG
-into the option's art slot.
+Art is composition. The library and DSL primitives are parts.
 
-AUTHORING PREFERENCE ORDER
+The wf:*, arch:*, and DSL items are pieces you remix inside a custom
+drawing — a labeled box of your own words, an arrow you draw between two
+icons, a small composition that shows the specific idea the option is
+about. The default mode is composition: raw SVG that embeds one or more
+library references plus your own text and connecting marks. Treat a single
+library token alone as a deliberate exception, not the norm.
 
-    wf:* / arch:*   >   DSL primitive   >   "none"   >   raw <svg>
+THE COMPOSITION MECHANISM (v0.8.0+)
 
-Reach for the named library first; it's the cheapest, ships theme-aware
-strokes/fills out of the box, and renders identically across all 8 themes.
-Drop to DSL when nothing in the library captures the shape. Use "none" when
-the question is purely textual (a name, a string) and an art slot would just
-be padding. Reach for raw SVG only when the option needs a bespoke metaphor
-(a "living garden" plant, a custom diagram) that nothing else captures.
+Inside raw SVG, write <use href="wf:NAME" .../> or <use href="arch:NAME" .../>
+to drop a library shape in. The renderer inlines it as a <symbol> and you
+get a bespoke composition. Library names resolve across both namespaces.
 
-THE 5 FORMS
+  {
+    "art": "<svg viewBox='0 0 100 60' xmlns='http://www.w3.org/2000/svg' style='width:80%;height:auto'>
+      <use href='arch:browser' x='2'  y='18' width='22' height='22'/>
+      <use href='arch:cache'   x='40' y='18' width='22' height='22'/>
+      <use href='arch:database' x='76' y='18' width='22' height='22'/>
+      <line x1='25' y1='29' x2='39' y2='29' stroke='var(--ink-3)' stroke-width='1.2'/>
+      <line x1='63' y1='29' x2='75' y2='29' stroke='var(--accent)' stroke-width='1.6'/>
+      <text x='50' y='12' text-anchor='middle' font-family='IBM Plex Mono' font-size='7'
+            fill='var(--ink-2)'>50ms p99</text>
+      <text x='87' y='52' text-anchor='middle' font-family='IBM Plex Mono' font-size='7'
+            fill='var(--accent)'>hot</text>
+    </svg>"
+  }
 
-1. NAMED LIBRARY  — "art": "wf:<name>" or "art": "arch:<name>"
+That's one composition. Three arch icons (parts), one custom mono label,
+one accented relationship-line. The picture says "browser → cache → db,
+the db edge is the hot path" — which is the option's actual desc, not
+generic decoration.
 
-   The binary ships ~50 curated wireframes (wf:*) and ~30 system-design
-   icons (arch:*) baked in. Pick one by name; the renderer themes it via
-   CSS vars so it inherits whatever theme is active.
+Run "squiz catalog wf|arch|dsl" for the authoritative list of parts. The
+--json flag reports each entry's naturalBox so you can size <use> boxes
+without guessing.
 
-   wf:* names cover: calendars (calendar-grid, day-strip, year-heatmap),
-   charts (spark-rising, bars-up, donut, gauge), avatars (avatar-single,
-   avatar-feed), phone screens (phone-input, phone-card, phone-tabs),
-   controls (toggle-on, slider, dropdown), status (badge-new, lock,
-   check-large), typography (serif-sample, sans-sample, mono-sample),
-   graphs (graph-force, tree-hier, matrix-heatmap), metaphors (plant-grow,
-   garden, paper-fold), and misc (cmd-palette, text-cursor, file-icons).
+PICK THE KIND OF DIAGRAM FIRST, THEN COMPOSE
 
-   arch:* names cover system-architecture primitives: server, database,
-   cache, queue, load-balancer, cdn, gateway, api, worker, function,
-   scheduler, user, browser, mobile, firewall, storage, blob, table,
-   stream, log, metric, trace, container, pod, vpc, subnet, dns, secret,
-   key-icon, topic.
+Six shapes consistently read at 100×60:
 
-   Pick the namespace that matches the kind of picture you're making:
-   arch:* for system-design diagrams, wf:* for UI/UX wireframes.
+  Shape                 When it fits                      Typical recipe
+  ───────────────────── ───────────────────────────────── ───────────────────────────────
+  labeled-object        one thing with one part that      wf/arch icon + callout
+                        matters                           pointing at the part
+  flow                  a process or path                 2-4 boxes with arrows; one
+                        (request → ack, raw → cooked)     highlighted
+  contrast / vs         before/after, this/that,          two mini-panels with
+                        chosen/rejected                   divider:vs between them
+  part-whole            scope, subset, "this slice of     container with one cell
+                        that"                             emphasized
+  metric-with-context   a number that means something     sparkline + baseline:N
+                        only vs a reference               reference line + label
+  typed-list            a choice among siblings or        pills:a*|b|c* or N rows
+                        named modes                       with one accent
 
-   Run "squiz catalog" for the complete authoritative list with previews.
+VISUAL BUDGET AT 100×60
 
-2. PARAMETRIC DSL  — "art": "<dsl-string>"
+Four "ink events" max — one silhouette, one accent, one ≤6-char label,
+one relationship-line. More than that and the eye gives up.
 
-   Compact strings the binary parses into themed SVG. 11 primitives:
-   grid:, spark:, bars:, swatches:, pills:, sample:, circle-pack:, text:,
-   flow:, box:, arrow:. Run "squiz help dsl" for the full grammar.
+One accent color in one place only; if two things are accented, neither
+is. ~30-40% of the viewBox should be empty. Asymmetric composition
+(centered = decorative; off-center = informative).
 
-   DSL is composable — flow: can embed arch:* icons via ?icon=, box: can
-   carry an arch icon, text: can mix font/size/color/weight. Reach for DSL
-   when you need to compose an idea the library doesn't ship.
+AUTHORING CHECKLIST (run before committing each art form)
 
-3. RAW SVG  — "art": "<svg ...>...</svg>"
+  1. CAPTION IT. In one sentence, what does the picture I'm about to
+     write actually show?
 
-   When the library and DSL don't fit, inline raw SVG starting with "<svg".
-   Use CSS vars (var(--accent), var(--ink), var(--ink-3), var(--rule-2))
-   so the shape inherits the active theme. Use viewBox='0 0 100 60' and
-   style='width:80%;height:auto' to match the visual weight of the other
-   forms.
+  2. KEY-NOUN MATCH. Does the caption reproduce at least two load-bearing
+     nouns or verbs from the desc? If desc says "hot path: browser → cache
+     → db, 50ms p99", the caption must say browser/cache/db/50ms.
 
-4. EXPLICIT HIDE  — "art": "none"
+  3. SIBLING DIFF CHECK. If this is one of N options in a chooser, would
+     the same single token be defensible on each? If yes, mine isn't
+     specific enough.
 
-   Drops the art slot entirely; the card collapses to text-only. Use when
-   no visual is appropriate (a name/string/free-text question). Better
-   than forcing irrelevant art.
+  4. COMPOSE-VS-SINGLE TEST. Could a label, arrow, or second icon make
+     this read more specifically? If yes, compose; if the primitive
+     truly IS the picture, single is fine.
 
-5. AUTO PER-LETTER ABSTRACT  — "art" omitted or empty string
+  5. "NONE" CHECK. If after all the above the best I can do is a generic
+     library icon, use "art": "none" instead. Generic decoration is
+     worse than no art.
 
-   Subtle patterns based on option position: A = hatched, B = dotted,
-   C = striped, D = grid, E = cross-hatch, F = waves. Looks intentional
-   without authoring effort. Use when you're moving fast and visuals
-   don't materially help the decision.
+WHEN A SINGLE LIBRARY TOKEN IS CORRECT
 
-EXAMPLES
+Only when the primitive IS the picture. Three legitimate cases:
 
-  { "art": "wf:phone-input" }                  named library, UI wireframe
-  { "art": "arch:database" }                   named library, system icon
-  { "art": "spark:[3,5,4,7,6,9,11]" }          DSL sparkline
-  { "art": "flow:[client?icon=user,api,db]" }  DSL pipeline with icons
-  { "art": "none" }                            no art for this option
-  // omit "art" entirely                       auto per-letter pattern
+  - "text:\"systemctl enable\\nclipsi.service\"@mono?size=10&color=accent"
+    — the literal command IS the thing
+
+  - "pills:M*|T|W*|T|F*|S|S"
+    — three lit days IS the desc "3× / week"
+
+  - "wf:calendar-grid" alone
+    — only when the option is literally about a calendar grid
+
+If you reach for one library token, finish the sentence "the picture I
+want to draw IS this exact icon, alone, with no label." If you can't say
+that, compose.
+
+ANTI-PATTERNS THE VALIDATOR WATCHES FOR
+
+  - Two options in a chooser share the same "art" — the icon means
+    nothing if siblings collide (warning: sibling-art-collision)
+  - Generic arch:user / arch:server / arch:database where the desc
+    names something specific — give it a label or compose around it
+  - A section where every option uses a single library token and no
+    composed SVG (warning: composition-thin)
+  - Decoration that "looks plausible" but reproduces zero key nouns
+    from the desc
+
+THE 5 FORM SHAPES (string syntax)
+
+The renderer detects form from the string:
+
+  starts with "wf:" or "arch:"          named-library token
+  starts with "<svg"                    raw SVG (composition lives here)
+  matches a DSL prefix (flow:, box:,    DSL primitive
+    text:, pills:, spark:, bars:,
+    grid:, swatches:, sample:,
+    circle-pack:, arrow:, callout:,
+    brace:, divider:, badge:, range:,
+    baseline:, times:)
+  exactly "none"                        slot collapses
+  omitted or ""                         auto per-letter abstract pattern
+                                        (A=hatched, B=dotted, …)
+
+Raw SVG is no longer the "escape hatch" — it's the host of composition.
+Use viewBox='0 0 100 60', style='width:80%;height:auto', and CSS vars
+(var(--accent), var(--ink), var(--ink-2), var(--ink-3), var(--rule),
+var(--rule-2)) so the picture inherits the active theme.
 
 SEE ALSO
 
-  squiz help dsl              full DSL grammar
+  squiz help dsl              full DSL grammar (18 primitives)
   squiz help options          how options carry art alongside other fields
-  squiz help themes           how art inherits theme colors
-  squiz catalog               browse all wf:* / arch:* names with previews
+  squiz help themes           how art inherits theme colors via CSS vars
+  squiz catalog wf            list wf:* parts with naturalBox dimensions
+  squiz catalog arch          list arch:* parts with naturalBox dimensions
+  squiz catalog dsl           list DSL primitives with grammar
+  squiz validate              flags sibling-art-collision, composition-thin,
+                              default-art-fallback
 `,
 
 	"themes": `squiz help themes — the 8 themes & auto-rotation
