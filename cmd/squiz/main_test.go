@@ -132,10 +132,12 @@ func TestMain_ShorthandForwardsFlags(t *testing.T) {
 	outDir := t.TempDir()
 	outFile := filepath.Join(outDir, "smoke.html")
 
-	// No --open here: we want the test to exit fast, not actually launch a
-	// browser. Shorthand should auto-append --open, but the open-in-browser
-	// step is fire-and-forget so the binary still returns immediately.
+	// Shorthand auto-appends --open. Set SQUIZ_NO_OPEN=1 on the child so
+	// the binary skips the actual browser launch — otherwise the OS
+	// browser opens asynchronously and (on Windows) shows a "file not
+	// found" popup AFTER t.TempDir cleanup deletes the output file.
 	cmd := exec.Command(bin, input, "--theme", "paper", "--out", outFile)
+	cmd.Env = append(os.Environ(), "SQUIZ_NO_OPEN=1")
 	combined, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("shorthand render failed: %v\noutput: %s", err, combined)

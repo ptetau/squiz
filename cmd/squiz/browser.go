@@ -1,12 +1,21 @@
 package main
 
 import (
+	"os"
 	"os/exec"
 	"runtime"
 )
 
-// OpenInBrowser launches the OS default browser pointed at the given local file path.
+// OpenInBrowser launches the OS default browser pointed at the given local
+// file path. Honors SQUIZ_NO_OPEN — set to any non-empty value to make
+// this a no-op. Used by tests that exercise the --open path: without the
+// opt-out, the OS browser launches asynchronously and may try to read the
+// file AFTER the test's t.TempDir cleanup has deleted it, producing a
+// "file not found" popup on the user's desktop.
 func OpenInBrowser(path string) error {
+	if os.Getenv("SQUIZ_NO_OPEN") != "" {
+		return nil
+	}
 	var cmd *exec.Cmd
 	switch runtime.GOOS {
 	case "windows":

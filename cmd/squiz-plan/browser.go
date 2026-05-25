@@ -1,14 +1,20 @@
 package main
 
 import (
+	"os"
 	"os/exec"
 	"runtime"
 )
 
-// OpenInBrowser launches the OS default browser pointed at the given local file path.
-// Duplicated from cmd/squiz/browser.go on purpose — the brief calls for
-// minimising cross-binary coupling; 12 lines is cheaper than a shared helper.
+// OpenInBrowser launches the OS default browser pointed at the given local
+// file path. Honors SQUIZ_NO_OPEN — set to any non-empty value to make
+// this a no-op (used by tests; see cmd/squiz/browser.go for full rationale).
+// Duplicated from cmd/squiz/browser.go on purpose — minimising cross-
+// binary coupling is cheaper than a shared helper at this size.
 func OpenInBrowser(path string) error {
+	if os.Getenv("SQUIZ_NO_OPEN") != "" {
+		return nil
+	}
 	var cmd *exec.Cmd
 	switch runtime.GOOS {
 	case "windows":
