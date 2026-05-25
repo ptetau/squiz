@@ -19,6 +19,23 @@ var CanonicalSections = []string{
 	"build",
 }
 
+// SectionDefaultArt is the fallback `art` spec used when an Item in a
+// canonical section omits its own art. The intent (per the v0.7.1
+// "examples or prototypes from the overview to the build" guidance) is
+// that EVERY item in a canonical section gets a meaningful visual anchor
+// by default — authors override per-item, or use "none" to suppress.
+//
+// Custom sections have no default (omitted == no art, same as today).
+// Item.Art == "none" still suppresses (explicit-hide always wins).
+var SectionDefaultArt = map[string]string{
+	"overview":       "wf:avatar-single",  // who the plan is for / what it's about
+	"functional":     "wf:phone-blank",    // the thing the system does
+	"non-functional": "wf:gauge",          // how it behaves
+	"cases":          "wf:phone-card",     // a scenario, narrative-shaped
+	"engineering":    "arch:server",       // the build blocks
+	"build":          "wf:cmd-palette",    // the steps
+}
+
 // SectionLabel turns a section ID into the display label shown in the tab
 // strip. Unknown IDs are title-cased verbatim so custom sections still
 // look presentable.

@@ -1988,7 +1988,7 @@ html[data-theme="slate"]    .item-options .option-art {
             aria-controls="panel-cases"
             aria-selected="false"
             tabindex="-1">
-      Cases<span class="plan-tab-count">3</span>
+      Cases<span class="plan-tab-count">4</span>
     </button>
     
     <button type="button"
@@ -2010,7 +2010,7 @@ html[data-theme="slate"]    .item-options .option-art {
             aria-controls="panel-build"
             aria-selected="false"
             tabindex="-1">
-      Build<span class="plan-tab-count">5</span>
+      Build<span class="plan-tab-count">6</span>
     </button>
     
   </div>
@@ -2040,7 +2040,7 @@ html[data-theme="slate"]    .item-options .option-art {
       </header>
       <p class="item-desc">A self-hostable URL shortener that small teams can stand up on their own domain in an afternoon. Bring-your-own-domain, real analytics, no third party tracking your users.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:78%;height:auto'><defs><pattern id='p-a' patternUnits='userSpaceOnUse' width='5' height='5' patternTransform='rotate(45)'><line x1='0' y1='0' x2='0' y2='5' stroke='var(--accent)' stroke-width='1' opacity='0.55'/></pattern></defs><rect x='6' y='6' width='88' height='48' fill='url(#p-a)' stroke='var(--rule-2)' stroke-width='0.5'/></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:60%;height:auto'><circle cx='50' cy='28' r='14' fill='var(--surface)' stroke='var(--ink)' stroke-width='1.4'/><text x='50' y='33' text-anchor='middle' font-family='IBM Plex Mono' font-size='13' font-weight='600' fill='var(--ink)'>M</text><text x='50' y='52' text-anchor='middle' font-family='IBM Plex Mono' font-size='5' fill='var(--ink-3)' letter-spacing='0.1em'>· JUST YOU ·</text></svg></div>
       
       
       
@@ -2069,13 +2069,69 @@ html[data-theme="slate"]    .item-options .option-art {
     
     <article class="item" id="item-OVR-2" tabindex="-1" aria-labelledby="item-title-OVR-2">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-OVR-2">Audience</h2>
+        <h2 class="item-title" id="item-title-OVR-2">Audience — who comes first?</h2>
         <span class="item-id" aria-label="Identifier OVR-2">OVR-2</span>
       </header>
-      <p class="item-desc">Small teams (3-50 people) who already own a short domain and want to use it for campaign tracking, internal redirects, and link-shortening without handing data to a SaaS.</p>
+      <p class="item-desc">We can frame v1 around different primary users. The choice cascades into FR scope, default config, and dashboard density. Pick one to optimise FOR; the others still work, just second-class.</p>
       
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><circle cx='50' cy='22' r='7'/><path d='M 34 46 Q 34 32 50 32 Q 66 32 66 46'/></g></svg></div>
       
+      
+      
+      <div class="options item-options" role="radiogroup" aria-labelledby="item-title-OVR-2" data-item="OVR-2">
+        
+        <button type="button" class="option item-option is-recommended" role="radio"
+                aria-checked="false"
+                tabindex="0"
+                data-item="OVR-2" data-option="small-team" data-letter="A"
+                data-recommended="true"
+                aria-label="Option A: Small teams (3-50 people, internal short-links) — Marketing &#43; ops sharing internal redirects on a custom domain. Light analytics, occasional bursts. — recommended: OVR-1&#39;s lede already specifies &#34;small teams&#34;; framing v1 around them gives the dashboard a natural shape (per-link stats, recent activity feed) and keeps the $5-VPS hard constraint comfortable. Indie hackers and big-co marketing teams both still work fine downstream.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:78%;height:auto'><defs><pattern id='p-a' patternUnits='userSpaceOnUse' width='5' height='5' patternTransform='rotate(45)'><line x1='0' y1='0' x2='0' y2='5' stroke='var(--accent)' stroke-width='1' opacity='0.55'/></pattern></defs><rect x='6' y='6' width='88' height='48' fill='url(#p-a)' stroke='var(--rule-2)' stroke-width='0.5'/></svg></div>
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">A</span>
+            <span class="option-label" aria-hidden="true">Option A</span>
+            <span class="option-name">Small teams (3-50 people, internal short-links) <span class="option-rec-chip" aria-hidden="true">&#9733; RECOMMENDED</span></span>
+            <span class="option-desc">Marketing &#43; ops sharing internal redirects on a custom domain. Light analytics, occasional bursts.</span>
+            <aside class="option-rec" aria-label="Recommendation rationale"><span class="option-rec-label" aria-hidden="true">why:</span> OVR-1&#39;s lede already specifies &#34;small teams&#34;; framing v1 around them gives the dashboard a natural shape (per-link stats, recent activity feed) and keeps the $5-VPS hard constraint comfortable. Indie hackers and big-co marketing teams both still work fine downstream.</aside>
+          </div>
+        </button>
+        
+        <button type="button" class="option item-option" role="radio"
+                aria-checked="false"
+                tabindex="-1"
+                data-item="OVR-2" data-option="indie" data-letter="B"
+                
+                aria-label="Option B: Indie hackers / single-operator — One person running their own go-link service. Lowest analytics needs; values zero ops; appreciates the binary-and-config simplicity.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:60%;height:auto'><circle cx='50' cy='28' r='14' fill='var(--surface)' stroke='var(--ink)' stroke-width='1.4'/><text x='50' y='33' text-anchor='middle' font-family='IBM Plex Mono' font-size='13' font-weight='600' fill='var(--ink)'>M</text><text x='50' y='52' text-anchor='middle' font-family='IBM Plex Mono' font-size='5' fill='var(--ink-3)' letter-spacing='0.1em'>· JUST YOU ·</text></svg></div>
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">B</span>
+            <span class="option-label" aria-hidden="true">Option B</span>
+            <span class="option-name">Indie hackers / single-operator</span>
+            <span class="option-desc">One person running their own go-link service. Lowest analytics needs; values zero ops; appreciates the binary-and-config simplicity.</span>
+            
+          </div>
+        </button>
+        
+        <button type="button" class="option item-option" role="radio"
+                aria-checked="false"
+                tabindex="-1"
+                data-item="OVR-2" data-option="bigco-marketing" data-letter="C"
+                
+                aria-label="Option C: Big-company marketing teams — More user roles, more audit, more granular analytics. Compatible with everything else; pulls the scope in a different direction.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><circle cx='50' cy='22' r='7'/><path d='M 34 46 Q 34 32 50 32 Q 66 32 66 46'/></g></svg></div>
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">C</span>
+            <span class="option-label" aria-hidden="true">Option C</span>
+            <span class="option-name">Big-company marketing teams</span>
+            <span class="option-desc">More user roles, more audit, more granular analytics. Compatible with everything else; pulls the scope in a different direction.</span>
+            
+          </div>
+        </button>
+        
+      </div>
       
       
       <div class="feedback" data-item="OVR-2">
@@ -2108,7 +2164,7 @@ html[data-theme="slate"]    .item-options .option-art {
       </header>
       <p class="item-desc">One static binary. One config file. Must run on a $5/month VPS with 1 GB RAM. No SaaS dependencies for the redirect path — even if every other service is down, slugs still resolve.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:78%;height:auto'><defs><pattern id='p-a' patternUnits='userSpaceOnUse' width='5' height='5' patternTransform='rotate(45)'><line x1='0' y1='0' x2='0' y2='5' stroke='var(--accent)' stroke-width='1' opacity='0.55'/></pattern></defs><rect x='6' y='6' width='88' height='48' fill='url(#p-a)' stroke='var(--rule-2)' stroke-width='0.5'/></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:60%;height:auto'><circle cx='50' cy='28' r='14' fill='var(--surface)' stroke='var(--ink)' stroke-width='1.4'/><text x='50' y='33' text-anchor='middle' font-family='IBM Plex Mono' font-size='13' font-weight='600' fill='var(--ink)'>M</text><text x='50' y='52' text-anchor='middle' font-family='IBM Plex Mono' font-size='5' fill='var(--ink-3)' letter-spacing='0.1em'>· JUST YOU ·</text></svg></div>
       
       
       
@@ -2833,6 +2889,122 @@ html[data-theme="slate"]    .item-options .option-art {
         </div>
         <label class="visually-hidden" for="fb-note-CASE-3">Notes for CASE-3</label>
         <textarea id="fb-note-CASE-3"
+                  class="fb-note"
+                  rows="1"
+                  placeholder="notes, edge cases, follow-ups…"></textarea>
+      </div>
+    </article>
+    
+    <article class="item" id="item-CASE-priority" tabindex="-1" aria-labelledby="item-title-CASE-priority">
+      <header class="item-head">
+        <h2 class="item-title" id="item-title-CASE-priority">Primary scenario to optimise for</h2>
+        <span class="item-id" aria-label="Identifier CASE-priority">CASE-priority</span>
+      </header>
+      <p class="item-desc">All three cases above are real, but they pull in slightly different directions (CASE-1 wants raw throughput; CASE-2 wants UX speed; CASE-3 wants permanence). v1 can serve them all decently but should be tuned for one. Which?</p>
+      
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g transform='translate(30,4)'><rect x='0' y='0' width='42' height='52' rx='4' fill='var(--surface)' stroke='var(--ink)' stroke-width='1.2'/><line x1='15' y1='4' x2='27' y2='4' stroke='var(--ink-3)' stroke-width='0.5'/><rect x='4' y='8' width='34' height='28' fill='none' stroke='var(--accent)' stroke-width='0.8'/><rect x='6' y='10' width='14' height='14' fill='var(--accent)' opacity='0.3'/><rect x='6' y='28' width='22' height='2.5' fill='var(--ink)' opacity='0.6'/><rect x='6' y='32' width='18' height='2.5' fill='var(--ink)' opacity='0.4'/></g></svg></div>
+      
+      
+      
+      <div class="options item-options" role="radiogroup" aria-labelledby="item-title-CASE-priority" data-item="CASE-priority">
+        
+        <button type="button" class="option item-option" role="radio"
+                aria-checked="false"
+                tabindex="0"
+                data-item="CASE-priority" data-option="viral" data-letter="A"
+                
+                aria-label="Option A: CASE-1 — viral newsletter (throughput) — Optimise the hot path. Cache aggressively, denormalise; the dashboard and create-link UI take second priority.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:82%;height:auto'><path d='M 10 48 L 22 44 L 34 40 L 46 35 L 58 28 L 70 22 L 82 14 L 90 8 L 90 52 L 10 52 Z' fill='var(--accent)' opacity='0.15'/><path d='M 10 48 L 22 44 L 34 40 L 46 35 L 58 28 L 70 22 L 82 14 L 90 8' fill='none' stroke='var(--accent)' stroke-width='1.6' stroke-linejoin='round'/><circle cx='90' cy='8' r='2.2' fill='var(--accent)'/></svg></div>
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">A</span>
+            <span class="option-label" aria-hidden="true">Option A</span>
+            <span class="option-name">CASE-1 — viral newsletter (throughput)</span>
+            <span class="option-desc">Optimise the hot path. Cache aggressively, denormalise; the dashboard and create-link UI take second priority.</span>
+            
+          </div>
+        </button>
+        
+        <button type="button" class="option item-option is-recommended" role="radio"
+                aria-checked="false"
+                tabindex="-1"
+                data-item="CASE-priority" data-option="ux" data-letter="B"
+                data-recommended="true"
+                aria-label="Option B: CASE-2 — memorable slug (UX speed) — Optimise dashboard speed &#43; create-link friction; throughput is good enough out of the box. — recommended: OVR-2&#39;s recommended audience is small teams sharing internal short-links — they create links daily and serve modest traffic. Optimising CASE-2 directly serves their main interaction; CASE-1 throughput is met for free by the simple architecture (NFR-1 already specifies &lt;50ms p99); CASE-3 permanence is a property of the storage choice, not something we tune.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><text x='6' y='33.50' text-anchor='start' font-family='IBM Plex Mono' font-size='10' font-weight='400' fill='var(--accent)'>clipsi.co/...</text></svg></div>
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">B</span>
+            <span class="option-label" aria-hidden="true">Option B</span>
+            <span class="option-name">CASE-2 — memorable slug (UX speed) <span class="option-rec-chip" aria-hidden="true">&#9733; RECOMMENDED</span></span>
+            <span class="option-desc">Optimise dashboard speed &#43; create-link friction; throughput is good enough out of the box.</span>
+            <aside class="option-rec" aria-label="Recommendation rationale"><span class="option-rec-label" aria-hidden="true">why:</span> OVR-2&#39;s recommended audience is small teams sharing internal short-links — they create links daily and serve modest traffic. Optimising CASE-2 directly serves their main interaction; CASE-1 throughput is met for free by the simple architecture (NFR-1 already specifies &lt;50ms p99); CASE-3 permanence is a property of the storage choice, not something we tune.</aside>
+          </div>
+        </button>
+        
+        <button type="button" class="option item-option" role="radio"
+                aria-checked="false"
+                tabindex="-1"
+                data-item="CASE-priority" data-option="permanence" data-letter="C"
+                
+                aria-label="Option C: CASE-3 — printed flyer (permanence) — Lean into durability &#43; zero-config backup. UX and throughput take second priority.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><ellipse cx='50' cy='16' rx='16' ry='4' fill='var(--accent-soft)'/><path d='M 34 16 L 34 44 A 16 4 0 0 0 66 44 L 66 16'/><path d='M 34 26 A 16 4 0 0 0 66 26' stroke='var(--ink)' stroke-width='1'/><path d='M 34 36 A 16 4 0 0 0 66 36' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">C</span>
+            <span class="option-label" aria-hidden="true">Option C</span>
+            <span class="option-name">CASE-3 — printed flyer (permanence)</span>
+            <span class="option-desc">Lean into durability &#43; zero-config backup. UX and throughput take second priority.</span>
+            
+          </div>
+        </button>
+        
+      </div>
+      
+      
+      <ul class="refs" aria-label="References">
+        <li class="refs-label">refs</li>
+        
+        <li>
+          <a href="#item-CASE-1"
+             data-target="CASE-1"
+             data-target-section="cases"
+             aria-label="Jump to Cases · CASE-1">CASE-1</a>
+        </li>
+        
+        <li>
+          <a href="#item-CASE-2"
+             data-target="CASE-2"
+             data-target-section="cases"
+             aria-label="Jump to Cases · CASE-2">CASE-2</a>
+        </li>
+        
+        <li>
+          <a href="#item-CASE-3"
+             data-target="CASE-3"
+             data-target-section="cases"
+             aria-label="Jump to Cases · CASE-3">CASE-3</a>
+        </li>
+        
+      </ul>
+      
+      <div class="feedback" data-item="CASE-priority">
+        <div class="feedback-row">
+          <div class="feedback-buttons" role="group" aria-label="Feedback status for CASE-priority">
+            <button type="button" class="fb-btn" data-value="approved"
+                    aria-label="Approve CASE-priority" aria-pressed="false">&#10003;</button>
+            <button type="button" class="fb-btn" data-value="questioned"
+                    aria-label="Question CASE-priority" aria-pressed="false">?</button>
+            <button type="button" class="fb-btn" data-value="rejected"
+                    aria-label="Reject CASE-priority" aria-pressed="false">&#10007;</button>
+          </div>
+          <span class="fb-status-label" aria-hidden="true">feedback</span>
+          <button type="button" class="fb-edit"
+                  aria-pressed="false"
+                  aria-label="Toggle inline edit for CASE-priority">edit</button>
+        </div>
+        <label class="visually-hidden" for="fb-note-CASE-priority">Notes for CASE-priority</label>
+        <textarea id="fb-note-CASE-priority"
                   class="fb-note"
                   rows="1"
                   placeholder="notes, edge cases, follow-ups…"></textarea>
@@ -3712,6 +3884,136 @@ html[data-theme="slate"]    .item-options .option-art {
       </div>
     </article>
     
+    <article class="item" id="item-BUILD-sequence" tabindex="-1" aria-labelledby="item-title-BUILD-sequence">
+      <header class="item-head">
+        <h2 class="item-title" id="item-title-BUILD-sequence">Ship sequence — order to ship the 5 builds in</h2>
+        <span class="item-id" aria-label="Identifier BUILD-sequence">BUILD-sequence</span>
+      </header>
+      <p class="item-desc">BUILD-1..5 are roughly equal in size; the order changes what the user sees first and how usable each intermediate cut is.</p>
+      
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:75%;height:auto'><rect x='32' y='20' width='14' height='18' rx='2' fill='var(--surface)' stroke='var(--ink)' stroke-width='1.4'/><text x='39' y='33' text-anchor='middle' font-family='IBM Plex Mono' font-size='10' font-weight='700' fill='var(--ink)'>⌘</text><rect x='54' y='20' width='14' height='18' rx='2' fill='var(--surface)' stroke='var(--ink)' stroke-width='1.4'/><text x='61' y='33' text-anchor='middle' font-family='IBM Plex Mono' font-size='10' font-weight='700' fill='var(--ink)'>K</text><text x='50' y='52' text-anchor='middle' font-family='IBM Plex Mono' font-size='6' fill='var(--ink-3)' letter-spacing='0.08em'>FIND ANYTHING</text></svg></div>
+      
+      
+      
+      <div class="options item-options" role="radiogroup" aria-labelledby="item-title-BUILD-sequence" data-item="BUILD-sequence">
+        
+        <button type="button" class="option item-option is-recommended" role="radio"
+                aria-checked="false"
+                tabindex="0"
+                data-item="BUILD-sequence" data-option="vertical" data-letter="A"
+                data-recommended="true"
+                aria-label="Option A: Vertical slice — create&#43;redirect end-to-end first — BUILD-1 (API scaffold) → BUILD-2 (redirect) → BUILD-3 (minimal UI) → BUILD-4 (analytics) → BUILD-5 (deploy). Every intermediate state has at least the core feature working. — recommended: Matches the team-of-3-to-50 audience (OVR-2 default): they want to deploy SOMETHING by end of week one and add analytics next sprint. Vertical means the hot path (BUILD-2) is real by step 2, not step 4. Backend-first defers the first useful demo until ~half-done.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:78%;height:auto'><defs><pattern id='p-a' patternUnits='userSpaceOnUse' width='5' height='5' patternTransform='rotate(45)'><line x1='0' y1='0' x2='0' y2='5' stroke='var(--accent)' stroke-width='1' opacity='0.55'/></pattern></defs><rect x='6' y='6' width='88' height='48' fill='url(#p-a)' stroke='var(--rule-2)' stroke-width='0.5'/></svg></div>
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">A</span>
+            <span class="option-label" aria-hidden="true">Option A</span>
+            <span class="option-name">Vertical slice — create&#43;redirect end-to-end first <span class="option-rec-chip" aria-hidden="true">&#9733; RECOMMENDED</span></span>
+            <span class="option-desc">BUILD-1 (API scaffold) → BUILD-2 (redirect) → BUILD-3 (minimal UI) → BUILD-4 (analytics) → BUILD-5 (deploy). Every intermediate state has at least the core feature working.</span>
+            <aside class="option-rec" aria-label="Recommendation rationale"><span class="option-rec-label" aria-hidden="true">why:</span> Matches the team-of-3-to-50 audience (OVR-2 default): they want to deploy SOMETHING by end of week one and add analytics next sprint. Vertical means the hot path (BUILD-2) is real by step 2, not step 4. Backend-first defers the first useful demo until ~half-done.</aside>
+          </div>
+        </button>
+        
+        <button type="button" class="option item-option" role="radio"
+                aria-checked="false"
+                tabindex="-1"
+                data-item="BUILD-sequence" data-option="backend-first" data-letter="B"
+                
+                aria-label="Option B: Backend-first — API &#43; redirect &#43; analytics, then UI, then deploy — BUILD-1 → BUILD-2 → BUILD-4 → BUILD-3 → BUILD-5. Best when the consumer is another service first, the dashboard second.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.6' stroke-linejoin='round' stroke-linecap='round'><path d='M 38 16 Q 30 16 30 22 L 30 28 Q 30 30 28 30 Q 30 30 30 32 L 30 38 Q 30 44 38 44'/><path d='M 62 16 Q 70 16 70 22 L 70 28 Q 70 30 72 30 Q 70 30 70 32 L 70 38 Q 70 44 62 44'/><circle cx='44' cy='30' r='1.8' fill='var(--accent)' stroke='none'/><circle cx='50' cy='30' r='1.8' fill='var(--accent)' stroke='none'/><circle cx='56' cy='30' r='1.8' fill='var(--accent)' stroke='none'/></g></svg></div>
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">B</span>
+            <span class="option-label" aria-hidden="true">Option B</span>
+            <span class="option-name">Backend-first — API &#43; redirect &#43; analytics, then UI, then deploy</span>
+            <span class="option-desc">BUILD-1 → BUILD-2 → BUILD-4 → BUILD-3 → BUILD-5. Best when the consumer is another service first, the dashboard second.</span>
+            
+          </div>
+        </button>
+        
+        <button type="button" class="option item-option" role="radio"
+                aria-checked="false"
+                tabindex="-1"
+                data-item="BUILD-sequence" data-option="infra-first" data-letter="C"
+                
+                aria-label="Option C: Infra-first — deploy story before features — BUILD-5 (deploy with a stub) → BUILD-1 → BUILD-2 → BUILD-3 → BUILD-4. CI/CD pipeline working before any user-facing feature. Heavy upfront tax for solo devs.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='30' y='14' width='40' height='10' rx='1'/><rect x='30' y='26' width='40' height='10' rx='1'/><rect x='30' y='38' width='40' height='10' rx='1'/><circle cx='36' cy='19' r='1.2' fill='var(--accent)' stroke='none'/><circle cx='36' cy='31' r='1.2' fill='var(--accent)' stroke='none'/><circle cx='36' cy='43' r='1.2' fill='var(--accent)' stroke='none'/><line x1='42' y1='19' x2='64' y2='19' stroke='var(--ink)' stroke-width='1'/><line x1='42' y1='31' x2='64' y2='31' stroke='var(--ink)' stroke-width='1'/><line x1='42' y1='43' x2='64' y2='43' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">C</span>
+            <span class="option-label" aria-hidden="true">Option C</span>
+            <span class="option-name">Infra-first — deploy story before features</span>
+            <span class="option-desc">BUILD-5 (deploy with a stub) → BUILD-1 → BUILD-2 → BUILD-3 → BUILD-4. CI/CD pipeline working before any user-facing feature. Heavy upfront tax for solo devs.</span>
+            
+          </div>
+        </button>
+        
+      </div>
+      
+      
+      <ul class="refs" aria-label="References">
+        <li class="refs-label">refs</li>
+        
+        <li>
+          <a href="#item-BUILD-1"
+             data-target="BUILD-1"
+             data-target-section="build"
+             aria-label="Jump to Build · BUILD-1">BUILD-1</a>
+        </li>
+        
+        <li>
+          <a href="#item-BUILD-2"
+             data-target="BUILD-2"
+             data-target-section="build"
+             aria-label="Jump to Build · BUILD-2">BUILD-2</a>
+        </li>
+        
+        <li>
+          <a href="#item-BUILD-3"
+             data-target="BUILD-3"
+             data-target-section="build"
+             aria-label="Jump to Build · BUILD-3">BUILD-3</a>
+        </li>
+        
+        <li>
+          <a href="#item-BUILD-4"
+             data-target="BUILD-4"
+             data-target-section="build"
+             aria-label="Jump to Build · BUILD-4">BUILD-4</a>
+        </li>
+        
+        <li>
+          <a href="#item-BUILD-5"
+             data-target="BUILD-5"
+             data-target-section="build"
+             aria-label="Jump to Build · BUILD-5">BUILD-5</a>
+        </li>
+        
+      </ul>
+      
+      <div class="feedback" data-item="BUILD-sequence">
+        <div class="feedback-row">
+          <div class="feedback-buttons" role="group" aria-label="Feedback status for BUILD-sequence">
+            <button type="button" class="fb-btn" data-value="approved"
+                    aria-label="Approve BUILD-sequence" aria-pressed="false">&#10003;</button>
+            <button type="button" class="fb-btn" data-value="questioned"
+                    aria-label="Question BUILD-sequence" aria-pressed="false">?</button>
+            <button type="button" class="fb-btn" data-value="rejected"
+                    aria-label="Reject BUILD-sequence" aria-pressed="false">&#10007;</button>
+          </div>
+          <span class="fb-status-label" aria-hidden="true">feedback</span>
+          <button type="button" class="fb-edit"
+                  aria-pressed="false"
+                  aria-label="Toggle inline edit for BUILD-sequence">edit</button>
+        </div>
+        <label class="visually-hidden" for="fb-note-BUILD-sequence">Notes for BUILD-sequence</label>
+        <textarea id="fb-note-BUILD-sequence"
+                  class="fb-note"
+                  rows="1"
+                  placeholder="notes, edge cases, follow-ups…"></textarea>
+      </div>
+    </article>
+    
     <div class="proposed-items" data-section="build" aria-label="Proposed items for Build"></div>
     <div class="add-item-wrap">
       <button type="button" class="add-item-btn" data-section="build"
@@ -3775,7 +4077,7 @@ html[data-theme="slate"]    .item-options .option-art {
 </div>
 
 <script>
-const PLAN = {"lede":"Six load-bearing sections for a tiny but real service: redirect path, analytics pipeline, four embedded engineering decisions. Designed to fit in one binary, one config file, one $5 VPS.","sections":[{"id":"overview","items":[{"desc":"A self-hostable URL shortener that small teams can stand up on their own domain in an afternoon. Bring-your-own-domain, real analytics, no third party tracking your users.","id":"OVR-1","title":"Mission"},{"desc":"Small teams (3-50 people) who already own a short domain and want to use it for campaign tracking, internal redirects, and link-shortening without handing data to a SaaS.","id":"OVR-2","title":"Audience"},{"desc":"One static binary. One config file. Must run on a $5/month VPS with 1 GB RAM. No SaaS dependencies for the redirect path — even if every other service is down, slugs still resolve.","id":"OVR-3","title":"Hard constraints"}],"label":"Overview"},{"id":"functional","items":[{"desc":"POST /api/links with a target URL → returns a slug. Web form mirrors the API. Auth is optional per-instance (open / api-key / OAuth).","id":"FR-1","title":"Create a short link"},{"desc":"GET /:slug → HTTP 302 to the stored target. The hot path of the service: cheap, cacheable, no auth, no DB write.","id":"FR-2","title":"Redirect by slug"},{"desc":"User can specify the slug (\"black-friday-2026\") or let the server generate a short base62 ID. Custom slugs collide-check; auto slugs are 6-8 chars.","id":"FR-3","title":"Custom slugs + auto-generation"},{"desc":"Per-link TTL: \"expires in 30 days\" or \"after 1000 clicks\". A nightly job sweeps expired links. Expired slugs return HTTP 410 Gone.","id":"FR-4","title":"Link expiry (optional)"},{"desc":"Per-slug dashboard: total clicks, referrers, rough geo (country only), user agent buckets. IPs are hashed; no cookies; no individual user records — only aggregates.","id":"FR-5","title":"Per-link analytics (no PII)"}],"label":"Functional"},{"id":"non-functional","items":[{"desc":"From the moment a browser sends GET /:slug to the moment it gets a 302 response — under 50 ms at the 99th percentile, measured from the same region as the VPS.","id":"NFR-1","title":"Redirect p99 \u003c 50 ms"},{"desc":"All link state in durable storage before any 200 is returned to the creator. Analytics events are buffered locally and replayed if the analytics backend is briefly unreachable.","id":"NFR-2","title":"Survives reboot + buffered writes"},{"desc":"IP addresses are SHA-256 hashed with a per-instance salt before any write. No cookies on the redirect path. No third party scripts ever in the dashboard.","id":"NFR-3","title":"No PII storage"},{"desc":"Single static Go binary plus one TOML config file. No external dependencies for the redirect path (cache is in-process by default; external cache is opt-in).","id":"NFR-4","title":"One binary, one config"}],"label":"Non-functional"},{"id":"cases","items":[{"desc":"Marketing sends an email with one tracked link. 10 000 req/s for 90 seconds. The redirect path must hold; the analytics pipeline can fall behind and catch up — but no redirect can drop.","id":"CASE-1","title":"\"Our newsletter went viral\""},{"desc":"Someone types a slug into the form (\"all-hands-q4\"), pastes the Zoom link, copies the resulting short URL, and pastes it into the calendar invite. End-to-end under 30 seconds, no API key.","id":"CASE-2","title":"\"I want a memorable slug for the all-hands\""},{"desc":"A short URL was printed on 5 000 flyers six months ago. The slug must still resolve. Expiry never set; data never lost; the link works as long as the box is up.","id":"CASE-3","title":"\"We printed it on a flyer\""}],"label":"Cases"},{"id":"engineering","items":[{"desc":"Single Go process: net/http, no framework. Routes: GET /:slug (hot path), POST /api/links, GET /api/links/:slug, GET /api/links/:slug/stats, plus a tiny dashboard SPA served from go:embed.","id":"ENG-1","title":"HTTP API service"},{"desc":"Where the slug → target map lives. The hot path issues one read per redirect; the cold path writes one row per created link.","id":"ENG-2","title":"Link storage backend"},{"desc":"How the hot path stays under 50 ms p99 when a popular link gets hammered. The cache is read-mostly: invalidate on update; rebuild on miss.","id":"ENG-3","title":"Redirect cache strategy"},{"desc":"Click events flow from the redirect handler into an event log, get aggregated nightly into per-slug stats. PII stripped at the handler before the event is even written.","id":"ENG-4","title":"Analytics pipeline"},{"desc":"How the binary actually runs in production. All three options should work from the same artifact — the binary is platform-aware.","id":"ENG-5","title":"Deploy target"}],"label":"Engineering"},{"id":"build","items":[{"desc":"Stand up the HTTP server, define the routes, implement base62 ID generation, wire collision-check for custom slugs. Auth modes (open / api-key / OAuth) gated behind config.","id":"BUILD-1","title":"API scaffolding + slug generation"},{"desc":"GET /:slug → cache lookup → DB fallback → 302. The most-trafficked code path in the service; budget \u003c 5 ms server-side on a cache hit.","id":"BUILD-2","title":"Hot-path redirect"},{"desc":"Tiny embedded HTML/JS dashboard: list links, create, see per-slug stats. Served from go:embed, no separate web server. Tailwind-flavored CSS in one stylesheet.","id":"BUILD-3","title":"Dashboard + create-link UI"},{"desc":"Handler emits click event → buffered queue → worker writes to events table. Nightly cron rolls events into per-slug daily aggregates the dashboard reads.","id":"BUILD-4","title":"Analytics ingestion + nightly rollup"},{"desc":"One-page deploy script per target (systemd / docker / k8s). Worked example: from `wget` to first redirect in under 5 minutes. Backup + restore documented.","id":"BUILD-5","title":"Deploy guide + handover"}],"label":"Build"}],"title":"clipsi — self-hostable URL shortener with analytics"};
+const PLAN = {"lede":"Six load-bearing sections for a tiny but real service: redirect path, analytics pipeline, four embedded engineering decisions. Designed to fit in one binary, one config file, one $5 VPS.","sections":[{"id":"overview","items":[{"desc":"A self-hostable URL shortener that small teams can stand up on their own domain in an afternoon. Bring-your-own-domain, real analytics, no third party tracking your users.","id":"OVR-1","title":"Mission"},{"desc":"We can frame v1 around different primary users. The choice cascades into FR scope, default config, and dashboard density. Pick one to optimise FOR; the others still work, just second-class.","id":"OVR-2","title":"Audience — who comes first?"},{"desc":"One static binary. One config file. Must run on a $5/month VPS with 1 GB RAM. No SaaS dependencies for the redirect path — even if every other service is down, slugs still resolve.","id":"OVR-3","title":"Hard constraints"}],"label":"Overview"},{"id":"functional","items":[{"desc":"POST /api/links with a target URL → returns a slug. Web form mirrors the API. Auth is optional per-instance (open / api-key / OAuth).","id":"FR-1","title":"Create a short link"},{"desc":"GET /:slug → HTTP 302 to the stored target. The hot path of the service: cheap, cacheable, no auth, no DB write.","id":"FR-2","title":"Redirect by slug"},{"desc":"User can specify the slug (\"black-friday-2026\") or let the server generate a short base62 ID. Custom slugs collide-check; auto slugs are 6-8 chars.","id":"FR-3","title":"Custom slugs + auto-generation"},{"desc":"Per-link TTL: \"expires in 30 days\" or \"after 1000 clicks\". A nightly job sweeps expired links. Expired slugs return HTTP 410 Gone.","id":"FR-4","title":"Link expiry (optional)"},{"desc":"Per-slug dashboard: total clicks, referrers, rough geo (country only), user agent buckets. IPs are hashed; no cookies; no individual user records — only aggregates.","id":"FR-5","title":"Per-link analytics (no PII)"}],"label":"Functional"},{"id":"non-functional","items":[{"desc":"From the moment a browser sends GET /:slug to the moment it gets a 302 response — under 50 ms at the 99th percentile, measured from the same region as the VPS.","id":"NFR-1","title":"Redirect p99 \u003c 50 ms"},{"desc":"All link state in durable storage before any 200 is returned to the creator. Analytics events are buffered locally and replayed if the analytics backend is briefly unreachable.","id":"NFR-2","title":"Survives reboot + buffered writes"},{"desc":"IP addresses are SHA-256 hashed with a per-instance salt before any write. No cookies on the redirect path. No third party scripts ever in the dashboard.","id":"NFR-3","title":"No PII storage"},{"desc":"Single static Go binary plus one TOML config file. No external dependencies for the redirect path (cache is in-process by default; external cache is opt-in).","id":"NFR-4","title":"One binary, one config"}],"label":"Non-functional"},{"id":"cases","items":[{"desc":"Marketing sends an email with one tracked link. 10 000 req/s for 90 seconds. The redirect path must hold; the analytics pipeline can fall behind and catch up — but no redirect can drop.","id":"CASE-1","title":"\"Our newsletter went viral\""},{"desc":"Someone types a slug into the form (\"all-hands-q4\"), pastes the Zoom link, copies the resulting short URL, and pastes it into the calendar invite. End-to-end under 30 seconds, no API key.","id":"CASE-2","title":"\"I want a memorable slug for the all-hands\""},{"desc":"A short URL was printed on 5 000 flyers six months ago. The slug must still resolve. Expiry never set; data never lost; the link works as long as the box is up.","id":"CASE-3","title":"\"We printed it on a flyer\""},{"desc":"All three cases above are real, but they pull in slightly different directions (CASE-1 wants raw throughput; CASE-2 wants UX speed; CASE-3 wants permanence). v1 can serve them all decently but should be tuned for one. Which?","id":"CASE-priority","title":"Primary scenario to optimise for"}],"label":"Cases"},{"id":"engineering","items":[{"desc":"Single Go process: net/http, no framework. Routes: GET /:slug (hot path), POST /api/links, GET /api/links/:slug, GET /api/links/:slug/stats, plus a tiny dashboard SPA served from go:embed.","id":"ENG-1","title":"HTTP API service"},{"desc":"Where the slug → target map lives. The hot path issues one read per redirect; the cold path writes one row per created link.","id":"ENG-2","title":"Link storage backend"},{"desc":"How the hot path stays under 50 ms p99 when a popular link gets hammered. The cache is read-mostly: invalidate on update; rebuild on miss.","id":"ENG-3","title":"Redirect cache strategy"},{"desc":"Click events flow from the redirect handler into an event log, get aggregated nightly into per-slug stats. PII stripped at the handler before the event is even written.","id":"ENG-4","title":"Analytics pipeline"},{"desc":"How the binary actually runs in production. All three options should work from the same artifact — the binary is platform-aware.","id":"ENG-5","title":"Deploy target"}],"label":"Engineering"},{"id":"build","items":[{"desc":"Stand up the HTTP server, define the routes, implement base62 ID generation, wire collision-check for custom slugs. Auth modes (open / api-key / OAuth) gated behind config.","id":"BUILD-1","title":"API scaffolding + slug generation"},{"desc":"GET /:slug → cache lookup → DB fallback → 302. The most-trafficked code path in the service; budget \u003c 5 ms server-side on a cache hit.","id":"BUILD-2","title":"Hot-path redirect"},{"desc":"Tiny embedded HTML/JS dashboard: list links, create, see per-slug stats. Served from go:embed, no separate web server. Tailwind-flavored CSS in one stylesheet.","id":"BUILD-3","title":"Dashboard + create-link UI"},{"desc":"Handler emits click event → buffered queue → worker writes to events table. Nightly cron rolls events into per-slug daily aggregates the dashboard reads.","id":"BUILD-4","title":"Analytics ingestion + nightly rollup"},{"desc":"One-page deploy script per target (systemd / docker / k8s). Worked example: from `wget` to first redirect in under 5 minutes. Backup + restore documented.","id":"BUILD-5","title":"Deploy guide + handover"},{"desc":"BUILD-1..5 are roughly equal in size; the order changes what the user sees first and how usable each intermediate cut is.","id":"BUILD-sequence","title":"Ship sequence — order to ship the 5 builds in"}],"label":"Build"}],"title":"clipsi — self-hostable URL shortener with analytics"};
 const SOURCE = {"basename":"plan.html","file":"/test/plan.html","version":""};
 window.PLAN = PLAN;
 window.SOURCE = SOURCE;

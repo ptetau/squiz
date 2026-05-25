@@ -7,9 +7,29 @@
     },
     {
       "id": "OVR-2",
-      "title": "Audience",
-      "desc": "Small teams (3-50 people) who already own a short domain and want to use it for campaign tracking, internal redirects, and link-shortening without handing data to a SaaS.",
-      "art": "arch:user"
+      "title": "Audience — who comes first?",
+      "desc": "We can frame v1 around different primary users. The choice cascades into FR scope, default config, and dashboard density. Pick one to optimise FOR; the others still work, just second-class.",
+      "art": "arch:user",
+      "options": [
+        {
+          "id": "small-team",
+          "name": "Small teams (3-50 people, internal short-links)",
+          "desc": "Marketing + ops sharing internal redirects on a custom domain. Light analytics, occasional bursts.",
+          "recommendation": "OVR-1's lede already specifies \"small teams\"; framing v1 around them gives the dashboard a natural shape (per-link stats, recent activity feed) and keeps the $5-VPS hard constraint comfortable. Indie hackers and big-co marketing teams both still work fine downstream."
+        },
+        {
+          "id": "indie",
+          "name": "Indie hackers / single-operator",
+          "desc": "One person running their own go-link service. Lowest analytics needs; values zero ops; appreciates the binary-and-config simplicity.",
+          "art": "wf:avatar-single"
+        },
+        {
+          "id": "bigco-marketing",
+          "name": "Big-company marketing teams",
+          "desc": "More user roles, more audit, more granular analytics. Compatible with everything else; pulls the scope in a different direction.",
+          "art": "arch:user"
+        }
+      ]
     },
     {
       "id": "OVR-3",

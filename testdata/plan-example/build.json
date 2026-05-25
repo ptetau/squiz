@@ -34,6 +34,32 @@
       "desc": "One-page deploy script per target (systemd / docker / k8s). Worked example: from `wget` to first redirect in under 5 minutes. Backup + restore documented.",
       "art": "text:\"$ ./install-clipsi.sh\\n→ first redirect in 5 min\"@mono?size=10&color=accent",
       "refs": ["ENG-5"]
+    },
+    {
+      "id": "BUILD-sequence",
+      "title": "Ship sequence — order to ship the 5 builds in",
+      "desc": "BUILD-1..5 are roughly equal in size; the order changes what the user sees first and how usable each intermediate cut is.",
+      "refs": ["BUILD-1", "BUILD-2", "BUILD-3", "BUILD-4", "BUILD-5"],
+      "options": [
+        {
+          "id": "vertical",
+          "name": "Vertical slice — create+redirect end-to-end first",
+          "desc": "BUILD-1 (API scaffold) → BUILD-2 (redirect) → BUILD-3 (minimal UI) → BUILD-4 (analytics) → BUILD-5 (deploy). Every intermediate state has at least the core feature working.",
+          "recommendation": "Matches the team-of-3-to-50 audience (OVR-2 default): they want to deploy SOMETHING by end of week one and add analytics next sprint. Vertical means the hot path (BUILD-2) is real by step 2, not step 4. Backend-first defers the first useful demo until ~half-done."
+        },
+        {
+          "id": "backend-first",
+          "name": "Backend-first — API + redirect + analytics, then UI, then deploy",
+          "desc": "BUILD-1 → BUILD-2 → BUILD-4 → BUILD-3 → BUILD-5. Best when the consumer is another service first, the dashboard second.",
+          "art": "arch:api"
+        },
+        {
+          "id": "infra-first",
+          "name": "Infra-first — deploy story before features",
+          "desc": "BUILD-5 (deploy with a stub) → BUILD-1 → BUILD-2 → BUILD-3 → BUILD-4. CI/CD pipeline working before any user-facing feature. Heavy upfront tax for solo devs.",
+          "art": "arch:server"
+        }
+      ]
     }
   ]
 }

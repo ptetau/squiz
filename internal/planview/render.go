@@ -142,9 +142,19 @@ func Render(p *Plan, opts RenderOpts) (string, error) {
 
 	sectionViews := make([]SectionView, 0, len(p.Sections))
 	for i, s := range p.Sections {
+		// Per-section default art: when an item's Art is empty AND the
+		// item lives in a canonical section, fall back to the section's
+		// default (per SectionDefaultArt). Custom sections fall through
+		// to no-art (today's behavior). "none" still suppresses.
+		sectionDefault := SectionDefaultArt[s.ID]
+
 		itemViews := make([]ItemView, 0, len(s.Items))
 		for _, it := range s.Items {
-			svg, hidden := renderer.RenderArt(it.Art, 0)
+			art := it.Art
+			if art == "" && sectionDefault != "" {
+				art = sectionDefault
+			}
+			svg, hidden := renderer.RenderArt(art, 0)
 			refs := make([]RefView, 0, len(it.Refs))
 			for _, refID := range it.Refs {
 				target, ok := idToTarget[refID]

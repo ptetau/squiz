@@ -314,6 +314,27 @@ The rendered HTML ships with: a skip-to-tabs link, `tablist`/`tab`/`tabpanel` AR
 9. **Apply feedback as a follow-up.** When the user pastes back, restate what you understood, regenerate the affected section files, re-render, and hand back the new clickable URL.
 10. **Round-trip the notes.** When the user pastes feedback back, treat `note` / `section_notes` / `plan_note` / `proposed_items` as the agent's instructions for the next round: rewrite affected items, restructure sections, or append the proposed items as fresh entries. Apply edits as suggestions, not authoritative changes (you may push back if they break the plan's spine).
 11. **Recommend when you have a real preference.** Any item-option can carry `"recommendation": "<one or two sentences>"`. Use it only when the plan's overview/refs genuinely point at one option — cite refs in the explanation (`"OVR-3's $5-VPS constraint rules out k8s; that leaves systemd vs Docker; systemd is one fewer moving part"`). At most one per item. Don't fluff; if you can't justify in one sentence, don't recommend.
+12. **Clarify at every level — `options[]` aren't just for engineering.** A plan exists *because* there's still ambiguity to resolve; if every overview/functional/case item is a flat assertion, the plan is pretending it has more certainty than it does. Audit each section for ambiguities (more than one defensible reading), contradictions (two items pull opposite directions), and redundancies (two items say the same thing in different words) — surface each as an `options:` chooser on the relevant item so the user resolves it the same way they'd resolve an engineering decision. Examples:
+    - **Overview** — *"Mission"* with options *"v1 (shippable in 2 weeks)"* vs *"v1.5 (with analytics)"* — the choice scopes everything downstream.
+    - **Functional** — *"Alert delivery"* with options *"real-time push"* vs *"daily digest email"* vs *"both, user-selectable"*.
+    - **Non-functional** — *"Backup cadence"* with options *"continuous WAL"* vs *"hourly snapshot"* vs *"daily snapshot only"*.
+    - **Cases** — *"Primary scenario when prioritising"* with options *"new-user onboarding"* vs *"power-user retention"* vs *"recovery from failure"*.
+    - **Build** — *"Ship sequence"* with options *"backend first, then UI"* vs *"vertical slice (one user flow end-to-end)"* vs *"infra → backend → UI"*.
+
+    Use the recommendation field on each (Rule 11) when the spec genuinely points at one. Items that aren't decisions stay as flat statements — don't fabricate ambiguity to look thorough.
+
+13. **Every item carries visual weight by default.** When you omit `art` on an item in a canonical section, the renderer fills in a section-appropriate default so every card has an anchor — not just engineering and build. The defaults:
+
+    | Section | Default art (when `art` is omitted) |
+    |---|---|
+    | overview | `wf:avatar-single` |
+    | functional | `wf:phone-blank` |
+    | non-functional | `wf:gauge` |
+    | cases | `wf:phone-card` |
+    | engineering | `arch:server` |
+    | build | `wf:cmd-palette` |
+
+    Override per item when something more specific fits (a `flow:` for a case that's really a pipeline; an `arch:queue` for an ENG item about messaging). Use `"art": "none"` to explicitly suppress for items that genuinely shouldn't have one. Custom sections get no default (omitted == no art).
 
 ## Files in this skill
 

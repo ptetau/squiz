@@ -20,6 +20,33 @@
       "desc": "A short URL was printed on 5 000 flyers six months ago. The slug must still resolve. Expiry never set; data never lost; the link works as long as the box is up.",
       "art": "none",
       "refs": ["FR-2", "NFR-2"]
+    },
+    {
+      "id": "CASE-priority",
+      "title": "Primary scenario to optimise for",
+      "desc": "All three cases above are real, but they pull in slightly different directions (CASE-1 wants raw throughput; CASE-2 wants UX speed; CASE-3 wants permanence). v1 can serve them all decently but should be tuned for one. Which?",
+      "refs": ["CASE-1", "CASE-2", "CASE-3"],
+      "options": [
+        {
+          "id": "viral",
+          "name": "CASE-1 — viral newsletter (throughput)",
+          "desc": "Optimise the hot path. Cache aggressively, denormalise; the dashboard and create-link UI take second priority.",
+          "art": "wf:spark-rising"
+        },
+        {
+          "id": "ux",
+          "name": "CASE-2 — memorable slug (UX speed)",
+          "desc": "Optimise dashboard speed + create-link friction; throughput is good enough out of the box.",
+          "art": "text:\"clipsi.co/...\"@mono?size=10&color=accent",
+          "recommendation": "OVR-2's recommended audience is small teams sharing internal short-links — they create links daily and serve modest traffic. Optimising CASE-2 directly serves their main interaction; CASE-1 throughput is met for free by the simple architecture (NFR-1 already specifies <50ms p99); CASE-3 permanence is a property of the storage choice, not something we tune."
+        },
+        {
+          "id": "permanence",
+          "name": "CASE-3 — printed flyer (permanence)",
+          "desc": "Lean into durability + zero-config backup. UX and throughput take second priority.",
+          "art": "arch:database"
+        }
+      ]
     }
   ]
 }

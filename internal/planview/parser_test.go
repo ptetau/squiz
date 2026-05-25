@@ -36,9 +36,9 @@ func TestLoadPlan_Example(t *testing.T) {
 		"overview":       3,
 		"functional":     5,
 		"non-functional": 4,
-		"cases":          3,
+		"cases":          4,
 		"engineering":    5,
-		"build":          5,
+		"build":          6,
 	}
 
 	if len(p.Sections) != len(wantOrder) {
