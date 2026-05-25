@@ -87,12 +87,16 @@ for root in $SKILL_ROOTS; do
   done
 done
 
-# 4. Compare and short-circuit if already current.
+# 4. Compare and short-circuit if already current. We key on binary
+# version only: SKILL.md files travel WITH the binary release, so if
+# the binary version matches the target there's no useful refresh to
+# do (and re-downloading the archive just to copy the same SKILL.md
+# over itself wastes the user's time + network).
 need_binary_update=0
 [ -n "$SQUIZ_BIN" ] && [ "$SQUIZ_VER" != "$TARGET" ] && need_binary_update=1
 [ -n "$SQP_BIN" ]   && [ "$SQP_VER" != "$TARGET" ]   && need_binary_update=1
 
-if [ "$need_binary_update" = "0" ] && [ -z "$EXISTING_SKILLS" ]; then
+if [ "$need_binary_update" = "0" ]; then
   info "already at v$TARGET — nothing to do"
   exit 0
 fi

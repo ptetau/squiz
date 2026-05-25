@@ -72,11 +72,15 @@ function Update-Squiz {
     }
   }
 
-  # 4. Short-circuit if nothing to do.
+  # 4. Short-circuit if nothing to do. We key on binary version only:
+  # SKILL.md files travel WITH the binary release, so if the binary
+  # version matches the target there's no useful refresh to do (and
+  # re-downloading the archive just to copy the same SKILL.md over
+  # itself wastes the user's time + network).
   $needBinUpdate = $false
   if ($squizBin -and $squizVer -ne $Version) { $needBinUpdate = $true }
   if ($sqpBin   -and $sqpVer   -ne $Version) { $needBinUpdate = $true }
-  if (-not $needBinUpdate -and $existingSkills.Count -eq 0) {
+  if (-not $needBinUpdate) {
     Write-Host "already at v$Version — nothing to do"
     return
   }
@@ -173,9 +177,15 @@ function Update-Squiz {
   }
 }
 
-# When piped through `irm | iex` with no params, run with defaults
-# (prompt before applying). Comment this out if you want to always
-# dot-source first.
-if ($MyInvocation.InvocationName -eq '&' -or $MyInvocation.InvocationName -eq '') {
-  Update-Squiz
-}
+# The script defines Update-Squiz; it does NOT auto-invoke. The
+# canonical pattern is:
+#
+#   $u = irm https://raw.githubusercontent.com/ptetau/squiz/main/update.ps1
+#   iex "$u; Update-Squiz -Yes"            # for /squiz-update flow
+#   iex "$u; Update-Squiz"                 # interactive, prompts
+#   iex "$u; Update-Squiz -Version 0.5.0"  # pin / roll back
+#
+# Earlier versions auto-called Update-Squiz at the bottom of the script,
+# which prompted via Read-Host — that broke in non-interactive contexts
+# (Read-Host throws "NonInteractive mode" instead of falling through).
+# Always dot-source first, then invoke explicitly with the flags you want.
