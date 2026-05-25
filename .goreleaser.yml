@@ -43,6 +43,7 @@ archives:
       - README.md
       - skills/squiz/SKILL.md
       - skills/squiz-plan/SKILL.md
+      - skills/squiz-update/SKILL.md
 
 checksum:
   name_template: 'checksums.txt'

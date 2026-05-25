@@ -19,7 +19,25 @@ curl -fsSL https://raw.githubusercontent.com/ptetau/squiz/main/install.sh | sh
 irm https://raw.githubusercontent.com/ptetau/squiz/main/install.ps1 | iex
 ```
 
-Drops both `squiz` and `squiz-plan` on PATH; lays down `~/.claude/skills/squiz/SKILL.md` and `~/.claude/skills/squiz-plan/SKILL.md` so Claude Code picks them up.
+Drops both `squiz` and `squiz-plan` on PATH; lays down `~/.claude/skills/{squiz,squiz-plan,squiz-update}/SKILL.md` so Claude Code picks them up.
+
+## Update
+
+After install, refresh to the latest release without re-running install:
+
+```sh
+# macOS / Linux
+curl -fsSL https://raw.githubusercontent.com/ptetau/squiz/main/update.sh | sh
+
+# Windows (PowerShell)
+irm https://raw.githubusercontent.com/ptetau/squiz/main/update.ps1 | iex
+```
+
+Detects binaries on PATH + SKILL.md files under `~/.claude/skills/` AND `./.claude/skills/` (project-local) and updates whichever it finds. Prompts before replacing — pass `--yes` (sh) / `-Yes` (ps) to skip. Pin a specific tag with `--version 0.5.0` / `-Version 0.5.0` for rollbacks. `--dry-run` / `-DryRun` previews without changes.
+
+In Claude Code:
+
+> /squiz-update
 
 **From source** (Go ≥ 1.22)
 ```sh
