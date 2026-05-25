@@ -246,6 +246,7 @@ The rendered HTML ships with: a skip-to-decisions link, `radiogroup` ARIA roles 
 7. **The `quote` field on a squiz is optional.** Use it when you can point to a specific spec line that motivates the question.
 8. **Self-contained.** The doc should make sense to a user opening it cold. `SPEC_LEDE` is the one-liner that does this work.
 9. **Clickable links.** When you hand the user the rendered file, format it as a `file://` URL (`file:///C:/Users/.../foo.html` on Windows). Bare paths aren't clickable; URLs are.
+10. **Recommend when you have a real preference.** Any option can carry `"recommendation": "<one or two sentences explaining why>"`. The renderer shows a `★ RECOMMENDED` chip + the explanation as an editorial callout. Use it when the spec/constraints/audience genuinely point at one option — DON'T mark every option as recommended, and don't fluff the explanation. If you can't justify the pick in one sentence ("OVR-3's $5-VPS constraint rules out k8s; that leaves systemd vs Docker; systemd is one fewer moving part"), the recommendation isn't earned and should stay off. At most one recommendation per squiz/item.
 
 ## Files in this skill
 

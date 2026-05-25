@@ -551,6 +551,49 @@ html[data-theme="slate"] .option.selected .option-art {
   margin-top: 4px;
   font-family: "IBM Plex Sans", sans-serif;
 }
+/* Recommendation: a tiny chip next to the option name, plus an editorial
+   callout below the desc with the explanation. Subtle accent treatment —
+   advice, not coercion. */
+.option-rec-chip {
+  display: inline-block;
+  margin-left: 6px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 1px 6px;
+  border: 1px solid var(--accent);
+  border-radius: 2px;
+  vertical-align: middle;
+  font-weight: 600;
+}
+.option-rec {
+  display: block;
+  margin-top: 8px;
+  padding: 7px 10px;
+  border-left: 2px solid var(--accent);
+  background: var(--accent-soft);
+  font-family: "IBM Plex Serif", serif;
+  font-style: italic;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.option-rec-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-style: normal;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-right: 4px;
+  font-weight: 600;
+}
+.option.is-recommended {
+  border-color: var(--accent);
+  border-width: 1px;
+}
 .option-check {
   position: absolute;
   top: 6px;
@@ -1064,17 +1107,19 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
     </header>
     <div class="options" role="radiogroup" aria-labelledby="squiz-title-namedlib">
       
-      <button type="button" class="option" role="radio"
+      <button type="button" class="option is-recommended" role="radio"
               aria-checked="false"
               tabindex="0"
               data-squiz="namedlib" data-option="cal" data-letter="A"
-              aria-label="Option A: calendar-grid — Monthly heatmap.">
+              data-recommended="true"
+              aria-label="Option A: calendar-grid — Monthly heatmap. — recommended: Most familiar pattern — almost every user has used GitHub&#39;s contribution graph or a calendar widget. Dense, scannable, no learning curve.">
         <div class="option-check" aria-hidden="true">✓</div>
         <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><g><rect x='14' y='6' width='11' height='7' fill='var(--accent)'/><rect x='26' y='6' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='38' y='6' width='11' height='7' fill='var(--accent)'/><rect x='50' y='6' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='62' y='6' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='74' y='6' width='11' height='7' fill='var(--accent)'/><rect x='86' y='6' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='14' y='14' width='11' height='7' fill='var(--accent)'/><rect x='26' y='14' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='38' y='14' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='50' y='14' width='11' height='7' fill='var(--accent)'/><rect x='62' y='14' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='74' y='14' width='11' height='7' fill='var(--accent)'/><rect x='86' y='14' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='14' y='22' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='26' y='22' width='11' height='7' fill='var(--accent)'/><rect x='38' y='22' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='50' y='22' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='62' y='22' width='11' height='7' fill='var(--accent)'/><rect x='74' y='22' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='86' y='22' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='14' y='30' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='26' y='30' width='11' height='7' fill='var(--accent)'/><rect x='38' y='30' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='50' y='30' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='62' y='30' width='11' height='7' fill='var(--accent)'/><rect x='74' y='30' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='86' y='30' width='11' height='7' fill='var(--accent)'/><rect x='14' y='38' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='26' y='38' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='38' y='38' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='50' y='38' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='62' y='38' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='74' y='38' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='86' y='38' width='11' height='7' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/></g></svg></div>
         <div class="option-body">
           <span class="option-label" aria-hidden="true">Option A</span>
-          <span class="option-name">calendar-grid</span>
+          <span class="option-name">calendar-grid <span class="option-rec-chip" aria-hidden="true">★ RECOMMENDED</span></span>
           <span class="option-desc">Monthly heatmap.</span>
+          <aside class="option-rec" aria-label="Recommendation rationale"><span class="option-rec-label" aria-hidden="true">why:</span> Most familiar pattern — almost every user has used GitHub&#39;s contribution graph or a calendar widget. Dense, scannable, no learning curve.</aside>
         </div>
       </button>
       
@@ -1082,6 +1127,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
               aria-checked="false"
               tabindex="-1"
               data-squiz="namedlib" data-option="spark" data-letter="B"
+              
               aria-label="Option B: spark-rising — Sparkline trending up.">
         <div class="option-check" aria-hidden="true">✓</div>
         <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:82%;height:auto'><path d='M 10 48 L 22 44 L 34 40 L 46 35 L 58 28 L 70 22 L 82 14 L 90 8 L 90 52 L 10 52 Z' fill='var(--accent)' opacity='0.15'/><path d='M 10 48 L 22 44 L 34 40 L 46 35 L 58 28 L 70 22 L 82 14 L 90 8' fill='none' stroke='var(--accent)' stroke-width='1.6' stroke-linejoin='round'/><circle cx='90' cy='8' r='2.2' fill='var(--accent)'/></svg></div>
@@ -1089,6 +1135,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
           <span class="option-label" aria-hidden="true">Option B</span>
           <span class="option-name">spark-rising</span>
           <span class="option-desc">Sparkline trending up.</span>
+          
         </div>
       </button>
       
@@ -1096,6 +1143,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
               aria-checked="false"
               tabindex="-1"
               data-squiz="namedlib" data-option="av" data-letter="C"
+              
               aria-label="Option C: avatar-circle — Accountability circle.">
         <div class="option-check" aria-hidden="true">✓</div>
         <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><circle cx='50' cy='30' r='22' fill='none' stroke='var(--rule-2)' stroke-width='0.6' stroke-dasharray='2 2'/><circle cx='50' cy='30' r='9' fill='var(--accent)' stroke='var(--accent)' stroke-width='1'/><text x='50' y='34' text-anchor='middle' font-family='IBM Plex Mono' font-size='8' font-weight='600' fill='var(--bg)'>M</text><circle cx='28' cy='14' r='6' fill='var(--surface)' stroke='var(--ink)' stroke-width='1'/><text x='28' y='17' text-anchor='middle' font-family='IBM Plex Mono' font-size='6' font-weight='600' fill='var(--ink)'>J</text><circle cx='72' cy='14' r='6' fill='var(--surface)' stroke='var(--ink)' stroke-width='1'/><text x='72' y='17' text-anchor='middle' font-family='IBM Plex Mono' font-size='6' font-weight='600' fill='var(--ink)'>S</text><circle cx='22' cy='44' r='6' fill='var(--surface)' stroke='var(--ink)' stroke-width='1'/><text x='22' y='47' text-anchor='middle' font-family='IBM Plex Mono' font-size='6' font-weight='600' fill='var(--ink)'>A</text><circle cx='78' cy='44' r='6' fill='var(--surface)' stroke='var(--ink)' stroke-width='1'/><text x='78' y='47' text-anchor='middle' font-family='IBM Plex Mono' font-size='6' font-weight='600' fill='var(--ink)'>K</text></svg></div>
@@ -1103,6 +1151,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
           <span class="option-label" aria-hidden="true">Option C</span>
           <span class="option-name">avatar-circle</span>
           <span class="option-desc">Accountability circle.</span>
+          
         </div>
       </button>
       
@@ -1110,6 +1159,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
               aria-checked="false"
               tabindex="-1"
               data-squiz="namedlib" data-option="graph" data-letter="D"
+              
               aria-label="Option D: graph-force — Force-directed graph.">
         <div class="option-check" aria-hidden="true">✓</div>
         <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:84%;height:auto'><g stroke='var(--ink-3)' stroke-width='0.6' opacity='0.6'><line x1='50' y1='30' x2='25' y2='15'/><line x1='50' y1='30' x2='75' y2='17'/><line x1='50' y1='30' x2='42' y2='52'/><line x1='50' y1='30' x2='72' y2='48'/><line x1='25' y1='15' x2='10' y2='28'/><line x1='75' y1='17' x2='88' y2='32'/><line x1='42' y1='52' x2='72' y2='48'/></g><g><circle cx='50' cy='30' r='5' fill='var(--accent)'/><circle cx='25' cy='15' r='3.5' fill='var(--ink)' opacity='0.7'/><circle cx='75' cy='17' r='3.5' fill='var(--ink)' opacity='0.7'/><circle cx='42' cy='52' r='3' fill='var(--ink)' opacity='0.6'/><circle cx='72' cy='48' r='3' fill='var(--ink)' opacity='0.6'/><circle cx='10' cy='28' r='2.5' fill='var(--ink)' opacity='0.5'/><circle cx='88' cy='32' r='2.5' fill='var(--ink)' opacity='0.5'/></g></svg></div>
@@ -1117,6 +1167,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
           <span class="option-label" aria-hidden="true">Option D</span>
           <span class="option-name">graph-force</span>
           <span class="option-desc">Force-directed graph.</span>
+          
         </div>
       </button>
       
@@ -1146,6 +1197,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
               aria-checked="false"
               tabindex="0"
               data-squiz="dslparams" data-option="g" data-letter="A"
+              
               aria-label="Option A: grid — grid:7x7@0.55">
         <div class="option-check" aria-hidden="true">✓</div>
         <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><rect x='26.00' y='6.00' width='6.26' height='6.26' fill='var(--accent)'/><rect x='32.86' y='6.00' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='39.71' y='6.00' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='46.57' y='6.00' width='6.26' height='6.26' fill='var(--accent)' opacity='0.4'/><rect x='53.43' y='6.00' width='6.26' height='6.26' fill='var(--accent)'/><rect x='60.29' y='6.00' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='67.14' y='6.00' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='26.00' y='12.86' width='6.26' height='6.26' fill='var(--accent)' opacity='0.4'/><rect x='32.86' y='12.86' width='6.26' height='6.26' fill='var(--accent)' opacity='0.4'/><rect x='39.71' y='12.86' width='6.26' height='6.26' fill='var(--accent)' opacity='0.4'/><rect x='46.57' y='12.86' width='6.26' height='6.26' fill='var(--accent)'/><rect x='53.43' y='12.86' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='60.29' y='12.86' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='67.14' y='12.86' width='6.26' height='6.26' fill='var(--accent)' opacity='0.4'/><rect x='26.00' y='19.71' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='32.86' y='19.71' width='6.26' height='6.26' fill='var(--accent)' opacity='0.4'/><rect x='39.71' y='19.71' width='6.26' height='6.26' fill='var(--accent)' opacity='0.4'/><rect x='46.57' y='19.71' width='6.26' height='6.26' fill='var(--accent)'/><rect x='53.43' y='19.71' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='60.29' y='19.71' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='67.14' y='19.71' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='26.00' y='26.57' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='32.86' y='26.57' width='6.26' height='6.26' fill='var(--accent)'/><rect x='39.71' y='26.57' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='46.57' y='26.57' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='53.43' y='26.57' width='6.26' height='6.26' fill='var(--accent)'/><rect x='60.29' y='26.57' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='67.14' y='26.57' width='6.26' height='6.26' fill='var(--accent)'/><rect x='26.00' y='33.43' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='32.86' y='33.43' width='6.26' height='6.26' fill='var(--accent)'/><rect x='39.71' y='33.43' width='6.26' height='6.26' fill='var(--accent)' opacity='0.4'/><rect x='46.57' y='33.43' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='53.43' y='33.43' width='6.26' height='6.26' fill='var(--accent)' opacity='0.4'/><rect x='60.29' y='33.43' width='6.26' height='6.26' fill='var(--accent)' opacity='0.4'/><rect x='67.14' y='33.43' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='26.00' y='40.29' width='6.26' height='6.26' fill='var(--accent)'/><rect x='32.86' y='40.29' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='39.71' y='40.29' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='46.57' y='40.29' width='6.26' height='6.26' fill='var(--accent)'/><rect x='53.43' y='40.29' width='6.26' height='6.26' fill='var(--accent)'/><rect x='60.29' y='40.29' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='67.14' y='40.29' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='26.00' y='47.14' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='32.86' y='47.14' width='6.26' height='6.26' fill='var(--accent)'/><rect x='39.71' y='47.14' width='6.26' height='6.26' fill='var(--accent)' opacity='0.4'/><rect x='46.57' y='47.14' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='53.43' y='47.14' width='6.26' height='6.26' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><rect x='60.29' y='47.14' width='6.26' height='6.26' fill='var(--accent)'/><rect x='67.14' y='47.14' width='6.26' height='6.26' fill='var(--accent)' opacity='0.4'/></svg></div>
@@ -1153,6 +1205,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
           <span class="option-label" aria-hidden="true">Option A</span>
           <span class="option-name">grid</span>
           <span class="option-desc">grid:7x7@0.55</span>
+          
         </div>
       </button>
       
@@ -1160,6 +1213,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
               aria-checked="false"
               tabindex="-1"
               data-squiz="dslparams" data-option="s" data-letter="B"
+              
               aria-label="Option B: spark — spark:[3,5,4,7,6,9,11,9,12]">
         <div class="option-check" aria-hidden="true">✓</div>
         <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:82%;height:auto'><path d='M 8.00 50.00 L 18.50 41.11 L 29.00 45.56 L 39.50 32.22 L 50.00 36.67 L 60.50 23.33 L 71.00 14.44 L 81.50 23.33 L 92.00 10.00 L 92.00 50.00 L 8.00 50.00 Z' fill='var(--accent)' opacity='0.15'/><path d='M 8.00 50.00 L 18.50 41.11 L 29.00 45.56 L 39.50 32.22 L 50.00 36.67 L 60.50 23.33 L 71.00 14.44 L 81.50 23.33 L 92.00 10.00' fill='none' stroke='var(--accent)' stroke-width='1.6' stroke-linejoin='round'/><circle cx='92.00' cy='10.00' r='2' fill='var(--accent)'/></svg></div>
@@ -1167,6 +1221,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
           <span class="option-label" aria-hidden="true">Option B</span>
           <span class="option-name">spark</span>
           <span class="option-desc">spark:[3,5,4,7,6,9,11,9,12]</span>
+          
         </div>
       </button>
       
@@ -1174,6 +1229,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
               aria-checked="false"
               tabindex="-1"
               data-squiz="dslparams" data-option="b" data-letter="C"
+              
               aria-label="Option C: bars — bars:[3,5,4,7,6,9,11]">
         <div class="option-check" aria-hidden="true">✓</div>
         <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><rect x='10.00' y='40.00' width='9.71' height='12.00' fill='var(--accent)' rx='1'/><rect x='21.71' y='32.00' width='9.71' height='20.00' fill='var(--accent)' rx='1'/><rect x='33.43' y='36.00' width='9.71' height='16.00' fill='var(--accent)' rx='1'/><rect x='45.14' y='24.00' width='9.71' height='28.00' fill='var(--accent)' rx='1'/><rect x='56.86' y='28.00' width='9.71' height='24.00' fill='var(--accent)' rx='1'/><rect x='68.57' y='16.00' width='9.71' height='36.00' fill='var(--accent)' rx='1'/><rect x='80.29' y='8.00' width='9.71' height='44.00' fill='var(--accent)' rx='1'/></svg></div>
@@ -1181,6 +1237,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
           <span class="option-label" aria-hidden="true">Option C</span>
           <span class="option-name">bars</span>
           <span class="option-desc">bars:[3,5,4,7,6,9,11]</span>
+          
         </div>
       </button>
       
@@ -1188,6 +1245,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
               aria-checked="false"
               tabindex="-1"
               data-squiz="dslparams" data-option="sw" data-letter="D"
+              
               aria-label="Option D: swatches — swatches:#f1ebde,#1a1814,#b34a1a">
         <div class="option-check" aria-hidden="true">✓</div>
         <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><rect x='8.00' y='14.00' width='26.67' height='32.00' fill='#f1ebde' stroke='var(--ink)' stroke-width='0.3'/><rect x='36.67' y='14.00' width='26.67' height='32.00' fill='#1a1814' stroke='var(--ink)' stroke-width='0.3'/><rect x='65.33' y='14.00' width='26.67' height='32.00' fill='#b34a1a' stroke='var(--ink)' stroke-width='0.3'/></svg></div>
@@ -1195,6 +1253,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
           <span class="option-label" aria-hidden="true">Option D</span>
           <span class="option-name">swatches</span>
           <span class="option-desc">swatches:#f1ebde,#1a1814,#b34a1a</span>
+          
         </div>
       </button>
       
@@ -1202,6 +1261,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
               aria-checked="false"
               tabindex="-1"
               data-squiz="dslparams" data-option="p" data-letter="E"
+              
               aria-label="Option E: pills — pills:morning*|midday|evening*">
         <div class="option-check" aria-hidden="true">✓</div>
         <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><rect x='6.00' y='21.00' width='28.16' height='14' rx='7' fill='var(--accent)' stroke='var(--accent)' stroke-width='0.8'/><text x='20.08' y='30.00' text-anchor='middle' font-family='IBM Plex Mono' font-size='6.5' fill='var(--bg)' font-weight='600'>morning</text><rect x='36.98' y='21.00' width='26.05' height='14' rx='7' fill='none' stroke='var(--ink)' stroke-width='0.8'/><text x='50.00' y='30.00' text-anchor='middle' font-family='IBM Plex Mono' font-size='6.5' fill='var(--ink)' font-weight='600'>midday</text><rect x='65.84' y='21.00' width='28.16' height='14' rx='7' fill='var(--accent)' stroke='var(--accent)' stroke-width='0.8'/><text x='79.92' y='30.00' text-anchor='middle' font-family='IBM Plex Mono' font-size='6.5' fill='var(--bg)' font-weight='600'>evening</text></svg></div>
@@ -1209,6 +1269,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
           <span class="option-label" aria-hidden="true">Option E</span>
           <span class="option-name">pills</span>
           <span class="option-desc">pills:morning*|midday|evening*</span>
+          
         </div>
       </button>
       
@@ -1216,6 +1277,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
               aria-checked="false"
               tabindex="-1"
               data-squiz="dslparams" data-option="sa" data-letter="F"
+              
               aria-label="Option F: sample serif — sample:&#34;Quiet welcome back.&#34;@serif">
         <div class="option-check" aria-hidden="true">✓</div>
         <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:82%;height:auto'><text x='50' y='30.00' text-anchor='middle' font-family='IBM Plex Serif' font-style='italic' font-weight='400' font-size='9' fill='var(--ink)'>Quiet welcome back.</text></svg></div>
@@ -1223,6 +1285,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
           <span class="option-label" aria-hidden="true">Option F</span>
           <span class="option-name">sample serif</span>
           <span class="option-desc">sample:&#34;Quiet welcome back.&#34;@serif</span>
+          
         </div>
       </button>
       
@@ -1230,6 +1293,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
               aria-checked="false"
               tabindex="-1"
               data-squiz="dslparams" data-option="cp" data-letter="G"
+              
               aria-label="Option G: circle-pack — circle-pack:12">
         <div class="option-check" aria-hidden="true">✓</div>
         <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><circle cx='10.00' cy='43.62' r='3.86' fill='var(--accent)'/><circle cx='83.74' cy='45.71' r='3.28' fill='var(--ink)' opacity='0.7'/><circle cx='14.58' cy='27.46' r='5.87' fill='var(--ink)' opacity='0.7'/><circle cx='54.66' cy='46.13' r='5.82' fill='var(--ink)' opacity='0.7'/><circle cx='39.90' cy='37.11' r='4.95' fill='var(--ink)' opacity='0.7'/><circle cx='46.28' cy='47.91' r='3.52' fill='var(--ink)' opacity='0.7'/><circle cx='60.09' cy='8.78' r='4.49' fill='var(--ink)' opacity='0.7'/><circle cx='23.25' cy='20.25' r='4.82' fill='var(--ink)' opacity='0.7'/><circle cx='36.33' cy='11.00' r='3.94' fill='var(--ink)' opacity='0.7'/><circle cx='53.17' cy='42.89' r='4.39' fill='var(--ink)' opacity='0.7'/><circle cx='87.72' cy='15.69' r='2.99' fill='var(--ink)' opacity='0.45'/><circle cx='75.70' cy='46.66' r='4.65' fill='var(--ink)' opacity='0.7'/></svg></div>
@@ -1237,6 +1301,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
           <span class="option-label" aria-hidden="true">Option G</span>
           <span class="option-name">circle-pack</span>
           <span class="option-desc">circle-pack:12</span>
+          
         </div>
       </button>
       
@@ -1266,6 +1331,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
               aria-checked="false"
               tabindex="0"
               data-squiz="autoart" data-option="a" data-letter="A"
+              
               aria-label="Option A: Option A — Hatched pattern auto-default.">
         <div class="option-check" aria-hidden="true">✓</div>
         <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:78%;height:auto'><defs><pattern id='p-a' patternUnits='userSpaceOnUse' width='5' height='5' patternTransform='rotate(45)'><line x1='0' y1='0' x2='0' y2='5' stroke='var(--accent)' stroke-width='1' opacity='0.55'/></pattern></defs><rect x='6' y='6' width='88' height='48' fill='url(#p-a)' stroke='var(--rule-2)' stroke-width='0.5'/></svg></div>
@@ -1273,6 +1339,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
           <span class="option-label" aria-hidden="true">Option A</span>
           <span class="option-name">Option A</span>
           <span class="option-desc">Hatched pattern auto-default.</span>
+          
         </div>
       </button>
       
@@ -1280,6 +1347,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
               aria-checked="false"
               tabindex="-1"
               data-squiz="autoart" data-option="b" data-letter="B"
+              
               aria-label="Option B: Option B — Dotted pattern auto-default.">
         <div class="option-check" aria-hidden="true">✓</div>
         <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:78%;height:auto'><defs><pattern id='p-b' patternUnits='userSpaceOnUse' width='6' height='6'><circle cx='3' cy='3' r='1' fill='var(--accent)' opacity='0.55'/></pattern></defs><rect x='6' y='6' width='88' height='48' fill='url(#p-b)' stroke='var(--rule-2)' stroke-width='0.5'/></svg></div>
@@ -1287,6 +1355,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
           <span class="option-label" aria-hidden="true">Option B</span>
           <span class="option-name">Option B</span>
           <span class="option-desc">Dotted pattern auto-default.</span>
+          
         </div>
       </button>
       
@@ -1294,6 +1363,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
               aria-checked="false"
               tabindex="-1"
               data-squiz="autoart" data-option="c" data-letter="C"
+              
               aria-label="Option C: Option C — Striped pattern auto-default.">
         <div class="option-check" aria-hidden="true">✓</div>
         <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:78%;height:auto'><defs><pattern id='p-c' patternUnits='userSpaceOnUse' width='5' height='5'><line x1='0' y1='0' x2='5' y2='0' stroke='var(--accent)' stroke-width='1' opacity='0.55'/></pattern></defs><rect x='6' y='6' width='88' height='48' fill='url(#p-c)' stroke='var(--rule-2)' stroke-width='0.5'/></svg></div>
@@ -1301,6 +1371,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
           <span class="option-label" aria-hidden="true">Option C</span>
           <span class="option-name">Option C</span>
           <span class="option-desc">Striped pattern auto-default.</span>
+          
         </div>
       </button>
       
@@ -1308,6 +1379,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
               aria-checked="false"
               tabindex="-1"
               data-squiz="autoart" data-option="d" data-letter="D"
+              
               aria-label="Option D: Option D — Grid pattern auto-default.">
         <div class="option-check" aria-hidden="true">✓</div>
         <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:78%;height:auto'><defs><pattern id='p-d' patternUnits='userSpaceOnUse' width='6' height='6'><path d='M 6 0 L 0 0 0 6' fill='none' stroke='var(--accent)' stroke-width='0.6' opacity='0.55'/></pattern></defs><rect x='6' y='6' width='88' height='48' fill='url(#p-d)' stroke='var(--rule-2)' stroke-width='0.5'/></svg></div>
@@ -1315,6 +1387,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
           <span class="option-label" aria-hidden="true">Option D</span>
           <span class="option-name">Option D</span>
           <span class="option-desc">Grid pattern auto-default.</span>
+          
         </div>
       </button>
       
@@ -1344,6 +1417,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
               aria-checked="false"
               tabindex="0"
               data-squiz="hidden" data-option="x" data-letter="A"
+              
               aria-label="Option A: First — No art slot at all.">
         <div class="option-check" aria-hidden="true">✓</div>
         
@@ -1351,6 +1425,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
           <span class="option-label" aria-hidden="true">Option A</span>
           <span class="option-name">First</span>
           <span class="option-desc">No art slot at all.</span>
+          
         </div>
       </button>
       
@@ -1358,6 +1433,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
               aria-checked="false"
               tabindex="-1"
               data-squiz="hidden" data-option="y" data-letter="B"
+              
               aria-label="Option B: Second — No art slot at all.">
         <div class="option-check" aria-hidden="true">✓</div>
         
@@ -1365,6 +1441,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
           <span class="option-label" aria-hidden="true">Option B</span>
           <span class="option-name">Second</span>
           <span class="option-desc">No art slot at all.</span>
+          
         </div>
       </button>
       

@@ -57,17 +57,19 @@
     </header>
     <div class="options" role="radiogroup" aria-labelledby="squiz-title-{{$squiz.ID}}">
       {{range $oi, $opt := $squiz.Options}}
-      <button type="button" class="option" role="radio"
+      <button type="button" class="option{{if $opt.Recommendation}} is-recommended{{end}}" role="radio"
               aria-checked="false"
               tabindex="{{if eq $oi 0}}0{{else}}-1{{end}}"
               data-squiz="{{$squiz.ID}}" data-option="{{$opt.ID}}" data-letter="{{$opt.Letter}}"
-              aria-label="{{$opt.Label}}: {{$opt.Name}}{{if $opt.Desc}} — {{$opt.Desc}}{{end}}">
+              {{if $opt.Recommendation}}data-recommended="true"{{end}}
+              aria-label="{{$opt.Label}}: {{$opt.Name}}{{if $opt.Desc}} — {{$opt.Desc}}{{end}}{{if $opt.Recommendation}} — recommended: {{$opt.Recommendation}}{{end}}">
         <div class="option-check" aria-hidden="true">✓</div>
         {{if not $opt.HideArt}}<div class="option-art" aria-hidden="true">{{safesvg $opt.ArtHTML}}</div>{{end}}
         <div class="option-body">
           <span class="option-label" aria-hidden="true">{{$opt.Label}}</span>
-          <span class="option-name">{{$opt.Name}}</span>
+          <span class="option-name">{{$opt.Name}}{{if $opt.Recommendation}} <span class="option-rec-chip" aria-hidden="true">★ RECOMMENDED</span>{{end}}</span>
           {{if $opt.Desc}}<span class="option-desc">{{$opt.Desc}}</span>{{end}}
+          {{if $opt.Recommendation}}<aside class="option-rec" aria-label="Recommendation rationale"><span class="option-rec-label" aria-hidden="true">why:</span> {{$opt.Recommendation}}</aside>{{end}}
         </div>
       </button>
       {{end}}

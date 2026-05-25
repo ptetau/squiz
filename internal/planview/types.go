@@ -87,6 +87,14 @@ type Option struct {
 	Name  string `json:"name"`            // short display
 	Desc  string `json:"desc"`            // 1-2 sentence trade-off
 	Art   string `json:"art,omitempty"`   // same forms as Item.Art
+
+	// Recommendation, when non-empty, marks this option as the author's
+	// recommended choice and carries the explanation. The renderer shows
+	// a "★ RECOMMENDED" chip + the explanation as a small editorial
+	// callout under the option's desc. At most one option per item should
+	// carry one; multiple renders all of them but is usually an authoring
+	// mistake.
+	Recommendation string `json:"recommendation,omitempty"`
 }
 
 // Section is the loaded form of a SectionFile, augmented with the

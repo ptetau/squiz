@@ -542,6 +542,49 @@ html[data-theme="slate"] .option.selected .option-art {
   margin-top: 4px;
   font-family: "IBM Plex Sans", sans-serif;
 }
+/* Recommendation: a tiny chip next to the option name, plus an editorial
+   callout below the desc with the explanation. Subtle accent treatment —
+   advice, not coercion. */
+.option-rec-chip {
+  display: inline-block;
+  margin-left: 6px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 1px 6px;
+  border: 1px solid var(--accent);
+  border-radius: 2px;
+  vertical-align: middle;
+  font-weight: 600;
+}
+.option-rec {
+  display: block;
+  margin-top: 8px;
+  padding: 7px 10px;
+  border-left: 2px solid var(--accent);
+  background: var(--accent-soft);
+  font-family: "IBM Plex Serif", serif;
+  font-style: italic;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.option-rec-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-style: normal;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-right: 4px;
+  font-weight: 600;
+}
+.option.is-recommended {
+  border-color: var(--accent);
+  border-width: 1px;
+}
 .option-check {
   position: absolute;
   top: 6px;

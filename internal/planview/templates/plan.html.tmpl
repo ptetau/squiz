@@ -71,18 +71,20 @@
       {{$item := .}}
       <div class="options item-options" role="radiogroup" aria-labelledby="item-title-{{$item.ID}}" data-item="{{$item.ID}}">
         {{range $oi, $opt := $item.Options}}
-        <button type="button" class="option item-option" role="radio"
+        <button type="button" class="option item-option{{if $opt.Recommendation}} is-recommended{{end}}" role="radio"
                 aria-checked="false"
                 tabindex="{{if eq $oi 0}}0{{else}}-1{{end}}"
                 data-item="{{$item.ID}}" data-option="{{$opt.ID}}" data-letter="{{$opt.Letter}}"
-                aria-label="{{$opt.Label}}: {{$opt.Name}}{{if $opt.Desc}} — {{$opt.Desc}}{{end}}">
+                {{if $opt.Recommendation}}data-recommended="true"{{end}}
+                aria-label="{{$opt.Label}}: {{$opt.Name}}{{if $opt.Desc}} — {{$opt.Desc}}{{end}}{{if $opt.Recommendation}} — recommended: {{$opt.Recommendation}}{{end}}">
           <div class="option-check" aria-hidden="true">&#10003;</div>
           {{if not $opt.HideArt}}<div class="option-art" aria-hidden="true">{{$opt.ArtHTML}}</div>{{end}}
           <div class="option-body">
             <span class="option-letter" aria-hidden="true">{{$opt.Letter}}</span>
             <span class="option-label" aria-hidden="true">{{$opt.Label}}</span>
-            <span class="option-name">{{$opt.Name}}</span>
+            <span class="option-name">{{$opt.Name}}{{if $opt.Recommendation}} <span class="option-rec-chip" aria-hidden="true">&#9733; RECOMMENDED</span>{{end}}</span>
             {{if $opt.Desc}}<span class="option-desc">{{$opt.Desc}}</span>{{end}}
+            {{if $opt.Recommendation}}<aside class="option-rec" aria-label="Recommendation rationale"><span class="option-rec-label" aria-hidden="true">why:</span> {{$opt.Recommendation}}</aside>{{end}}
           </div>
         </button>
         {{end}}

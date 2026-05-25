@@ -18,7 +18,8 @@
           "id": "sqlite",
           "name": "SQLite (single file)",
           "desc": "Embedded, one file, zero ops. Best for ≤1M links and one VPS. Backup = scp the file. Default choice.",
-          "art": "arch:database"
+          "art": "arch:database",
+          "recommendation": "OVR-3 caps us at one $5 VPS, NFR-2 wants durability without an external dep, and the audience (3-50 person teams) won't outgrow SQLite's ~1M-row sweet spot in the lifetime of this tool. The other two options solve scaling problems we don't have."
         },
         {
           "id": "postgres",
@@ -99,7 +100,8 @@
           "id": "systemd",
           "name": "systemd service on a VPS (default)",
           "desc": "One binary + one .service unit + one .toml config. Matches the \"$5 VPS\" constraint perfectly. Deploy = scp + systemctl restart.",
-          "art": "text:\"systemctl enable\\nclipsi.service\"@mono?size=10&color=accent"
+          "art": "text:\"systemctl enable\\nclipsi.service\"@mono?size=10&color=accent",
+          "recommendation": "OVR-3 names systemd implicitly (\"one binary, one config, one $5 VPS\"). Docker adds runtime overhead for no gain when there's only one process; k8s is for the scale-out story we explicitly aren't building."
         },
         {
           "id": "docker",

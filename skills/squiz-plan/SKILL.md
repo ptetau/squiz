@@ -174,7 +174,9 @@ Each item carries optional `refs: ["OVR-1", "FR-3"]`. The renderer:
 
 ## Item options (decisions)
 
-Any item can carry an `options: [...]` field with the same shape as squiz options (`id`, `label?`, `name`, `desc`, `art?`). When present, the rendered card shows a chooser; without it, the card is a flat statement. Use options when the item represents an *unsettled* decision (which database? which deploy strategy?) — leave them off for settled facts. The user's pick comes back in the export's `feedback[].chose` field.
+Any item can carry an `options: [...]` field with the same shape as squiz options (`id`, `label?`, `name`, `desc`, `art?`, `recommendation?`). When present, the rendered card shows a chooser; without it, the card is a flat statement. Use options when the item represents an *unsettled* decision (which database? which deploy strategy?) — leave them off for settled facts. The user's pick comes back in the export's `feedback[].chose` field.
+
+Any option can carry an optional **`recommendation`** field — a one-or-two-sentence rationale for why this is the preferred choice given the spec. The renderer shows a `★ RECOMMENDED` chip next to the option's name and the explanation as an editorial callout under its desc. The user can still pick differently — recommendations are advisory, not constraints.
 
 ```jsonc
 {
@@ -189,7 +191,8 @@ Any item can carry an `options: [...]` field with the same shape as squiz option
           "id":   "sqlite",
           "name": "SQLite (single file)",
           "desc": "Boring, durable, queryable. ~2 MB binary footprint.",
-          "art":  "wf:file-icons"
+          "art":  "wf:file-icons",
+          "recommendation": "NFR-2 requires durability without an external dep; OVR-3 caps us at one VPS. SQLite hits both targets and is the option the audience can debug without learning anything new."
         },
         {
           "id":   "bbolt",
@@ -208,6 +211,8 @@ Any item can carry an `options: [...]` field with the same shape as squiz option
   ]
 }
 ```
+
+**Recommendation guidance:** at most one option per item. Use it when the spec/constraints/audience genuinely point at one choice. Don't recommend every option (defeats the purpose); don't fluff the explanation (the rationale should cite specific refs like `OVR-3` or `NFR-2` whenever possible).
 
 **Validator note:** option `id`s must be unique *within* an item. Collisions across different items are fine (two items can both have an `id: "sqlite"` option) — the export disambiguates via the parent item's ID.
 
@@ -308,6 +313,7 @@ The rendered HTML ships with: a skip-to-tabs link, `tablist`/`tab`/`tabpanel` AR
 8. **Clickable links.** When you hand the user the rendered file, format as `file:///...` — bare paths aren't clickable in most terminals.
 9. **Apply feedback as a follow-up.** When the user pastes back, restate what you understood, regenerate the affected section files, re-render, and hand back the new clickable URL.
 10. **Round-trip the notes.** When the user pastes feedback back, treat `note` / `section_notes` / `plan_note` / `proposed_items` as the agent's instructions for the next round: rewrite affected items, restructure sections, or append the proposed items as fresh entries. Apply edits as suggestions, not authoritative changes (you may push back if they break the plan's spine).
+11. **Recommend when you have a real preference.** Any item-option can carry `"recommendation": "<one or two sentences>"`. Use it only when the plan's overview/refs genuinely point at one option — cite refs in the explanation (`"OVR-3's $5-VPS constraint rules out k8s; that leaves systemd vs Docker; systemd is one fewer moving part"`). At most one per item. Don't fluff; if you can't justify in one sentence, don't recommend.
 
 ## Files in this skill
 

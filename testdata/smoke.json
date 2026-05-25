@@ -13,7 +13,7 @@
       "title": "Named library: wf:* references",
       "desc": "All from the registry.",
       "options": [
-        { "id": "cal",    "name": "calendar-grid",  "desc": "Monthly heatmap.",            "art": "wf:calendar-grid" },
+        { "id": "cal",    "name": "calendar-grid",  "desc": "Monthly heatmap.",            "art": "wf:calendar-grid", "recommendation": "Most familiar pattern — almost every user has used GitHub's contribution graph or a calendar widget. Dense, scannable, no learning curve." },
         { "id": "spark",  "name": "spark-rising",   "desc": "Sparkline trending up.",      "art": "wf:spark-rising" },
         { "id": "av",     "name": "avatar-circle",  "desc": "Accountability circle.",      "art": "wf:avatar-circle" },
         { "id": "graph",  "name": "graph-force",    "desc": "Force-directed graph.",       "art": "wf:graph-force" }

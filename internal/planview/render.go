@@ -80,14 +80,15 @@ type ItemView struct {
 // pattern. Letter is the user-visible letter badge ("A", "B", "C", …)
 // auto-derived from position when the author didn't supply Label.
 type OptionView struct {
-	ID      string        // stable slug; comes back in feedback as `chose`
-	Label   string        // resolved label ("Option A" if author left blank)
-	Letter  string        // "A", "B", "C", … for keyboard hints
-	Name    string        // short display
-	Desc    string        // 1-2 sentence trade-off
-	ArtHTML template.HTML // resolved SVG (same forms as Item.Art)
-	HideArt bool          // true → suppress the art slot for this option
-	Index   int           // 0-based position within the chooser
+	ID             string        // stable slug; comes back in feedback as `chose`
+	Label          string        // resolved label ("Option A" if author left blank)
+	Letter         string        // "A", "B", "C", … for keyboard hints
+	Name           string        // short display
+	Desc           string        // 1-2 sentence trade-off
+	ArtHTML        template.HTML // resolved SVG (same forms as Item.Art)
+	HideArt        bool          // true → suppress the art slot for this option
+	Index          int           // 0-based position within the chooser
+	Recommendation string        // when non-empty: this is the recommended option, here's why
 }
 
 // RefView is one resolved cross-reference. Label is the display string
@@ -173,14 +174,15 @@ func Render(p *Plan, opts RenderOpts) (string, error) {
 					label = "Option " + renderer.LetterFor(oi)
 				}
 				optionViews = append(optionViews, OptionView{
-					ID:      opt.ID,
-					Label:   label,
-					Letter:  renderer.LetterFor(oi),
-					Name:    opt.Name,
-					Desc:    opt.Desc,
-					ArtHTML: template.HTML(optSvg),
-					HideArt: optHidden,
-					Index:   oi,
+					ID:             opt.ID,
+					Label:          label,
+					Letter:         renderer.LetterFor(oi),
+					Name:           opt.Name,
+					Desc:           opt.Desc,
+					ArtHTML:        template.HTML(optSvg),
+					HideArt:        optHidden,
+					Index:          oi,
+					Recommendation: opt.Recommendation,
 				})
 			}
 			itemViews = append(itemViews, ItemView{

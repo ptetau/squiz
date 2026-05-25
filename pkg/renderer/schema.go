@@ -48,6 +48,14 @@ type Option struct {
 
 	// ArtSVG is the legacy field — treated as raw SVG only. Use Art for new code.
 	ArtSVG string `json:"art_svg,omitempty"`
+
+	// Recommendation, when non-empty, marks this option as the author's
+	// recommended choice and carries the explanation of *why*. The renderer
+	// shows a "★ RECOMMENDED" chip + the explanation as a small editorial
+	// callout under the option's desc. Empty → option is one among equals.
+	// At most one option per squiz should carry a recommendation; multiple
+	// renders all of them but is almost always an authoring mistake.
+	Recommendation string `json:"recommendation,omitempty"`
 }
 
 // ResolvedArt returns Art when set, otherwise ArtSVG (treated as raw SVG).

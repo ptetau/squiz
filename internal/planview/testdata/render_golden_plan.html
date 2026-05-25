@@ -551,6 +551,49 @@ html[data-theme="slate"] .option.selected .option-art {
   margin-top: 4px;
   font-family: "IBM Plex Sans", sans-serif;
 }
+/* Recommendation: a tiny chip next to the option name, plus an editorial
+   callout below the desc with the explanation. Subtle accent treatment —
+   advice, not coercion. */
+.option-rec-chip {
+  display: inline-block;
+  margin-left: 6px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 1px 6px;
+  border: 1px solid var(--accent);
+  border-radius: 2px;
+  vertical-align: middle;
+  font-weight: 600;
+}
+.option-rec {
+  display: block;
+  margin-top: 8px;
+  padding: 7px 10px;
+  border-left: 2px solid var(--accent);
+  background: var(--accent-soft);
+  font-family: "IBM Plex Serif", serif;
+  font-style: italic;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.option-rec-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-style: normal;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-right: 4px;
+  font-weight: 600;
+}
+.option.is-recommended {
+  border-color: var(--accent);
+  border-width: 1px;
+}
 .option-check {
   position: absolute;
   top: 6px;
@@ -1566,6 +1609,48 @@ html[data-theme="slate"]    .item-options .option-art {
   color: var(--ink-2);
   margin-top: 3px;
   font-family: "IBM Plex Sans", sans-serif;
+}
+/* Recommendation chip + editorial callout — mirrors the squiz styles
+   verbatim except slightly smaller to fit inside item-option cards. */
+.item-options .option-rec-chip {
+  display: inline-block;
+  margin-left: 6px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 1px 5px;
+  border: 1px solid var(--accent);
+  border-radius: 2px;
+  vertical-align: middle;
+  font-weight: 600;
+}
+.item-options .option-rec {
+  display: block;
+  margin-top: 6px;
+  padding: 6px 9px;
+  border-left: 2px solid var(--accent);
+  background: var(--accent-soft);
+  font-family: "IBM Plex Serif", serif;
+  font-style: italic;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+.item-options .option-rec-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-style: normal;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-right: 4px;
+  font-weight: 600;
+}
+.item-options .item-option.is-recommended {
+  border-color: var(--accent);
+  border-width: 1px;
 }
 .item-options .option-check {
   position: absolute;
@@ -2876,18 +2961,20 @@ html[data-theme="slate"]    .item-options .option-art {
       
       <div class="options item-options" role="radiogroup" aria-labelledby="item-title-ENG-2" data-item="ENG-2">
         
-        <button type="button" class="option item-option" role="radio"
+        <button type="button" class="option item-option is-recommended" role="radio"
                 aria-checked="false"
                 tabindex="0"
                 data-item="ENG-2" data-option="sqlite" data-letter="A"
-                aria-label="Option A: SQLite (single file) — Embedded, one file, zero ops. Best for ≤1M links and one VPS. Backup = scp the file. Default choice.">
+                data-recommended="true"
+                aria-label="Option A: SQLite (single file) — Embedded, one file, zero ops. Best for ≤1M links and one VPS. Backup = scp the file. Default choice. — recommended: OVR-3 caps us at one $5 VPS, NFR-2 wants durability without an external dep, and the audience (3-50 person teams) won&#39;t outgrow SQLite&#39;s ~1M-row sweet spot in the lifetime of this tool. The other two options solve scaling problems we don&#39;t have.">
           <div class="option-check" aria-hidden="true">&#10003;</div>
           <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><ellipse cx='50' cy='16' rx='16' ry='4' fill='var(--accent-soft)'/><path d='M 34 16 L 34 44 A 16 4 0 0 0 66 44 L 66 16'/><path d='M 34 26 A 16 4 0 0 0 66 26' stroke='var(--ink)' stroke-width='1'/><path d='M 34 36 A 16 4 0 0 0 66 36' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
           <div class="option-body">
             <span class="option-letter" aria-hidden="true">A</span>
             <span class="option-label" aria-hidden="true">Option A</span>
-            <span class="option-name">SQLite (single file)</span>
+            <span class="option-name">SQLite (single file) <span class="option-rec-chip" aria-hidden="true">&#9733; RECOMMENDED</span></span>
             <span class="option-desc">Embedded, one file, zero ops. Best for ≤1M links and one VPS. Backup = scp the file. Default choice.</span>
+            <aside class="option-rec" aria-label="Recommendation rationale"><span class="option-rec-label" aria-hidden="true">why:</span> OVR-3 caps us at one $5 VPS, NFR-2 wants durability without an external dep, and the audience (3-50 person teams) won&#39;t outgrow SQLite&#39;s ~1M-row sweet spot in the lifetime of this tool. The other two options solve scaling problems we don&#39;t have.</aside>
           </div>
         </button>
         
@@ -2895,6 +2982,7 @@ html[data-theme="slate"]    .item-options .option-art {
                 aria-checked="false"
                 tabindex="-1"
                 data-item="ENG-2" data-option="postgres" data-letter="B"
+                
                 aria-label="Option B: Postgres (external) — Standard SQL, easy to share with other apps you already run. Adds an op dependency; needs connection pooling.">
           <div class="option-check" aria-hidden="true">&#10003;</div>
           <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><ellipse cx='50' cy='16' rx='16' ry='4' fill='var(--accent-soft)'/><path d='M 34 16 L 34 44 A 16 4 0 0 0 66 44 L 66 16'/><path d='M 34 26 A 16 4 0 0 0 66 26' stroke='var(--ink)' stroke-width='1'/><path d='M 34 36 A 16 4 0 0 0 66 36' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
@@ -2903,6 +2991,7 @@ html[data-theme="slate"]    .item-options .option-art {
             <span class="option-label" aria-hidden="true">Option B</span>
             <span class="option-name">Postgres (external)</span>
             <span class="option-desc">Standard SQL, easy to share with other apps you already run. Adds an op dependency; needs connection pooling.</span>
+            
           </div>
         </button>
         
@@ -2910,6 +2999,7 @@ html[data-theme="slate"]    .item-options .option-art {
                 aria-checked="false"
                 tabindex="-1"
                 data-item="ENG-2" data-option="dynamodb" data-letter="C"
+                
                 aria-label="Option C: DynamoDB — Managed, scales beyond a single VPS. Cheap at this volume. AWS lock-in; breaks the &#34;runs anywhere&#34; story.">
           <div class="option-check" aria-hidden="true">&#10003;</div>
           <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='28' y='14' width='44' height='32'/><rect x='28' y='14' width='44' height='6' fill='var(--accent-soft)' stroke='var(--accent)' stroke-width='1.4'/><line x1='28' y1='28' x2='72' y2='28' stroke='var(--ink)' stroke-width='1'/><line x1='28' y1='36' x2='72' y2='36' stroke='var(--ink)' stroke-width='1'/><line x1='44' y1='20' x2='44' y2='46' stroke='var(--ink)' stroke-width='1'/><line x1='58' y1='20' x2='58' y2='46' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
@@ -2918,6 +3008,7 @@ html[data-theme="slate"]    .item-options .option-art {
             <span class="option-label" aria-hidden="true">Option C</span>
             <span class="option-name">DynamoDB</span>
             <span class="option-desc">Managed, scales beyond a single VPS. Cheap at this volume. AWS lock-in; breaks the &#34;runs anywhere&#34; story.</span>
+            
           </div>
         </button>
         
@@ -2997,6 +3088,7 @@ html[data-theme="slate"]    .item-options .option-art {
                 aria-checked="false"
                 tabindex="0"
                 data-item="ENG-3" data-option="inmem" data-letter="A"
+                
                 aria-label="Option A: In-process LRU (default) — Lives inside the binary. Free, no extra process, lost on restart (cold start is one DB hit per slug). Best for single-instance deploys.">
           <div class="option-check" aria-hidden="true">&#10003;</div>
           <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='32' y='14' width='36' height='32' rx='2'/><path d='M 52 18 L 42 32 L 50 32 L 46 42 L 58 26 L 50 26 Z' fill='var(--accent)' stroke='var(--accent)' stroke-width='1.2' stroke-linejoin='round'/></g></svg></div>
@@ -3005,6 +3097,7 @@ html[data-theme="slate"]    .item-options .option-art {
             <span class="option-label" aria-hidden="true">Option A</span>
             <span class="option-name">In-process LRU (default)</span>
             <span class="option-desc">Lives inside the binary. Free, no extra process, lost on restart (cold start is one DB hit per slug). Best for single-instance deploys.</span>
+            
           </div>
         </button>
         
@@ -3012,6 +3105,7 @@ html[data-theme="slate"]    .item-options .option-art {
                 aria-checked="false"
                 tabindex="-1"
                 data-item="ENG-3" data-option="redis" data-letter="B"
+                
                 aria-label="Option B: Shared Redis — Survives restarts, shared across instances behind a load balancer. Adds an op dependency. Pick when you scale horizontally.">
           <div class="option-check" aria-hidden="true">&#10003;</div>
           <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='32' y='14' width='36' height='32' rx='2'/><path d='M 52 18 L 42 32 L 50 32 L 46 42 L 58 26 L 50 26 Z' fill='var(--accent)' stroke='var(--accent)' stroke-width='1.2' stroke-linejoin='round'/></g></svg></div>
@@ -3020,6 +3114,7 @@ html[data-theme="slate"]    .item-options .option-art {
             <span class="option-label" aria-hidden="true">Option B</span>
             <span class="option-name">Shared Redis</span>
             <span class="option-desc">Survives restarts, shared across instances behind a load balancer. Adds an op dependency. Pick when you scale horizontally.</span>
+            
           </div>
         </button>
         
@@ -3027,6 +3122,7 @@ html[data-theme="slate"]    .item-options .option-art {
                 aria-checked="false"
                 tabindex="-1"
                 data-item="ENG-3" data-option="none" data-letter="C"
+                
                 aria-label="Option C: No cache — hit the DB every time — Trust the DB&#39;s own page cache (works fine for SQLite). Simplest; bets on the storage layer&#39;s index being fast enough.">
           <div class="option-check" aria-hidden="true">&#10003;</div>
           
@@ -3035,6 +3131,7 @@ html[data-theme="slate"]    .item-options .option-art {
             <span class="option-label" aria-hidden="true">Option C</span>
             <span class="option-name">No cache — hit the DB every time</span>
             <span class="option-desc">Trust the DB&#39;s own page cache (works fine for SQLite). Simplest; bets on the storage layer&#39;s index being fast enough.</span>
+            
           </div>
         </button>
         
@@ -3100,6 +3197,7 @@ html[data-theme="slate"]    .item-options .option-art {
                 aria-checked="false"
                 tabindex="0"
                 data-item="ENG-4" data-option="embedded" data-letter="A"
+                
                 aria-label="Option A: Embedded — same SQLite — Click events table in the same SQLite file. One nightly job rolls them into per-slug aggregates. Simplest. Limits analytics queries to what SQLite can do quickly.">
           <div class="option-check" aria-hidden="true">&#10003;</div>
           <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><ellipse cx='50' cy='16' rx='16' ry='4' fill='var(--accent-soft)'/><path d='M 34 16 L 34 44 A 16 4 0 0 0 66 44 L 66 16'/><path d='M 34 26 A 16 4 0 0 0 66 26' stroke='var(--ink)' stroke-width='1'/><path d='M 34 36 A 16 4 0 0 0 66 36' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
@@ -3108,6 +3206,7 @@ html[data-theme="slate"]    .item-options .option-art {
             <span class="option-label" aria-hidden="true">Option A</span>
             <span class="option-name">Embedded — same SQLite</span>
             <span class="option-desc">Click events table in the same SQLite file. One nightly job rolls them into per-slug aggregates. Simplest. Limits analytics queries to what SQLite can do quickly.</span>
+            
           </div>
         </button>
         
@@ -3115,6 +3214,7 @@ html[data-theme="slate"]    .item-options .option-art {
                 aria-checked="false"
                 tabindex="-1"
                 data-item="ENG-4" data-option="clickhouse" data-letter="B"
+                
                 aria-label="Option B: External ClickHouse — Columnar OLAP store. Trivial to query 12 months of clicks in &lt;100 ms. Another service to run, ~250 MB RAM minimum.">
           <div class="option-check" aria-hidden="true">&#10003;</div>
           <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='28' y='14' width='44' height='32'/><rect x='28' y='14' width='44' height='6' fill='var(--accent-soft)' stroke='var(--accent)' stroke-width='1.4'/><line x1='28' y1='28' x2='72' y2='28' stroke='var(--ink)' stroke-width='1'/><line x1='28' y1='36' x2='72' y2='36' stroke='var(--ink)' stroke-width='1'/><line x1='44' y1='20' x2='44' y2='46' stroke='var(--ink)' stroke-width='1'/><line x1='58' y1='20' x2='58' y2='46' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
@@ -3123,6 +3223,7 @@ html[data-theme="slate"]    .item-options .option-art {
             <span class="option-label" aria-hidden="true">Option B</span>
             <span class="option-name">External ClickHouse</span>
             <span class="option-desc">Columnar OLAP store. Trivial to query 12 months of clicks in &lt;100 ms. Another service to run, ~250 MB RAM minimum.</span>
+            
           </div>
         </button>
         
@@ -3130,6 +3231,7 @@ html[data-theme="slate"]    .item-options .option-art {
                 aria-checked="false"
                 tabindex="-1"
                 data-item="ENG-4" data-option="skip" data-letter="C"
+                
                 aria-label="Option C: Counter-only, no events — Increment per-slug counters in the storage backend, throw the rest away. Cheapest. Loses referrers, geo, UA — only total clicks remain.">
           <div class="option-check" aria-hidden="true">&#10003;</div>
           
@@ -3138,6 +3240,7 @@ html[data-theme="slate"]    .item-options .option-art {
             <span class="option-label" aria-hidden="true">Option C</span>
             <span class="option-name">Counter-only, no events</span>
             <span class="option-desc">Increment per-slug counters in the storage backend, throw the rest away. Cheapest. Loses referrers, geo, UA — only total clicks remain.</span>
+            
           </div>
         </button>
         
@@ -3199,18 +3302,20 @@ html[data-theme="slate"]    .item-options .option-art {
       
       <div class="options item-options" role="radiogroup" aria-labelledby="item-title-ENG-5" data-item="ENG-5">
         
-        <button type="button" class="option item-option" role="radio"
+        <button type="button" class="option item-option is-recommended" role="radio"
                 aria-checked="false"
                 tabindex="0"
                 data-item="ENG-5" data-option="systemd" data-letter="A"
-                aria-label="Option A: systemd service on a VPS (default) — One binary &#43; one .service unit &#43; one .toml config. Matches the &#34;$5 VPS&#34; constraint perfectly. Deploy = scp &#43; systemctl restart.">
+                data-recommended="true"
+                aria-label="Option A: systemd service on a VPS (default) — One binary &#43; one .service unit &#43; one .toml config. Matches the &#34;$5 VPS&#34; constraint perfectly. Deploy = scp &#43; systemctl restart. — recommended: OVR-3 names systemd implicitly (&#34;one binary, one config, one $5 VPS&#34;). Docker adds runtime overhead for no gain when there&#39;s only one process; k8s is for the scale-out story we explicitly aren&#39;t building.">
           <div class="option-check" aria-hidden="true">&#10003;</div>
           <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><text x='6' y='27.50' text-anchor='start' font-family='IBM Plex Mono' font-size='10' font-weight='400' fill='var(--accent)'>systemctl enable</text><text x='6' y='39.50' text-anchor='start' font-family='IBM Plex Mono' font-size='10' font-weight='400' fill='var(--accent)'>clipsi.service</text></svg></div>
           <div class="option-body">
             <span class="option-letter" aria-hidden="true">A</span>
             <span class="option-label" aria-hidden="true">Option A</span>
-            <span class="option-name">systemd service on a VPS (default)</span>
+            <span class="option-name">systemd service on a VPS (default) <span class="option-rec-chip" aria-hidden="true">&#9733; RECOMMENDED</span></span>
             <span class="option-desc">One binary &#43; one .service unit &#43; one .toml config. Matches the &#34;$5 VPS&#34; constraint perfectly. Deploy = scp &#43; systemctl restart.</span>
+            <aside class="option-rec" aria-label="Recommendation rationale"><span class="option-rec-label" aria-hidden="true">why:</span> OVR-3 names systemd implicitly (&#34;one binary, one config, one $5 VPS&#34;). Docker adds runtime overhead for no gain when there&#39;s only one process; k8s is for the scale-out story we explicitly aren&#39;t building.</aside>
           </div>
         </button>
         
@@ -3218,6 +3323,7 @@ html[data-theme="slate"]    .item-options .option-art {
                 aria-checked="false"
                 tabindex="-1"
                 data-item="ENG-5" data-option="docker" data-letter="B"
+                
                 aria-label="Option B: Docker / Compose — Same binary in a 15 MB scratch image. Easier for teams who already have Docker on the box. Adds a tiny runtime cost.">
           <div class="option-check" aria-hidden="true">&#10003;</div>
           <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='30' y='16' width='40' height='28'/><line x1='36' y1='16' x2='36' y2='44' stroke='var(--ink)' stroke-width='1'/><line x1='44' y1='16' x2='44' y2='44' stroke='var(--ink)' stroke-width='1'/><line x1='52' y1='16' x2='52' y2='44' stroke='var(--ink)' stroke-width='1'/><line x1='60' y1='16' x2='60' y2='44' stroke='var(--ink)' stroke-width='1'/><line x1='30' y1='22' x2='70' y2='22'/></g></svg></div>
@@ -3226,6 +3332,7 @@ html[data-theme="slate"]    .item-options .option-art {
             <span class="option-label" aria-hidden="true">Option B</span>
             <span class="option-name">Docker / Compose</span>
             <span class="option-desc">Same binary in a 15 MB scratch image. Easier for teams who already have Docker on the box. Adds a tiny runtime cost.</span>
+            
           </div>
         </button>
         
@@ -3233,6 +3340,7 @@ html[data-theme="slate"]    .item-options .option-art {
                 aria-checked="false"
                 tabindex="-1"
                 data-item="ENG-5" data-option="k8s" data-letter="C"
+                
                 aria-label="Option C: Kubernetes — Helm chart, horizontal scaling, shared Redis cache required (see ENG-3). Overkill for the audience but here for completeness.">
           <div class="option-check" aria-hidden="true">&#10003;</div>
           <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><polygon points='50,12 70,22 70,38 50,48 30,38 30,22' fill='var(--accent-soft)'/><line x1='50' y1='12' x2='50' y2='30' stroke='var(--ink)' stroke-width='1'/><line x1='30' y1='22' x2='50' y2='30' stroke='var(--ink)' stroke-width='1'/><line x1='70' y1='22' x2='50' y2='30' stroke='var(--ink)' stroke-width='1'/><line x1='30' y1='38' x2='50' y2='30' stroke='var(--ink)' stroke-width='1'/><line x1='70' y1='38' x2='50' y2='30' stroke='var(--ink)' stroke-width='1'/><line x1='50' y1='48' x2='50' y2='30' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
@@ -3241,6 +3349,7 @@ html[data-theme="slate"]    .item-options .option-art {
             <span class="option-label" aria-hidden="true">Option C</span>
             <span class="option-name">Kubernetes</span>
             <span class="option-desc">Helm chart, horizontal scaling, shared Redis cache required (see ENG-3). Overkill for the audience but here for completeness.</span>
+            
           </div>
         </button>
         
