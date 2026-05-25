@@ -28,10 +28,14 @@ func main() {
 	case "help", "--help", "-h":
 		printUsage()
 	default:
-		// Shorthand: `squiz foo.json` == `squiz render foo.json --open`
+		// Shorthand: `squiz foo.json [flags…]` == `squiz render foo.json [flags…] --open`.
+		// Any flags the user already passed are forwarded verbatim; --open is
+		// only auto-appended when the user didn't ask for it explicitly.
 		if strings.HasSuffix(strings.ToLower(os.Args[1]), ".json") {
 			args := append([]string{}, os.Args[1:]...)
-			args = append(args, "--open")
+			if !hasFlag(args, "open") {
+				args = append(args, "--open")
+			}
 			cmdRender(args)
 			return
 		}
@@ -47,6 +51,11 @@ func cmdRender(args []string) {
 	stdout := fs.Bool("stdout", false, "write HTML to stdout instead of a file")
 	open := fs.Bool("open", false, "open the rendered HTML in the default browser")
 	theme := fs.String("theme", "", "force theme (paper|phosphor|amber|beige|rose|ocean|forest|slate)")
+	// Reorder so flags precede positionals — Go's stdlib flag.Parse stops at
+	// the first non-flag arg, so without this `squiz render foo.json --out x`
+	// would silently drop --out. boolFlags lists flags that don't consume
+	// the following arg as a value.
+	args = reorderFlagsFirst(args, map[string]bool{"stdout": true, "open": true})
 	if err := fs.Parse(args); err != nil {
 		os.Exit(2)
 	}
@@ -117,16 +126,73 @@ func cmdRender(args []string) {
 	}
 }
 
+// reorderFlagsFirst walks args and returns a new slice where all flags come
+// before all positionals, preserving original order within each group.
+// Treats `-x`, `--x`, `--x=v` as flags; for the `--x v` form, the value
+// comes along unless `x` is in boolFlags (which take no value). The literal
+// `--` terminator passes through and stops flag-detection (POSIX convention).
+func reorderFlagsFirst(args []string, boolFlags map[string]bool) []string {
+	flags := make([]string, 0, len(args))
+	positionals := make([]string, 0, len(args))
+	seenTerminator := false
+
+	for i := 0; i < len(args); i++ {
+		a := args[i]
+		if seenTerminator || !strings.HasPrefix(a, "-") || a == "-" {
+			positionals = append(positionals, a)
+			continue
+		}
+		if a == "--" {
+			seenTerminator = true
+			flags = append(flags, a)
+			continue
+		}
+		flags = append(flags, a)
+		// --name=value already carries its value; nothing to consume.
+		if strings.Contains(a, "=") {
+			continue
+		}
+		name := strings.TrimLeft(a, "-")
+		if boolFlags[name] {
+			continue
+		}
+		// String flag without `=` consumes the next arg as its value.
+		if i+1 < len(args) {
+			flags = append(flags, args[i+1])
+			i++
+		}
+	}
+	return append(flags, positionals...)
+}
+
+// hasFlag reports whether args contains `-name`, `--name`, `-name=…`, or
+// `--name=…`. Cheap presence check used to avoid double-appending flags
+// the user already specified.
+func hasFlag(args []string, name string) bool {
+	for _, a := range args {
+		if a == "-"+name || a == "--"+name {
+			return true
+		}
+		if strings.HasPrefix(a, "-"+name+"=") || strings.HasPrefix(a, "--"+name+"=") {
+			return true
+		}
+	}
+	return false
+}
+
 func printUsage() {
 	fmt.Fprintln(os.Stderr, `squiz `+version+` — render a Squiz spec from JSON to interactive HTML
 
 Usage:
-  squiz render <input.json> [--out path] [--stdout] [--open]
-  squiz <input.json>                    (shorthand: render + open)
+  squiz render <input.json> [--out path] [--stdout] [--open] [--theme name]
+  squiz <input.json> [flags…]           (shorthand: render + open; flags forward)
   squiz version
+
+Flags may appear before or after the input path.
 
 Examples:
   squiz habits.json                     render + open in browser
+  squiz habits.json --theme phosphor    shorthand with extra flags
   squiz render spec.json --out doc.html
   squiz render spec.json --stdout > doc.html`)
 }

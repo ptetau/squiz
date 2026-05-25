@@ -114,12 +114,16 @@ func TestDslSwatches_SingleColor(t *testing.T) {
 	assertSVG(t, "swatches single", out, "#abc")
 }
 
-// Note: dslSwatches currently has no explicit failure path — strings.Split
-// always returns ≥1 element so the len==0 check can't fire. Empty input
-// produces an SVG with no <rect> elements but is still a valid frame.
+// Empty input must emit the errArt placeholder (consistent with other DSL
+// errors). The leading TrimSpace guard in dslSwatches makes this reachable;
+// the old code's len==0 check was unreachable because strings.Split("",",")
+// returns [""].
 func TestDslSwatches_EmptyArg(t *testing.T) {
 	out := dslSwatches("")
 	assertSVG(t, "swatches empty", out)
+	if !strings.Contains(out, "swatches: need") {
+		t.Errorf("expected errArt placeholder mentioning 'swatches: need', got:\n%s", out)
+	}
 }
 
 // ──────────────────────────────────────────────────────────────────────
@@ -139,11 +143,15 @@ func TestDslPills_SingleChip(t *testing.T) {
 	assertSVG(t, "pills single", out, "solo")
 }
 
-// Empty arg: dslPills also has no real error path because strings.Split
-// returns [""]; locks current behavior (renders an empty-text pill).
+// Empty input must emit the errArt placeholder. Same fix-pattern as
+// dslSwatches: a leading TrimSpace guard catches what the len==0 check
+// couldn't.
 func TestDslPills_EmptyArg(t *testing.T) {
 	out := dslPills("")
 	assertSVG(t, "pills empty", out)
+	if !strings.Contains(out, "pills: need") {
+		t.Errorf("expected errArt placeholder mentioning 'pills: need', got:\n%s", out)
+	}
 }
 
 // ──────────────────────────────────────────────────────────────────────

@@ -188,10 +188,10 @@ func dslBars(args string) string {
 // ──────────────────────────────────────────────────────────────────────
 
 func dslSwatches(args string) string {
-	colors := strings.Split(args, ",")
-	if len(colors) == 0 {
+	if strings.TrimSpace(args) == "" {
 		return errArt("swatches: need #a,#b,...")
 	}
+	colors := strings.Split(args, ",")
 	const w, h = 100.0, 60.0
 	const padX, padY = 8.0, 14.0
 	usableW := w - 2*padX
@@ -218,10 +218,10 @@ func dslSwatches(args string) string {
 // ──────────────────────────────────────────────────────────────────────
 
 func dslPills(args string) string {
-	parts := strings.Split(args, "|")
-	if len(parts) == 0 {
+	if strings.TrimSpace(args) == "" {
 		return errArt("pills: need a|b|c")
 	}
+	parts := strings.Split(args, "|")
 	const w, h = 100.0, 60.0
 	const padX, padY = 6.0, 4.0
 	gap := 4.0

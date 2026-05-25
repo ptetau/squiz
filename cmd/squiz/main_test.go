@@ -69,10 +69,9 @@ func repoRoot(t *testing.T) string {
 // touched. (Setting HOME would also work but relies on os.UserHomeDir
 // honouring the override, which is one more layer to trust.)
 //
-// IMPORTANT — flag ordering: Go's flag.Parse stops at the first non-flag
-// argument. The CLI calls fs.Parse(args), so flags MUST precede the
-// positional <input.json>; otherwise --out is silently dropped and the
-// CLI overwrites testdata/smoke.html in the repo.
+// Flag ordering: cmd/squiz pre-scans args via reorderFlagsFirst, so flags
+// may appear before OR after the positional <input.json>. See
+// TestMain_FlagsAfterPositional below for the after-positional case.
 func TestMain_Build(t *testing.T) {
 	bin := buildBinary(t)
 	root := repoRoot(t)
@@ -100,6 +99,49 @@ func TestMain_Build(t *testing.T) {
 	}
 	if info.Size() < 1024 {
 		t.Errorf("output file %s is %d bytes, expected > 1KB", outFile, info.Size())
+	}
+}
+
+// TestMain_FlagsAfterPositional verifies the v0.2.1→v0.3.0 flag-anywhere
+// fix: --theme and --out work when they come AFTER the .json arg. The old
+// behavior would silently drop them.
+func TestMain_FlagsAfterPositional(t *testing.T) {
+	bin := buildBinary(t)
+	root := repoRoot(t)
+	input := filepath.Join(root, "testdata", "smoke.json")
+	outDir := t.TempDir()
+	outFile := filepath.Join(outDir, "smoke.html")
+
+	cmd := exec.Command(bin, "render", input, "--theme", "paper", "--out", outFile)
+	combined, err := cmd.CombinedOutput()
+	if err != nil {
+		t.Fatalf("squiz render (flags-after-positional) failed: %v\noutput: %s", err, combined)
+	}
+	if _, err := os.Stat(outFile); err != nil {
+		t.Fatalf("--out was dropped — expected %s, got: %v\nstderr: %s", outFile, err, combined)
+	}
+}
+
+// TestMain_ShorthandForwardsFlags verifies the shorthand path (no "render"
+// subcommand) forwards user-supplied flags. Before the v0.3.0 fix the
+// shorthand only auto-appended --open and ignored anything else.
+func TestMain_ShorthandForwardsFlags(t *testing.T) {
+	bin := buildBinary(t)
+	root := repoRoot(t)
+	input := filepath.Join(root, "testdata", "smoke.json")
+	outDir := t.TempDir()
+	outFile := filepath.Join(outDir, "smoke.html")
+
+	// No --open here: we want the test to exit fast, not actually launch a
+	// browser. Shorthand should auto-append --open, but the open-in-browser
+	// step is fire-and-forget so the binary still returns immediately.
+	cmd := exec.Command(bin, input, "--theme", "paper", "--out", outFile)
+	combined, err := cmd.CombinedOutput()
+	if err != nil {
+		t.Fatalf("shorthand render failed: %v\noutput: %s", err, combined)
+	}
+	if _, err := os.Stat(outFile); err != nil {
+		t.Fatalf("shorthand dropped --out: %v\nstderr: %s", err, combined)
 	}
 }
 
