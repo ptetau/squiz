@@ -4,6 +4,7 @@ project_name: squiz
 before:
   hooks:
     - go mod tidy
+    - go test ./... -count=1
 
 builds:
   - id: squiz
