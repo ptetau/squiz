@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "id": "OVR-1",
+      "title": "Mission",
+      "desc": "A self-hostable URL shortener that small teams can stand up on their own domain in an afternoon. Bring-your-own-domain, real analytics, no third party tracking your users."
+    },
+    {
+      "id": "OVR-2",
+      "title": "Audience",
+      "desc": "Small teams (3-50 people) who already own a short domain and want to use it for campaign tracking, internal redirects, and link-shortening without handing data to a SaaS.",
+      "art": "arch:user"
+    },
+    {
+      "id": "OVR-3",
+      "title": "Hard constraints",
+      "desc": "One static binary. One config file. Must run on a $5/month VPS with 1 GB RAM. No SaaS dependencies for the redirect path — even if every other service is down, slugs still resolve."
+    }
+  ]
+}

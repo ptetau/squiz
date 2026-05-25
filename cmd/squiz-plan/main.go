@@ -23,6 +23,8 @@ func main() {
 	switch os.Args[1] {
 	case "render":
 		cmdRender(os.Args[2:])
+	case "example":
+		cmdExample(os.Args[2:])
 	case "version", "--version", "-v":
 		fmt.Println("squiz-plan " + version)
 	case "help", "--help", "-h":
@@ -188,6 +190,7 @@ func printUsage() {
 Usage:
   squiz-plan render <plan/index.json> [--out path] [--stdout] [--open] [--theme name]
   squiz-plan <plan/index.json> [flags…]    (shorthand: render + open; flags forward)
+  squiz-plan example [--out dir]           (scaffold the canonical sample plan tree)
   squiz-plan version
 
 The input is the path to an index.json that roots a plan tree. Sibling
@@ -196,8 +199,10 @@ files (overview.json, functional.json, …) are loaded automatically.
 Flags may appear before or after the input path.
 
 Examples:
-  squiz-plan plan/index.json                       render + open in browser
-  squiz-plan plan/index.json --theme phosphor      shorthand with extra flags
+  squiz-plan example                                scaffold squiz-plan-example/ in cwd
+  squiz-plan example --out my-plan                  scaffold into a specific dir
+  squiz-plan squiz-plan-example/index.json          render + open the scaffolded plan
+  squiz-plan plan/index.json --theme phosphor       shorthand with extra flags
   squiz-plan render plan/index.json --out doc.html
   squiz-plan render plan/index.json --stdout > doc.html`)
 }

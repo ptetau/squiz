@@ -1,0 +1,119 @@
+{
+  "items": [
+    {
+      "id": "ENG-1",
+      "title": "HTTP API service",
+      "desc": "Single Go process: net/http, no framework. Routes: GET /:slug (hot path), POST /api/links, GET /api/links/:slug, GET /api/links/:slug/stats, plus a tiny dashboard SPA served from go:embed.",
+      "art": "arch:api",
+      "refs": ["FR-1", "FR-2", "FR-3", "NFR-1"]
+    },
+    {
+      "id": "ENG-2",
+      "title": "Link storage backend",
+      "desc": "Where the slug → target map lives. The hot path issues one read per redirect; the cold path writes one row per created link.",
+      "art": "arch:database",
+      "refs": ["FR-1", "FR-3", "FR-4", "NFR-2"],
+      "options": [
+        {
+          "id": "sqlite",
+          "name": "SQLite (single file)",
+          "desc": "Embedded, one file, zero ops. Best for ≤1M links and one VPS. Backup = scp the file. Default choice.",
+          "art": "arch:database"
+        },
+        {
+          "id": "postgres",
+          "name": "Postgres (external)",
+          "desc": "Standard SQL, easy to share with other apps you already run. Adds an op dependency; needs connection pooling.",
+          "art": "arch:database"
+        },
+        {
+          "id": "dynamodb",
+          "name": "DynamoDB",
+          "desc": "Managed, scales beyond a single VPS. Cheap at this volume. AWS lock-in; breaks the \"runs anywhere\" story.",
+          "art": "arch:table"
+        }
+      ]
+    },
+    {
+      "id": "ENG-3",
+      "title": "Redirect cache strategy",
+      "desc": "How the hot path stays under 50 ms p99 when a popular link gets hammered. The cache is read-mostly: invalidate on update; rebuild on miss.",
+      "art": "arch:cache",
+      "refs": ["FR-2", "NFR-1"],
+      "options": [
+        {
+          "id": "inmem",
+          "name": "In-process LRU (default)",
+          "desc": "Lives inside the binary. Free, no extra process, lost on restart (cold start is one DB hit per slug). Best for single-instance deploys.",
+          "art": "arch:cache"
+        },
+        {
+          "id": "redis",
+          "name": "Shared Redis",
+          "desc": "Survives restarts, shared across instances behind a load balancer. Adds an op dependency. Pick when you scale horizontally.",
+          "art": "arch:cache"
+        },
+        {
+          "id": "none",
+          "name": "No cache — hit the DB every time",
+          "desc": "Trust the DB's own page cache (works fine for SQLite). Simplest; bets on the storage layer's index being fast enough.",
+          "art": "none"
+        }
+      ]
+    },
+    {
+      "id": "ENG-4",
+      "title": "Analytics pipeline",
+      "desc": "Click events flow from the redirect handler into an event log, get aggregated nightly into per-slug stats. PII stripped at the handler before the event is even written.",
+      "art": "flow:[api?icon=api,queue?icon=queue,worker?icon=worker,db?icon=database]",
+      "refs": ["FR-5", "NFR-3"],
+      "options": [
+        {
+          "id": "embedded",
+          "name": "Embedded — same SQLite",
+          "desc": "Click events table in the same SQLite file. One nightly job rolls them into per-slug aggregates. Simplest. Limits analytics queries to what SQLite can do quickly.",
+          "art": "arch:database"
+        },
+        {
+          "id": "clickhouse",
+          "name": "External ClickHouse",
+          "desc": "Columnar OLAP store. Trivial to query 12 months of clicks in <100 ms. Another service to run, ~250 MB RAM minimum.",
+          "art": "arch:table"
+        },
+        {
+          "id": "skip",
+          "name": "Counter-only, no events",
+          "desc": "Increment per-slug counters in the storage backend, throw the rest away. Cheapest. Loses referrers, geo, UA — only total clicks remain.",
+          "art": "none"
+        }
+      ]
+    },
+    {
+      "id": "ENG-5",
+      "title": "Deploy target",
+      "desc": "How the binary actually runs in production. All three options should work from the same artifact — the binary is platform-aware.",
+      "art": "arch:server",
+      "refs": ["NFR-4"],
+      "options": [
+        {
+          "id": "systemd",
+          "name": "systemd service on a VPS (default)",
+          "desc": "One binary + one .service unit + one .toml config. Matches the \"$5 VPS\" constraint perfectly. Deploy = scp + systemctl restart.",
+          "art": "text:\"systemctl enable\\nclipsi.service\"@mono?size=10&color=accent"
+        },
+        {
+          "id": "docker",
+          "name": "Docker / Compose",
+          "desc": "Same binary in a 15 MB scratch image. Easier for teams who already have Docker on the box. Adds a tiny runtime cost.",
+          "art": "arch:container"
+        },
+        {
+          "id": "k8s",
+          "name": "Kubernetes",
+          "desc": "Helm chart, horizontal scaling, shared Redis cache required (see ENG-3). Overkill for the audience but here for completeness.",
+          "art": "arch:pod"
+        }
+      ]
+    }
+  ]
+}

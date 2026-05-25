@@ -1,0 +1,39 @@
+{
+  "items": [
+    {
+      "id": "FR-1",
+      "title": "Create a short link",
+      "desc": "POST /api/links with a target URL → returns a slug. Web form mirrors the API. Auth is optional per-instance (open / api-key / OAuth).",
+      "art": "arch:api",
+      "refs": ["OVR-1"]
+    },
+    {
+      "id": "FR-2",
+      "title": "Redirect by slug",
+      "desc": "GET /:slug → HTTP 302 to the stored target. The hot path of the service: cheap, cacheable, no auth, no DB write.",
+      "art": "arch:gateway",
+      "refs": ["OVR-1", "OVR-2"]
+    },
+    {
+      "id": "FR-3",
+      "title": "Custom slugs + auto-generation",
+      "desc": "User can specify the slug (\"black-friday-2026\") or let the server generate a short base62 ID. Custom slugs collide-check; auto slugs are 6-8 chars.",
+      "art": "text:\"/black-friday-2026\"@mono?size=11&color=accent",
+      "refs": ["FR-1"]
+    },
+    {
+      "id": "FR-4",
+      "title": "Link expiry (optional)",
+      "desc": "Per-link TTL: \"expires in 30 days\" or \"after 1000 clicks\". A nightly job sweeps expired links. Expired slugs return HTTP 410 Gone.",
+      "art": "wf:clock",
+      "refs": ["FR-1"]
+    },
+    {
+      "id": "FR-5",
+      "title": "Per-link analytics (no PII)",
+      "desc": "Per-slug dashboard: total clicks, referrers, rough geo (country only), user agent buckets. IPs are hashed; no cookies; no individual user records — only aggregates.",
+      "art": "wf:phone-stats",
+      "refs": ["OVR-1"]
+    }
+  ]
+}

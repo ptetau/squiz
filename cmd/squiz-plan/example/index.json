@@ -1,0 +1,7 @@
+{
+  "title": "clipsi — self-hostable URL shortener with analytics",
+  "lede": "Six load-bearing sections for a tiny but real service: redirect path, analytics pipeline, four embedded engineering decisions. Designed to fit in one binary, one config file, one $5 VPS.",
+  "theme": "paper",
+  "density": "compact",
+  "sections": ["overview", "functional", "non-functional", "cases", "engineering", "build"]
+}

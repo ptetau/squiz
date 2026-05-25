@@ -1,0 +1,39 @@
+{
+  "items": [
+    {
+      "id": "BUILD-1",
+      "title": "API scaffolding + slug generation",
+      "desc": "Stand up the HTTP server, define the routes, implement base62 ID generation, wire collision-check for custom slugs. Auth modes (open / api-key / OAuth) gated behind config.",
+      "art": "arch:server",
+      "refs": ["ENG-1", "ENG-2"]
+    },
+    {
+      "id": "BUILD-2",
+      "title": "Hot-path redirect",
+      "desc": "GET /:slug → cache lookup → DB fallback → 302. The most-trafficked code path in the service; budget < 5 ms server-side on a cache hit.",
+      "art": "flow:[browser?icon=browser,api?icon=api,cache?icon=cache,db?icon=database]",
+      "refs": ["ENG-1", "ENG-3", "NFR-1"]
+    },
+    {
+      "id": "BUILD-3",
+      "title": "Dashboard + create-link UI",
+      "desc": "Tiny embedded HTML/JS dashboard: list links, create, see per-slug stats. Served from go:embed, no separate web server. Tailwind-flavored CSS in one stylesheet.",
+      "art": "wf:phone-tabs",
+      "refs": ["ENG-1", "FR-1", "FR-5"]
+    },
+    {
+      "id": "BUILD-4",
+      "title": "Analytics ingestion + nightly rollup",
+      "desc": "Handler emits click event → buffered queue → worker writes to events table. Nightly cron rolls events into per-slug daily aggregates the dashboard reads.",
+      "art": "flow:[api?icon=api,queue?icon=queue,worker?icon=worker,db?icon=database]",
+      "refs": ["ENG-1", "ENG-4", "FR-5"]
+    },
+    {
+      "id": "BUILD-5",
+      "title": "Deploy guide + handover",
+      "desc": "One-page deploy script per target (systemd / docker / k8s). Worked example: from `wget` to first redirect in under 5 minutes. Backup + restore documented.",
+      "art": "text:\"$ ./install-clipsi.sh\\n→ first redirect in 5 min\"@mono?size=10&color=accent",
+      "refs": ["ENG-5"]
+    }
+  ]
+}

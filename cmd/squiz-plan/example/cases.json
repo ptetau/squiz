@@ -1,0 +1,25 @@
+{
+  "items": [
+    {
+      "id": "CASE-1",
+      "title": "\"Our newsletter went viral\"",
+      "desc": "Marketing sends an email with one tracked link. 10 000 req/s for 90 seconds. The redirect path must hold; the analytics pipeline can fall behind and catch up — but no redirect can drop.",
+      "art": "wf:spark-rising",
+      "refs": ["FR-2", "NFR-1"]
+    },
+    {
+      "id": "CASE-2",
+      "title": "\"I want a memorable slug for the all-hands\"",
+      "desc": "Someone types a slug into the form (\"all-hands-q4\"), pastes the Zoom link, copies the resulting short URL, and pastes it into the calendar invite. End-to-end under 30 seconds, no API key.",
+      "art": "text:\"clipsi.co/all-hands-q4\"@mono?size=10&color=accent",
+      "refs": ["FR-1", "FR-3"]
+    },
+    {
+      "id": "CASE-3",
+      "title": "\"We printed it on a flyer\"",
+      "desc": "A short URL was printed on 5 000 flyers six months ago. The slug must still resolve. Expiry never set; data never lost; the link works as long as the box is up.",
+      "art": "none",
+      "refs": ["FR-2", "NFR-2"]
+    }
+  ]
+}

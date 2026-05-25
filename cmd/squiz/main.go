@@ -23,6 +23,8 @@ func main() {
 	switch os.Args[1] {
 	case "render":
 		cmdRender(os.Args[2:])
+	case "example":
+		cmdExample(os.Args[2:])
 	case "version", "--version", "-v":
 		fmt.Println("squiz " + version)
 	case "help", "--help", "-h":
@@ -187,11 +189,14 @@ func printUsage() {
 Usage:
   squiz render <input.json> [--out path] [--stdout] [--open] [--theme name]
   squiz <input.json> [flags…]           (shorthand: render + open; flags forward)
+  squiz example [--out path] [--stdout] (write the canonical sample spec)
   squiz version
 
 Flags may appear before or after the input path.
 
 Examples:
+  squiz example                         scaffold squiz-example.json in cwd
+  squiz example --stdout > my.json      stream the sample to a file
   squiz habits.json                     render + open in browser
   squiz habits.json --theme phosphor    shorthand with extra flags
   squiz render spec.json --out doc.html

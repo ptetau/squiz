@@ -34,17 +34,23 @@ curl -fsSL https://raw.githubusercontent.com/ptetau/squiz/main/skills/squiz-plan
 
 ## Quick start
 
-```sh
-# clarifier
-squiz testdata/smoke.json --open
+Both binaries can scaffold their own canonical sample so you can see what a real input looks like immediately after install — no source-tree paths to remember.
 
-# structured plan
-squiz-plan testdata/plan-example/index.json --open
+```sh
+# clarifier — scaffold a sample, render + open it
+squiz example                            # writes ./squiz-example.json
+squiz squiz-example.json --open
+
+# structured plan — scaffold a 7-file sample tree, render + open it
+squiz-plan example                       # writes ./squiz-plan-example/
+squiz-plan squiz-plan-example/index.json --open
 
 # verify
 squiz version
 squiz-plan version
 ```
+
+`squiz example --stdout` and `squiz-plan example --out my-plan` give you finer control. The scaffolded samples are real fixtures that exercise every art form and feature — copy and adapt them.
 
 Then in Claude Code:
 
@@ -58,7 +64,9 @@ Then in Claude Code:
 
 ```
 squiz       <input.json>   [--out path] [--stdout] [--open] [--theme name]
+squiz       example        [--out path] [--stdout]
 squiz-plan  <index.json>   [--out path] [--stdout] [--open] [--theme name]
+squiz-plan  example        [--out dir]
 ```
 
 Both accept flags before or after the positional argument. Both support `version` and `help` subcommands.
