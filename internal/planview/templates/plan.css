@@ -440,3 +440,379 @@ html[data-theme="slate"] .item-art {
   }
   .copy-bar-btn { padding: 5px 9px; font-size: 9px; }
 }
+
+/* =====================================================================
+   v0.4.0 ADDITIONS — per-item options chooser, section notes, plan note,
+   add-item affordance, proposed items.
+   ===================================================================== */
+
+/* ============ ITEM OPTIONS CHOOSER ============ */
+/* A compact squiz-style radiogroup that lives INSIDE an item card.
+   Smaller than the full-page squiz options because it's a sub-decision
+   under an item, not the page's main object. */
+.item-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 8px;
+  margin: 2px 0 4px;
+}
+.item-option {
+  border: 1px solid var(--rule);
+  background: var(--bg);
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.12s, background 0.12s, transform 0.12s;
+  position: relative;
+  overflow: hidden;
+}
+.item-option:hover {
+  border-color: var(--ink-2);
+  transform: translateY(-1px);
+}
+.item-option:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.item-option.selected,
+.item-option[aria-checked="true"] {
+  border-color: var(--accent);
+  background: var(--selected);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+.item-options .option-art {
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 6px;
+}
+html[data-theme="phosphor"] .item-options .option-art,
+html[data-theme="amber"]    .item-options .option-art,
+html[data-theme="slate"]    .item-options .option-art {
+  background: var(--bg-2);
+}
+.item-options .option-art svg { width: 90%; height: 90%; }
+.item-options .option-body {
+  padding: 6px 8px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  position: relative;
+}
+.item-options .option-letter {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+}
+.item-options .option-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+}
+.item-options .option-name {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+}
+.item-options .option-desc {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--ink-2);
+  margin-top: 3px;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+.item-options .option-check {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 16px;
+  height: 16px;
+  background: var(--accent);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: "IBM Plex Mono", monospace;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.15s, transform 0.15s;
+  z-index: 1;
+}
+.item-option.selected .option-check,
+.item-option[aria-checked="true"] .option-check { opacity: 1; transform: scale(1); }
+
+/* ============ SECTION NOTES (sticky-ish under tab strip) ============ */
+.section-note-wrap {
+  margin: 0 0 14px;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  padding: 0;
+  font-family: "IBM Plex Mono", monospace;
+}
+.section-note-wrap > .section-note-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  user-select: none;
+}
+.section-note-wrap > .section-note-summary::-webkit-details-marker { display: none; }
+.section-note-wrap > .section-note-summary::before {
+  content: "▸ ";
+  color: var(--accent);
+  display: inline-block;
+  transition: transform 0.12s;
+}
+.section-note-wrap[open] > .section-note-summary::before {
+  content: "▾ ";
+}
+.section-note-wrap[open] {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-soft);
+}
+.section-note {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-top: 1px dashed var(--rule);
+  padding: 8px 10px;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  resize: vertical;
+  outline: none;
+  min-height: 48px;
+  box-sizing: border-box;
+}
+.section-note::placeholder { color: var(--ink-3); font-style: italic; }
+.section-note:focus,
+.section-note:focus-visible {
+  background: var(--bg);
+}
+
+/* ============ PLAN-LEVEL NOTE (in copy-json modal) ============ */
+.plan-note-wrap {
+  margin: 0 0 12px;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  font-family: "IBM Plex Mono", monospace;
+}
+.plan-note-wrap > .plan-note-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  user-select: none;
+}
+.plan-note-wrap > .plan-note-summary::-webkit-details-marker { display: none; }
+.plan-note-wrap > .plan-note-summary::before {
+  content: "▸ ";
+  color: var(--accent);
+}
+.plan-note-wrap[open] > .plan-note-summary::before {
+  content: "▾ ";
+}
+.plan-note-wrap[open] {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-soft);
+}
+.plan-note {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-top: 1px dashed var(--rule);
+  padding: 8px 10px;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  resize: vertical;
+  outline: none;
+  min-height: 60px;
+  box-sizing: border-box;
+}
+.plan-note::placeholder { color: var(--ink-3); font-style: italic; }
+.plan-note:focus,
+.plan-note:focus-visible {
+  background: var(--bg);
+}
+
+/* ============ ADD-ITEM AFFORDANCE ============ */
+.add-item-wrap {
+  margin: 8px 0 4px;
+}
+.add-item-btn {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: 1px dashed var(--rule-2);
+  color: var(--ink-3);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 10px;
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s, background 0.12s;
+}
+.add-item-btn:hover,
+.add-item-btn[aria-expanded="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.add-item-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.add-item-form {
+  display: grid;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 12px;
+  border: 1px solid var(--accent);
+  background: var(--surface);
+}
+.add-item-form[hidden] { display: none; }
+.add-item-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 4px 0 0;
+}
+.add-item-title,
+.add-item-desc,
+.add-item-refs {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  padding: 6px 8px;
+  outline: none;
+  box-sizing: border-box;
+  width: 100%;
+}
+.add-item-desc { resize: vertical; min-height: 56px; }
+.add-item-refs { padding: 4px; font-family: "IBM Plex Mono", monospace; font-size: 12px; }
+.add-item-title:focus,
+.add-item-desc:focus,
+.add-item-refs:focus { border-color: var(--accent); }
+.add-item-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+.add-item-cancel,
+.add-item-submit {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 6px 12px;
+  cursor: pointer;
+  border: 1px solid var(--rule);
+  background: var(--bg);
+  color: var(--ink-2);
+}
+.add-item-cancel:hover { color: var(--ink); border-color: var(--ink-2); }
+.add-item-submit {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+.add-item-submit:hover { filter: brightness(1.1); }
+.add-item-cancel:focus-visible,
+.add-item-submit:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ============ PROPOSED ITEMS ============ */
+.proposed-items:empty { display: none; }
+.item.proposed {
+  border: 1px dashed var(--accent);
+  background: var(--accent-soft);
+  position: relative;
+}
+.item.proposed .item-id.proposed-badge {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+  font-weight: 700;
+}
+.item.proposed .item-id.proposed-badge::before {
+  content: "";
+  margin: 0;
+}
+.proposed-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--rule);
+}
+.proposed-remove {
+  background: transparent;
+  border: 1px solid var(--rule);
+  color: var(--ink-3);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s;
+}
+.proposed-remove:hover { color: var(--ink); border-color: var(--ink-2); }
+.proposed-remove:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ============ REDUCED MOTION (extension) ============ */
+@media (prefers-reduced-motion: reduce) {
+  .item-option, .add-item-btn, .item-option .option-check {
+    transition: none !important;
+  }
+  .item-option:hover { transform: none; }
+}
+
+/* ============ NARROW VIEWPORT (extension) ============ */
+@media (max-width: 640px) {
+  .item-options { grid-template-columns: 1fr; }
+}

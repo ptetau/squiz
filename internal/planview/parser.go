@@ -162,6 +162,33 @@ func LoadPlan(indexPath string) (*Plan, error) {
 		}
 	}
 
+	// Validate options: within a single item, every Option.ID must be unique.
+	// Empty Options means the item is a statement (no chooser); skip those.
+	for _, sid := range declared {
+		sectionRel := relForError(indexPath, filepath.Join(dir, sid+".json"))
+		for _, it := range loaded[sid].Items {
+			if len(it.Options) == 0 {
+				continue
+			}
+			seenOpt := make(map[string]bool, len(it.Options))
+			for _, opt := range it.Options {
+				if opt.ID == "" {
+					return nil, fmt.Errorf(
+						"%s: item %s has an option with empty id",
+						sectionRel, it.ID,
+					)
+				}
+				if seenOpt[opt.ID] {
+					return nil, fmt.Errorf(
+						"%s: item %s has duplicate option id %q",
+						sectionRel, it.ID, opt.ID,
+					)
+				}
+				seenOpt[opt.ID] = true
+			}
+		}
+	}
+
 	return &Plan{
 		Title:    idx.Title,
 		Lede:     idx.Lede,

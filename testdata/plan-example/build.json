@@ -10,8 +10,8 @@
     {
       "id": "BUILD-2",
       "title": "Pi firmware",
-      "desc": "Go binary on the Pi: ble-scanner + sqlite-writer + alert-checker as one process. systemd unit, no Docker.",
-      "art": "sample:\"systemctl enable thermolog\"@mono",
+      "desc": "Go binary on the Pi: ble-scanner + storage-writer + alert-checker as one process. systemd unit, no Docker.",
+      "art": "text:\"systemctl enable\\nthermolog.service\"@mono?size=12&weight=600",
       "refs": ["ENG-1", "ENG-2", "ENG-4"]
     },
     {

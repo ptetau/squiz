@@ -60,7 +60,9 @@ type SectionView struct {
 
 // ItemView is one card within a section. ArtHTML / HideArt mirror the
 // squiz OptionView contract so the template agent can reuse the same
-// patterns. Refs carries the resolved cross-references.
+// patterns. Refs carries the resolved cross-references. Options is non-
+// empty when the item is a "decision" (a chooser) rather than a statement;
+// see schema's Item.Options.
 type ItemView struct {
 	ID      string
 	Title   string
@@ -68,6 +70,22 @@ type ItemView struct {
 	ArtHTML template.HTML
 	HideArt bool
 	Refs    []RefView
+	Options []OptionView // v0.4.0: empty → flat card; non-empty → chooser
+}
+
+// OptionView is one branch of an in-item decision (chooser). Mirrors
+// squiz's OptionView shape so the template can render it with the same
+// pattern. Letter is the user-visible letter badge ("A", "B", "C", …)
+// auto-derived from position when the author didn't supply Label.
+type OptionView struct {
+	ID      string        // stable slug; comes back in feedback as `chose`
+	Label   string        // resolved label ("Option A" if author left blank)
+	Letter  string        // "A", "B", "C", … for keyboard hints
+	Name    string        // short display
+	Desc    string        // 1-2 sentence trade-off
+	ArtHTML template.HTML // resolved SVG (same forms as Item.Art)
+	HideArt bool          // true → suppress the art slot for this option
+	Index   int           // 0-based position within the chooser
 }
 
 // RefView is one resolved cross-reference. Label is the display string
@@ -145,6 +163,24 @@ func Render(p *Plan, opts RenderOpts) (string, error) {
 					TargetURL: "#item-" + refID,
 				})
 			}
+			optionViews := make([]OptionView, 0, len(it.Options))
+			for oi, opt := range it.Options {
+				optSvg, optHidden := renderer.RenderArt(opt.Art, oi)
+				label := opt.Label
+				if label == "" {
+					label = "Option " + renderer.LetterFor(oi)
+				}
+				optionViews = append(optionViews, OptionView{
+					ID:      opt.ID,
+					Label:   label,
+					Letter:  renderer.LetterFor(oi),
+					Name:    opt.Name,
+					Desc:    opt.Desc,
+					ArtHTML: template.HTML(optSvg),
+					HideArt: optHidden,
+					Index:   oi,
+				})
+			}
 			itemViews = append(itemViews, ItemView{
 				ID:      it.ID,
 				Title:   it.Title,
@@ -152,6 +188,7 @@ func Render(p *Plan, opts RenderOpts) (string, error) {
 				ArtHTML: template.HTML(svg),
 				HideArt: hidden,
 				Refs:    refs,
+				Options: optionViews,
 			})
 		}
 		sectionViews = append(sectionViews, SectionView{

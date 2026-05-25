@@ -118,10 +118,13 @@ The binary ships ~50 curated wireframes baked in. Pick one by name. Theme-aware 
 - **connections/graphs** — `graph-force`, `tree-hier`, `radial-burst`, `matrix-heatmap`
 - **metaphors** — `plant-grow`, `garden`, `paper-fold`
 - **misc** — `cmd-palette`, `text-cursor`, `file-icons`
+- **system-design icons (arch:* namespace)** — server, database, cache, queue, load-balancer, cdn, gateway, api, worker, function, scheduler, user, browser, mobile, firewall, storage, blob, table, stream, log, metric, trace, container, pod, vpc, subnet, dns, secret, key-icon, topic (30 total)
+
+> **Note:** `arch:*` and `wf:*` are distinct namespaces that coexist. `arch:*` icons are for system-design / architecture diagrams (servers, queues, databases); `wf:*` is for UI wireframes (phone screens, controls, charts). Pick the namespace that matches the *kind* of picture you're making.
 
 ### 2. `"art": "<dsl-string>"` — parametric DSL
 
-Compact strings the binary parses into themed SVG. Seven primitives:
+Compact strings the binary parses into themed SVG. Primitives:
 
 | Form | Example | Renders |
 |---|---|---|
@@ -132,6 +135,10 @@ Compact strings the binary parses into themed SVG. Seven primitives:
 | `pills:A*\|B\|C*` | `"pills:morning*\|midday\|evening*"` | chip row, `*` = active |
 | `sample:"text"[@FONT]` | `"sample:\"Quiet welcome back.\"@serif"` | styled sample text, FONT = `serif`/`sans`/`mono` |
 | `circle-pack:N` | `"circle-pack:12"` | N organically-arranged circles |
+| `text:"line 1\nline 2"[@FONT][?size=N&align=A&weight=W&color=C]` | `"text:\"Quiet\\nwelcome back.\"@mono?size=18&align=center&weight=700&color=accent"` | multi-line styled text (richer sibling of `sample:`). FONT = `mono`/`serif`/`sans` (default `sans`). `size` 6-36 (default 14). `align` = `left`/`center`/`right` (default `left`). `weight` 300-700 (default 400). `color` = `ink`/`ink-2`/`ink-3`/`accent`/`rule`/`rule-2` (default `ink`). Multi-line via `\n`. |
+| `flow:[a,b,c]` or `flow:[a?icon=user,b?icon=api,c?icon=database]` | `"flow:[client?icon=user,api?icon=api,db?icon=database]"` | left-to-right pipeline of named boxes connected by arrows; optional `?icon=<arch>` embeds an arch icon in each box |
+| `box:label[?icon=ARCH]` | `"box:web-tier?icon=server"` | single labeled box with optional arch icon |
+| `arrow:"label"[?dir=DIR]` | `"arrow:\"async\"?dir=down"` | standalone labeled arrow glyph; `dir` = `right` (default) / `down` / `up` / `left` |
 
 ### 3. `"art": "<raw svg>"` — escape hatch
 
@@ -145,7 +152,7 @@ Drops the art slot entirely. Card collapses. Use when **no visual is appropriate
 
 Subtle patterns based on option position: A = hatched, B = dotted, C = striped, D = grid, E = cross-hatch, F = waves. Looks intentional without authoring. Use as the default when you're moving fast and the visuals don't matter.
 
-**Authoring order of preference:** `wf:` > DSL > `"none"` > raw SVG. Use raw SVG when the option needs a bespoke metaphor (a "living garden" plant, a custom diagram) that nothing else captures. Reach for `"none"` instead of forcing art that doesn't help.
+**Authoring order of preference:** `wf:` / `arch:` > DSL > `"none"` > raw SVG. Use `arch:*` for any system-architecture diagram (servers, queues, data stores, network topology); `wf:*` for UI/UX wireframes. Reach for raw SVG only when the option needs a bespoke metaphor (a "living garden" plant, a custom diagram) that nothing else captures. Reach for `"none"` instead of forcing art that doesn't help.
 
 ## Theme (auto by default — don't set unless overriding)
 
@@ -234,7 +241,7 @@ The rendered HTML ships with: a skip-to-decisions link, `radiogroup` ARIA roles 
 2. **3-12 questions** is the sweet spot. Fewer → `/quiz`. More → the user bails.
 3. **Stable IDs.** Both squiz `id` and option `id` are stable — they come back in the JSON. Pick short kebab-or-camel slugs that will still make sense in a week.
 4. **Omit `theme`** unless you have a reason to override. Auto-rotation does the right thing.
-5. **Make `art` earn its slot.** Reach for `wf:` first, DSL second, raw SVG only when the option needs a bespoke metaphor. Use `"none"` instead of forcing irrelevant art.
+5. **Make `art` earn its slot.** Authoring preference is `wf:` / `arch:` > DSL > `"none"` > raw SVG. Use `arch:*` for system-architecture diagrams and `wf:*` for UI wireframes; reach for DSL primitives (`flow:`, `box:`, `arrow:`, `text:`, etc.) when you need to compose; raw SVG only for bespoke metaphors. Use `"none"` instead of forcing irrelevant art.
 6. **Spec narrative is optional.** Include it only when you have real prose to quote with `{{markers}}` that map to squizzes.
 7. **The `quote` field on a squiz is optional.** Use it when you can point to a specific spec line that motivates the question.
 8. **Self-contained.** The doc should make sense to a user opening it cold. `SPEC_LEDE` is the one-liner that does this work.

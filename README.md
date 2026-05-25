@@ -3,7 +3,7 @@
 Two visual document tools for [Claude Code](https://github.com/anthropics/claude-code), sharing the Apple //e × IBM Plex aesthetic:
 
 - **`squiz`** — clarifying questions. The agent writes a JSON spec; the CLI renders it as an interactive document with mini-wireframe option art and a `copy json` payload the user pastes back.
-- **`squiz-plan`** — structured plans (overview → functional → non-functional → cases → engineering → build). The agent writes a multi-file plan tree; the CLI renders one tabbed HTML doc where every item carries clickable `[FR-3]`-style badges back to the parent items that motivated it.
+- **`squiz-plan`** — structured plans that can include decisions (overview → functional → non-functional → cases → engineering → build). The agent writes a multi-file plan tree; the CLI renders one tabbed HTML doc where every item carries clickable `[FR-3]`-style badges back to the parent items that motivated it, and any item can carry an `options:` chooser when it represents an unsettled call.
 
 Eight themes (paper / phosphor / amber / beige / rose / ocean / forest / slate), auto-rotated per repo so every project gets a distinct identity.
 
@@ -52,6 +52,8 @@ Then in Claude Code:
 
 > /squiz-plan turn the resolved decisions into a structured build plan
 
+**New in v0.4.0:** plan items can carry per-item `options:` (squiz-style choosers — the user's pick comes back as `chose: "<optionId>"`); user feedback now includes per-section notes and a plan-level note in addition to per-item notes; and each section's tab has an `+ add item` button so users can propose new items (returned as a typed `proposed_items[]` array). The art system also gains an `arch:*` namespace (~30 system-design icons) plus new DSL primitives (`text:`, `flow:`, `box:`, `arrow:`) for composing architecture diagrams.
+
 ## CLI
 
 ```
@@ -63,8 +65,8 @@ Both accept flags before or after the positional argument. Both support `version
 
 ## Skills
 
-- **[skills/squiz/SKILL.md](./skills/squiz/SKILL.md)** — full agent contract: JSON schema, 50 named wireframes, 7 DSL primitives, 8 themes, export payload shape.
-- **[skills/squiz-plan/SKILL.md](./skills/squiz-plan/SKILL.md)** — agent contract for structured plans: section model, ID conventions, refs, feedback shape.
+- **[skills/squiz/SKILL.md](./skills/squiz/SKILL.md)** — full agent contract: JSON schema, 50 named UI wireframes (`wf:*`), 30 system-design icons (`arch:*`, new in v0.4.0), the parametric DSL (including the new `text:` / `flow:` / `box:` / `arrow:` primitives), 8 themes, export payload shape.
+- **[skills/squiz-plan/SKILL.md](./skills/squiz-plan/SKILL.md)** — agent contract for structured plans: section model, ID conventions, refs, item `options:` choosers, the three note channels (item / section / plan), proposed-items, feedback shape.
 
 ## Layout
 

@@ -89,9 +89,17 @@ The binary loads `index.json`, walks its `sections` list, loads each `<sectionId
 
 **Always hand the user a clickable `file://` URL** when telling them the path. `file:///C:/Users/.../plan/index.html` is clickable in modern terminals; the bare path is not.
 
-### Phase 3 — User reviews + pastes back
+### Phase 3 — User reviews, leaves notes at three scopes, proposes items, pastes back
 
 The doc has six top tabs, badge cross-refs, a per-item **feedback widget** (✓ approve / ? question / ✗ reject + notes + optional inline edits), and a sticky `copy json` button.
+
+The rendered HTML now exposes **three** places the user can leave notes:
+
+1. **Per-item notes** — the textarea in each item's feedback widget (existing).
+2. **Per-section notes** — sticky textarea at the top of each tab. For feedback that spans multiple items in a section (e.g. "these FRs are missing the export workflow").
+3. **Plan-level notes** — single textarea inside the copy-json modal. For overall direction ("this scope is too ambitious for v1").
+
+Each section's tab also has a **"+ add item"** button that lets the user *propose* brand-new items. Proposed items come back in the export as a typed `proposed_items[]` array — apply them as suggestions when regenerating.
 
 > "Click `copy json` at the bottom of the plan, paste it back here, and I'll revise based on your feedback."
 
@@ -143,15 +151,16 @@ Validator rejects: missing section file, wrong prefix, duplicate IDs, refs to no
 
 ## Art forms (same as squiz)
 
-The `art` field uses the same five forms — see `/squiz` SKILL.md for the full reference:
+The `art` field uses the same forms — see `/squiz` SKILL.md for the full reference:
 
-1. `"art": "wf:<name>"` — 50 named wireframes (calendar-grid, spark-rising, phone-card, …)
-2. `"art": "<dsl-string>"` — 7 parametric primitives (`grid:`, `spark:`, `bars:`, `swatches:`, `pills:`, `sample:`, `circle-pack:`)
-3. `"art": "<raw svg>"` — escape hatch (use CSS vars for theme inheritance)
-4. `"art": "none"` — explicitly hide the art slot for this item
-5. `art` omitted — no art shown (plan items don't get a per-letter auto-pattern like squiz options; they just have no art)
+1. `"art": "wf:<name>"` — 50 named UI wireframes (calendar-grid, spark-rising, phone-card, …)
+2. `"art": "arch:<name>"` — **NEW in v0.4.0** — ~30 system-design icons (`arch:server`, `arch:database`, `arch:queue`, `arch:load-balancer`, …). Distinct namespace from `wf:*`; pick `arch:*` for architecture diagrams and `wf:*` for UI sketches.
+3. `"art": "<dsl-string>"` — parametric primitives. The originals (`grid:`, `spark:`, `bars:`, `swatches:`, `pills:`, `sample:`, `circle-pack:`) plus **NEW in v0.4.0**: `text:` (rich multi-line styled text), `flow:` (left-to-right pipeline of named boxes, optionally embedding `arch:*` icons), `box:` (single labeled box, optional icon), `arrow:` (standalone labeled arrow). See `/squiz` SKILL.md for full grammar.
+4. `"art": "<raw svg>"` — escape hatch (use CSS vars for theme inheritance)
+5. `"art": "none"` — explicitly hide the art slot for this item
+6. `art` omitted — no art shown (plan items don't get a per-letter auto-pattern like squiz options; they just have no art)
 
-Reach for `wf:` / DSL first; raw SVG only for bespoke metaphors. Reach for `"none"` instead of forcing irrelevant art.
+Reach for `wf:` / `arch:` / DSL first; raw SVG only for bespoke metaphors. Reach for `"none"` instead of forcing irrelevant art.
 
 ## Cross-references (`refs`)
 
@@ -163,6 +172,45 @@ Each item carries optional `refs: ["OVR-1", "FR-3"]`. The renderer:
 
 **Convention**: refs point "upward" in the spine — `build` items ref `engineering`, which refs `functional`/`non-functional`, which refs `overview`. You CAN sideways-ref (an `ENG-` item refs another `ENG-` item) but use it sparingly; it makes the plan feel knotty.
 
+## Item options (decisions)
+
+Any item can carry an `options: [...]` field with the same shape as squiz options (`id`, `label?`, `name`, `desc`, `art?`). When present, the rendered card shows a chooser; without it, the card is a flat statement. Use options when the item represents an *unsettled* decision (which database? which deploy strategy?) — leave them off for settled facts. The user's pick comes back in the export's `feedback[].chose` field.
+
+```jsonc
+{
+  "items": [
+    {
+      "id":    "ENG-2",
+      "title": "Local storage engine",
+      "desc":  "Pick the embedded store the Pi writes readings into.",
+      "refs":  ["FR-1", "NFR-2"],
+      "options": [
+        {
+          "id":   "sqlite",
+          "name": "SQLite (single file)",
+          "desc": "Boring, durable, queryable. ~2 MB binary footprint.",
+          "art":  "wf:file-icons"
+        },
+        {
+          "id":   "bbolt",
+          "name": "bbolt (pure-Go KV)",
+          "desc": "No SQL, no cgo. Range scans over time-keyed buckets.",
+          "art":  "arch:database"
+        },
+        {
+          "id":   "flatfile",
+          "name": "Append-only JSONL",
+          "desc": "One file per day. Rotate + gzip nightly. Trivial to ship.",
+          "art":  "wf:mono-sample"
+        }
+      ]
+    }
+  ]
+}
+```
+
+**Validator note:** option `id`s must be unique *within* an item. Collisions across different items are fine (two items can both have an `id: "sqlite"` option) — the export disambiguates via the parent item's ID.
+
 ## Theme
 
 Same auto-rotation as squiz. Omit `theme` from `index.json` unless overriding. Each repo gets a distinct theme on first render, persisted in `~/.squiz/themes.json`. CLI `--theme <name>` trumps both.
@@ -171,7 +219,7 @@ The 8 themes: `paper` / `phosphor` / `amber` / `beige` / `rose` / `ocean` / `for
 
 ## Export JSON shape (what the user pastes back)
 
-```json
+```jsonc
 {
   "plan": "ThermoLog — home temperature logger",
   "source": {
@@ -181,25 +229,53 @@ The 8 themes: `paper` / `phosphor` / `amber` / `beige` / `rose` / `ocean` / `for
   "generatedAt": "2026-05-25T12:34:56Z",
   "feedback": [
     {
+      "id":     "ENG-2",
+      "status": "approved",
+      "anchor": "#item-ENG-2",
+      "note":   "Like the SQLite pick.",
+      "edits":  null,
+      "chose":  "sqlite"                 // NEW: which option the user picked (null when no options)
+    },
+    {
       "id":     "FR-3",
       "status": "questioned",
       "anchor": "#item-FR-3",
       "note":   "20 minutes feels long — most pipe-freezing scenarios are faster than that.",
-      "edits":  null
+      "edits":  null,
+      "chose":  null
     },
     {
       "id":     "BUILD-2",
       "status": "approved",
       "anchor": "#item-BUILD-2",
       "note":   null,
-      "edits":  { "title": "Pi firmware (Go single binary)" }
+      "edits":  { "title": "Pi firmware (Go single binary)" },
+      "chose":  null
     }
   ],
-  "summary": { "total": 21, "approved": 18, "questioned": 2, "rejected": 0, "withNotes": 4, "withEdits": 1 }
+  "section_notes": {                     // NEW: keyed by section ID
+    "functional":  "We're missing the rate-limit requirement.",
+    "engineering": "ENG-3 could fold into ENG-2."
+  },
+  "plan_note": "Overall: too ambitious for v1, see section notes.",   // NEW
+  "proposed_items": [                    // NEW: user-suggested additions
+    {
+      "section": "functional",
+      "title":   "Rate-limit alerts",
+      "desc":    "Throttle to at most 1 alert per room per hour.",
+      "refs":    ["NFR-2"]
+    }
+  ],
+  "summary": {
+    "total": 21,
+    "approved": 18, "questioned": 2, "rejected": 0,
+    "withNotes": 4, "withEdits": 1, "withChose": 3,
+    "sectionsWithNotes": 2, "hasPlanNote": true, "proposedItems": 1
+  }
 }
 ```
 
-Items the user didn't touch don't appear in `feedback`. `status` is one of `"approved"`, `"questioned"`, `"rejected"`. `edits` is a sparse object of field overrides — apply them as suggestions, not authoritative truth.
+Items the user didn't touch don't appear in `feedback`. `status` is one of `"approved"`, `"questioned"`, `"rejected"`. `edits` is a sparse object of field overrides — apply them as suggestions, not authoritative truth. `chose` is the picked option `id` for items that carried an `options:` array (and `null` otherwise). `section_notes`, `plan_note`, and `proposed_items` are all NEW in v0.4.0 — see Rule 10.
 
 ## CLI reference
 
@@ -231,6 +307,7 @@ The rendered HTML ships with: a skip-to-tabs link, `tablist`/`tab`/`tabpanel` AR
 7. **Self-contained.** Title + lede must let a reader understand the plan in 10 seconds. The lede is the elevator pitch.
 8. **Clickable links.** When you hand the user the rendered file, format as `file:///...` — bare paths aren't clickable in most terminals.
 9. **Apply feedback as a follow-up.** When the user pastes back, restate what you understood, regenerate the affected section files, re-render, and hand back the new clickable URL.
+10. **Round-trip the notes.** When the user pastes feedback back, treat `note` / `section_notes` / `plan_note` / `proposed_items` as the agent's instructions for the next round: rewrite affected items, restructure sections, or append the proposed items as fresh entries. Apply edits as suggestions, not authoritative changes (you may push back if they break the plan's spine).
 
 ## Files in this skill
 

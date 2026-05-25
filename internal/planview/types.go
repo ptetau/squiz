@@ -63,12 +63,30 @@ type SectionFile struct {
 
 // Item is one entry in a section. ID must use the section's prefix
 // (validated). Refs are IDs of parent items the validator confirms exist.
+//
+// When Options is non-empty the item is a *decision* — the renderer shows
+// a chooser (same shape as squiz options) and the user's pick is captured
+// in the feedback export as `chose: "optionId"`. When Options is empty
+// (the v0.3.0 default) the item is a *statement* — flat card, no chooser.
 type Item struct {
-	ID    string   `json:"id"`             // OVR-1 / FR-3.2 / BUILD-cli-flags
-	Title string   `json:"title"`          // displayed as the card heading
-	Desc  string   `json:"desc"`           // 1-3 sentences
-	Art   string   `json:"art,omitempty"`  // same forms as squiz (wf:/DSL/raw SVG/"none"/omitted)
-	Refs  []string `json:"refs,omitempty"` // IDs of parent items (validator checks they exist)
+	ID      string   `json:"id"`                // OVR-1 / FR-3.2 / BUILD-cli-flags
+	Title   string   `json:"title"`             // displayed as the card heading
+	Desc    string   `json:"desc"`              // 1-3 sentences
+	Art     string   `json:"art,omitempty"`     // same forms as squiz (wf:/DSL/raw SVG/"none"/omitted)
+	Refs    []string `json:"refs,omitempty"`    // IDs of parent items (validator checks they exist)
+	Options []Option `json:"options,omitempty"` // v0.4.0: optional in-item chooser
+}
+
+// Option is one branch of an in-item decision. Same shape as squiz's
+// Option (id/label/name/desc/art) so authors can copy patterns between
+// the two tools. IDs are local to the item — collisions across items are
+// fine; collisions within one item are not (validated).
+type Option struct {
+	ID    string `json:"id"`              // stable slug, comes back in feedback as `chose`
+	Label string `json:"label,omitempty"` // OPTIONAL — auto-derived from index ("Option A", "B"…)
+	Name  string `json:"name"`            // short display
+	Desc  string `json:"desc"`            // 1-2 sentence trade-off
+	Art   string `json:"art,omitempty"`   // same forms as Item.Art
 }
 
 // Section is the loaded form of a SectionFile, augmented with the

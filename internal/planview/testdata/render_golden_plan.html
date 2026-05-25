@@ -1446,6 +1446,382 @@ html[data-theme="slate"] .item-art {
   }
   .copy-bar-btn { padding: 5px 9px; font-size: 9px; }
 }
+
+/* =====================================================================
+   v0.4.0 ADDITIONS — per-item options chooser, section notes, plan note,
+   add-item affordance, proposed items.
+   ===================================================================== */
+
+/* ============ ITEM OPTIONS CHOOSER ============ */
+/* A compact squiz-style radiogroup that lives INSIDE an item card.
+   Smaller than the full-page squiz options because it's a sub-decision
+   under an item, not the page's main object. */
+.item-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 8px;
+  margin: 2px 0 4px;
+}
+.item-option {
+  border: 1px solid var(--rule);
+  background: var(--bg);
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.12s, background 0.12s, transform 0.12s;
+  position: relative;
+  overflow: hidden;
+}
+.item-option:hover {
+  border-color: var(--ink-2);
+  transform: translateY(-1px);
+}
+.item-option:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.item-option.selected,
+.item-option[aria-checked="true"] {
+  border-color: var(--accent);
+  background: var(--selected);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+.item-options .option-art {
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 6px;
+}
+html[data-theme="phosphor"] .item-options .option-art,
+html[data-theme="amber"]    .item-options .option-art,
+html[data-theme="slate"]    .item-options .option-art {
+  background: var(--bg-2);
+}
+.item-options .option-art svg { width: 90%; height: 90%; }
+.item-options .option-body {
+  padding: 6px 8px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  position: relative;
+}
+.item-options .option-letter {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+}
+.item-options .option-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+}
+.item-options .option-name {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+}
+.item-options .option-desc {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--ink-2);
+  margin-top: 3px;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+.item-options .option-check {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 16px;
+  height: 16px;
+  background: var(--accent);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: "IBM Plex Mono", monospace;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.15s, transform 0.15s;
+  z-index: 1;
+}
+.item-option.selected .option-check,
+.item-option[aria-checked="true"] .option-check { opacity: 1; transform: scale(1); }
+
+/* ============ SECTION NOTES (sticky-ish under tab strip) ============ */
+.section-note-wrap {
+  margin: 0 0 14px;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  padding: 0;
+  font-family: "IBM Plex Mono", monospace;
+}
+.section-note-wrap > .section-note-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  user-select: none;
+}
+.section-note-wrap > .section-note-summary::-webkit-details-marker { display: none; }
+.section-note-wrap > .section-note-summary::before {
+  content: "▸ ";
+  color: var(--accent);
+  display: inline-block;
+  transition: transform 0.12s;
+}
+.section-note-wrap[open] > .section-note-summary::before {
+  content: "▾ ";
+}
+.section-note-wrap[open] {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-soft);
+}
+.section-note {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-top: 1px dashed var(--rule);
+  padding: 8px 10px;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  resize: vertical;
+  outline: none;
+  min-height: 48px;
+  box-sizing: border-box;
+}
+.section-note::placeholder { color: var(--ink-3); font-style: italic; }
+.section-note:focus,
+.section-note:focus-visible {
+  background: var(--bg);
+}
+
+/* ============ PLAN-LEVEL NOTE (in copy-json modal) ============ */
+.plan-note-wrap {
+  margin: 0 0 12px;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  font-family: "IBM Plex Mono", monospace;
+}
+.plan-note-wrap > .plan-note-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  user-select: none;
+}
+.plan-note-wrap > .plan-note-summary::-webkit-details-marker { display: none; }
+.plan-note-wrap > .plan-note-summary::before {
+  content: "▸ ";
+  color: var(--accent);
+}
+.plan-note-wrap[open] > .plan-note-summary::before {
+  content: "▾ ";
+}
+.plan-note-wrap[open] {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-soft);
+}
+.plan-note {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-top: 1px dashed var(--rule);
+  padding: 8px 10px;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  resize: vertical;
+  outline: none;
+  min-height: 60px;
+  box-sizing: border-box;
+}
+.plan-note::placeholder { color: var(--ink-3); font-style: italic; }
+.plan-note:focus,
+.plan-note:focus-visible {
+  background: var(--bg);
+}
+
+/* ============ ADD-ITEM AFFORDANCE ============ */
+.add-item-wrap {
+  margin: 8px 0 4px;
+}
+.add-item-btn {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: 1px dashed var(--rule-2);
+  color: var(--ink-3);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 10px;
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s, background 0.12s;
+}
+.add-item-btn:hover,
+.add-item-btn[aria-expanded="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.add-item-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.add-item-form {
+  display: grid;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 12px;
+  border: 1px solid var(--accent);
+  background: var(--surface);
+}
+.add-item-form[hidden] { display: none; }
+.add-item-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 4px 0 0;
+}
+.add-item-title,
+.add-item-desc,
+.add-item-refs {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  padding: 6px 8px;
+  outline: none;
+  box-sizing: border-box;
+  width: 100%;
+}
+.add-item-desc { resize: vertical; min-height: 56px; }
+.add-item-refs { padding: 4px; font-family: "IBM Plex Mono", monospace; font-size: 12px; }
+.add-item-title:focus,
+.add-item-desc:focus,
+.add-item-refs:focus { border-color: var(--accent); }
+.add-item-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+.add-item-cancel,
+.add-item-submit {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 6px 12px;
+  cursor: pointer;
+  border: 1px solid var(--rule);
+  background: var(--bg);
+  color: var(--ink-2);
+}
+.add-item-cancel:hover { color: var(--ink); border-color: var(--ink-2); }
+.add-item-submit {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+.add-item-submit:hover { filter: brightness(1.1); }
+.add-item-cancel:focus-visible,
+.add-item-submit:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ============ PROPOSED ITEMS ============ */
+.proposed-items:empty { display: none; }
+.item.proposed {
+  border: 1px dashed var(--accent);
+  background: var(--accent-soft);
+  position: relative;
+}
+.item.proposed .item-id.proposed-badge {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+  font-weight: 700;
+}
+.item.proposed .item-id.proposed-badge::before {
+  content: "";
+  margin: 0;
+}
+.proposed-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--rule);
+}
+.proposed-remove {
+  background: transparent;
+  border: 1px solid var(--rule);
+  color: var(--ink-3);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s;
+}
+.proposed-remove:hover { color: var(--ink); border-color: var(--ink-2); }
+.proposed-remove:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ============ REDUCED MOTION (extension) ============ */
+@media (prefers-reduced-motion: reduce) {
+  .item-option, .add-item-btn, .item-option .option-check {
+    transition: none !important;
+  }
+  .item-option:hover { transform: none; }
+}
+
+/* ============ NARROW VIEWPORT (extension) ============ */
+@media (max-width: 640px) {
+  .item-options { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -1539,6 +1915,15 @@ html[data-theme="slate"] .item-art {
            aria-labelledby="tab-overview"
            tabindex="0"
            >
+    <details class="section-note-wrap">
+      <summary class="section-note-summary">section notes</summary>
+      <label class="visually-hidden" for="section-note-overview">Notes for the Overview section</label>
+      <textarea id="section-note-overview"
+                class="section-note"
+                data-section="overview"
+                rows="2"
+                placeholder="cross-cutting notes for this whole section…"></textarea>
+    </details>
     
     
     <article class="item" id="item-OVR-1" tabindex="-1" aria-labelledby="item-title-OVR-1">
@@ -1549,6 +1934,7 @@ html[data-theme="slate"] .item-art {
       <p class="item-desc">Track temperature in 4 rooms of a home, alert on anomalies, and let the homeowner answer &#39;was the heating off when we were away?&#39; months later.</p>
       
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:78%;height:auto'><defs><pattern id='p-a' patternUnits='userSpaceOnUse' width='5' height='5' patternTransform='rotate(45)'><line x1='0' y1='0' x2='0' y2='5' stroke='var(--accent)' stroke-width='1' opacity='0.55'/></pattern></defs><rect x='6' y='6' width='88' height='48' fill='url(#p-a)' stroke='var(--rule-2)' stroke-width='0.5'/></svg></div>
+      
       
       
       <div class="feedback" data-item="OVR-1">
@@ -1584,6 +1970,7 @@ html[data-theme="slate"] .item-art {
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:60%;height:auto'><circle cx='50' cy='28' r='14' fill='var(--surface)' stroke='var(--ink)' stroke-width='1.4'/><text x='50' y='33' text-anchor='middle' font-family='IBM Plex Mono' font-size='13' font-weight='600' fill='var(--ink)'>M</text><text x='50' y='52' text-anchor='middle' font-family='IBM Plex Mono' font-size='5' fill='var(--ink-3)' letter-spacing='0.1em'>· JUST YOU ·</text></svg></div>
       
       
+      
       <div class="feedback" data-item="OVR-2">
         <div class="feedback-row">
           <div class="feedback-buttons" role="group" aria-label="Feedback status for OVR-2">
@@ -1617,6 +2004,7 @@ html[data-theme="slate"] .item-art {
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:78%;height:auto'><defs><pattern id='p-a' patternUnits='userSpaceOnUse' width='5' height='5' patternTransform='rotate(45)'><line x1='0' y1='0' x2='0' y2='5' stroke='var(--accent)' stroke-width='1' opacity='0.55'/></pattern></defs><rect x='6' y='6' width='88' height='48' fill='url(#p-a)' stroke='var(--rule-2)' stroke-width='0.5'/></svg></div>
       
       
+      
       <div class="feedback" data-item="OVR-3">
         <div class="feedback-row">
           <div class="feedback-buttons" role="group" aria-label="Feedback status for OVR-3">
@@ -1640,6 +2028,29 @@ html[data-theme="slate"] .item-art {
       </div>
     </article>
     
+    <div class="proposed-items" data-section="overview" aria-label="Proposed items for Overview"></div>
+    <div class="add-item-wrap">
+      <button type="button" class="add-item-btn" data-section="overview"
+              aria-expanded="false" aria-controls="add-item-form-overview">
+        + add item
+      </button>
+      <form class="add-item-form" id="add-item-form-overview"
+            data-section="overview" hidden>
+        <label class="add-item-label" for="add-item-title-overview">title</label>
+        <input class="add-item-title" id="add-item-title-overview" type="text"
+               placeholder="short title for the proposed item" />
+        <label class="add-item-label" for="add-item-desc-overview">desc</label>
+        <textarea class="add-item-desc" id="add-item-desc-overview"
+                  rows="3" placeholder="1-3 sentences"></textarea>
+        <label class="add-item-label" for="add-item-refs-overview">refs</label>
+        <select class="add-item-refs" id="add-item-refs-overview" multiple size="4"
+                aria-label="References (hold Ctrl/Cmd to select multiple)"></select>
+        <div class="add-item-actions">
+          <button type="button" class="add-item-cancel">cancel</button>
+          <button type="submit" class="add-item-submit">add</button>
+        </div>
+      </form>
+    </div>
   </section>
   
   <section class="tabpanel"
@@ -1648,6 +2059,15 @@ html[data-theme="slate"] .item-art {
            aria-labelledby="tab-functional"
            tabindex="0"
            hidden>
+    <details class="section-note-wrap">
+      <summary class="section-note-summary">section notes</summary>
+      <label class="visually-hidden" for="section-note-functional">Notes for the Functional section</label>
+      <textarea id="section-note-functional"
+                class="section-note"
+                data-section="functional"
+                rows="2"
+                placeholder="cross-cutting notes for this whole section…"></textarea>
+    </details>
     
     
     <article class="item" id="item-FR-1" tabindex="-1" aria-labelledby="item-title-FR-1">
@@ -1658,6 +2078,7 @@ html[data-theme="slate"] .item-art {
       <p class="item-desc">Each sensor reports °C every minute; the logger writes one row per sensor per minute.</p>
       
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:82%;height:auto'><path d='M 10 48 L 22 44 L 34 40 L 46 35 L 58 28 L 70 22 L 82 14 L 90 8 L 90 52 L 10 52 Z' fill='var(--accent)' opacity='0.15'/><path d='M 10 48 L 22 44 L 34 40 L 46 35 L 58 28 L 70 22 L 82 14 L 90 8' fill='none' stroke='var(--accent)' stroke-width='1.6' stroke-linejoin='round'/><circle cx='90' cy='8' r='2.2' fill='var(--accent)'/></svg></div>
+      
       
       
       <ul class="refs" aria-label="References">
@@ -1703,6 +2124,7 @@ html[data-theme="slate"] .item-art {
       <p class="item-desc">Per-room view: last 24h, 7d, 30d, all-time. Touchable on a phone.</p>
       
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g transform='translate(30,4)'><rect x='0' y='0' width='42' height='52' rx='4' fill='var(--surface)' stroke='var(--ink)' stroke-width='1.2'/><line x1='15' y1='4' x2='27' y2='4' stroke='var(--ink-3)' stroke-width='0.5'/><rect x='4' y='8' width='12' height='2.5' fill='var(--ink)' opacity='0.6'/><text x='4' y='20' font-family='IBM Plex Mono' font-size='10' font-weight='700' fill='var(--accent)'>27</text><rect x='4' y='28' width='34' height='14' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><path d='M 5 40 L 11 36 L 17 38 L 23 32 L 29 30 L 35 26' fill='none' stroke='var(--accent)' stroke-width='1.2'/></g></svg></div>
+      
       
       
       <ul class="refs" aria-label="References">
@@ -1757,6 +2179,7 @@ html[data-theme="slate"] .item-art {
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:60%;height:auto'><rect x='28' y='20' width='44' height='20' fill='var(--accent)'/><text x='50' y='34' text-anchor='middle' font-family='IBM Plex Mono' font-size='10' font-weight='700' fill='var(--bg)' letter-spacing='0.16em'>NEW</text></svg></div>
       
       
+      
       <ul class="refs" aria-label="References">
         <li class="refs-label">refs</li>
         
@@ -1802,6 +2225,7 @@ html[data-theme="slate"] .item-art {
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><g font-family='IBM Plex Mono' font-size='8' fill='var(--ink-2)'><g transform='translate(10,12)'><path d='M 0 0 L 8 0 L 11 3 L 11 14 L 0 14 Z' fill='var(--surface)' stroke='var(--accent)' stroke-width='1'/><path d='M 8 0 L 8 3 L 11 3' fill='none' stroke='var(--accent)' stroke-width='1'/><text x='14' y='10'>spec.md</text></g><g transform='translate(10,28)'><path d='M 0 0 L 8 0 L 11 3 L 11 14 L 0 14 Z' fill='var(--surface)' stroke='var(--accent)' stroke-width='1'/><path d='M 8 0 L 8 3 L 11 3' fill='none' stroke='var(--accent)' stroke-width='1'/><text x='14' y='10'>ideas.md</text></g><g transform='translate(10,44)'><path d='M 0 0 L 8 0 L 11 3 L 11 14 L 0 14 Z' fill='var(--surface)' stroke='var(--accent)' stroke-width='1'/><path d='M 8 0 L 8 3 L 11 3' fill='none' stroke='var(--accent)' stroke-width='1'/><text x='14' y='10'>todo.md</text></g></g></svg></div>
       
       
+      
       <ul class="refs" aria-label="References">
         <li class="refs-label">refs</li>
         
@@ -1837,6 +2261,29 @@ html[data-theme="slate"] .item-art {
       </div>
     </article>
     
+    <div class="proposed-items" data-section="functional" aria-label="Proposed items for Functional"></div>
+    <div class="add-item-wrap">
+      <button type="button" class="add-item-btn" data-section="functional"
+              aria-expanded="false" aria-controls="add-item-form-functional">
+        + add item
+      </button>
+      <form class="add-item-form" id="add-item-form-functional"
+            data-section="functional" hidden>
+        <label class="add-item-label" for="add-item-title-functional">title</label>
+        <input class="add-item-title" id="add-item-title-functional" type="text"
+               placeholder="short title for the proposed item" />
+        <label class="add-item-label" for="add-item-desc-functional">desc</label>
+        <textarea class="add-item-desc" id="add-item-desc-functional"
+                  rows="3" placeholder="1-3 sentences"></textarea>
+        <label class="add-item-label" for="add-item-refs-functional">refs</label>
+        <select class="add-item-refs" id="add-item-refs-functional" multiple size="4"
+                aria-label="References (hold Ctrl/Cmd to select multiple)"></select>
+        <div class="add-item-actions">
+          <button type="button" class="add-item-cancel">cancel</button>
+          <button type="submit" class="add-item-submit">add</button>
+        </div>
+      </form>
+    </div>
   </section>
   
   <section class="tabpanel"
@@ -1845,6 +2292,15 @@ html[data-theme="slate"] .item-art {
            aria-labelledby="tab-non-functional"
            tabindex="0"
            hidden>
+    <details class="section-note-wrap">
+      <summary class="section-note-summary">section notes</summary>
+      <label class="visually-hidden" for="section-note-non-functional">Notes for the Non-functional section</label>
+      <textarea id="section-note-non-functional"
+                class="section-note"
+                data-section="non-functional"
+                rows="2"
+                placeholder="cross-cutting notes for this whole section…"></textarea>
+    </details>
     
     
     <article class="item" id="item-NFR-1" tabindex="-1" aria-labelledby="item-title-NFR-1">
@@ -1855,6 +2311,7 @@ html[data-theme="slate"] .item-art {
       <p class="item-desc">All features work with the WAN disconnected. No background sync, no &#34;cloud login required&#34; splash.</p>
       
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:45%;height:auto'><rect x='38' y='28' width='24' height='18' rx='2' fill='var(--accent)'/><path d='M 42 28 V 22 a 8 8 0 0 1 16 0 V 28' fill='none' stroke='var(--accent)' stroke-width='2'/><circle cx='50' cy='37' r='2.5' fill='var(--bg)'/></svg></div>
+      
       
       
       <ul class="refs" aria-label="References">
@@ -1902,6 +2359,7 @@ html[data-theme="slate"] .item-art {
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:78%;height:auto'><path d='M 18 48 A 32 32 0 0 1 82 48' fill='none' stroke='var(--ink-3)' stroke-width='6' opacity='0.3'/><path d='M 18 48 A 32 32 0 0 1 70 24' fill='none' stroke='var(--accent)' stroke-width='6'/><circle cx='70' cy='24' r='3.5' fill='var(--accent)'/><text x='50' y='44' text-anchor='middle' font-family='IBM Plex Mono' font-size='7' font-weight='600' fill='var(--ink)'>72%</text></svg></div>
       
       
+      
       <ul class="refs" aria-label="References">
         <li class="refs-label">refs</li>
         
@@ -1947,6 +2405,7 @@ html[data-theme="slate"] .item-art {
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:78%;height:auto'><defs><pattern id='p-a' patternUnits='userSpaceOnUse' width='5' height='5' patternTransform='rotate(45)'><line x1='0' y1='0' x2='0' y2='5' stroke='var(--accent)' stroke-width='1' opacity='0.55'/></pattern></defs><rect x='6' y='6' width='88' height='48' fill='url(#p-a)' stroke='var(--rule-2)' stroke-width='0.5'/></svg></div>
       
       
+      
       <ul class="refs" aria-label="References">
         <li class="refs-label">refs</li>
         
@@ -1982,6 +2441,29 @@ html[data-theme="slate"] .item-art {
       </div>
     </article>
     
+    <div class="proposed-items" data-section="non-functional" aria-label="Proposed items for Non-functional"></div>
+    <div class="add-item-wrap">
+      <button type="button" class="add-item-btn" data-section="non-functional"
+              aria-expanded="false" aria-controls="add-item-form-non-functional">
+        + add item
+      </button>
+      <form class="add-item-form" id="add-item-form-non-functional"
+            data-section="non-functional" hidden>
+        <label class="add-item-label" for="add-item-title-non-functional">title</label>
+        <input class="add-item-title" id="add-item-title-non-functional" type="text"
+               placeholder="short title for the proposed item" />
+        <label class="add-item-label" for="add-item-desc-non-functional">desc</label>
+        <textarea class="add-item-desc" id="add-item-desc-non-functional"
+                  rows="3" placeholder="1-3 sentences"></textarea>
+        <label class="add-item-label" for="add-item-refs-non-functional">refs</label>
+        <select class="add-item-refs" id="add-item-refs-non-functional" multiple size="4"
+                aria-label="References (hold Ctrl/Cmd to select multiple)"></select>
+        <div class="add-item-actions">
+          <button type="button" class="add-item-cancel">cancel</button>
+          <button type="submit" class="add-item-submit">add</button>
+        </div>
+      </form>
+    </div>
   </section>
   
   <section class="tabpanel"
@@ -1990,6 +2472,15 @@ html[data-theme="slate"] .item-art {
            aria-labelledby="tab-cases"
            tabindex="0"
            hidden>
+    <details class="section-note-wrap">
+      <summary class="section-note-summary">section notes</summary>
+      <label class="visually-hidden" for="section-note-cases">Notes for the Cases section</label>
+      <textarea id="section-note-cases"
+                class="section-note"
+                data-section="cases"
+                rows="2"
+                placeholder="cross-cutting notes for this whole section…"></textarea>
+    </details>
     
     
     <article class="item" id="item-CASE-1" tabindex="-1" aria-labelledby="item-title-CASE-1">
@@ -2000,6 +2491,7 @@ html[data-theme="slate"] .item-art {
       <p class="item-desc">Homeowner returns from a 10-day trip, opens the app, jumps to the timeframe of the trip, sees the temperature line for the living room and confirms it stayed above 16 °C the whole time.</p>
       
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g transform='translate(30,4)'><rect x='0' y='0' width='42' height='52' rx='4' fill='var(--surface)' stroke='var(--ink)' stroke-width='1.2'/><line x1='15' y1='4' x2='27' y2='4' stroke='var(--ink-3)' stroke-width='0.5'/><rect x='4' y='8' width='12' height='2.5' fill='var(--ink)' opacity='0.6'/><text x='4' y='20' font-family='IBM Plex Mono' font-size='10' font-weight='700' fill='var(--accent)'>27</text><rect x='4' y='28' width='34' height='14' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><path d='M 5 40 L 11 36 L 17 38 L 23 32 L 29 30 L 35 26' fill='none' stroke='var(--accent)' stroke-width='1.2'/></g></svg></div>
+      
       
       
       <ul class="refs" aria-label="References">
@@ -2047,6 +2539,7 @@ html[data-theme="slate"] .item-art {
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:82%;height:auto'><text x='50' y='30.00' text-anchor='middle' font-family='IBM Plex Mono' font-style='normal' font-weight='500' font-size='9' fill='var(--ink)'>BEDROOM 11°C</text></svg></div>
       
       
+      
       <ul class="refs" aria-label="References">
         <li class="refs-label">refs</li>
         
@@ -2090,6 +2583,7 @@ html[data-theme="slate"] .item-art {
       <p class="item-desc">End of winter. Homeowner exports a year of CSV, drops it into a spreadsheet next to the gas bill, decides whether next year&#39;s boiler tune-up is worth it.</p>
       
       
+      
       <ul class="refs" aria-label="References">
         <li class="refs-label">refs</li>
         
@@ -2125,6 +2619,29 @@ html[data-theme="slate"] .item-art {
       </div>
     </article>
     
+    <div class="proposed-items" data-section="cases" aria-label="Proposed items for Cases"></div>
+    <div class="add-item-wrap">
+      <button type="button" class="add-item-btn" data-section="cases"
+              aria-expanded="false" aria-controls="add-item-form-cases">
+        + add item
+      </button>
+      <form class="add-item-form" id="add-item-form-cases"
+            data-section="cases" hidden>
+        <label class="add-item-label" for="add-item-title-cases">title</label>
+        <input class="add-item-title" id="add-item-title-cases" type="text"
+               placeholder="short title for the proposed item" />
+        <label class="add-item-label" for="add-item-desc-cases">desc</label>
+        <textarea class="add-item-desc" id="add-item-desc-cases"
+                  rows="3" placeholder="1-3 sentences"></textarea>
+        <label class="add-item-label" for="add-item-refs-cases">refs</label>
+        <select class="add-item-refs" id="add-item-refs-cases" multiple size="4"
+                aria-label="References (hold Ctrl/Cmd to select multiple)"></select>
+        <div class="add-item-actions">
+          <button type="button" class="add-item-cancel">cancel</button>
+          <button type="submit" class="add-item-submit">add</button>
+        </div>
+      </form>
+    </div>
   </section>
   
   <section class="tabpanel"
@@ -2133,6 +2650,15 @@ html[data-theme="slate"] .item-art {
            aria-labelledby="tab-engineering"
            tabindex="0"
            hidden>
+    <details class="section-note-wrap">
+      <summary class="section-note-summary">section notes</summary>
+      <label class="visually-hidden" for="section-note-engineering">Notes for the Engineering section</label>
+      <textarea id="section-note-engineering"
+                class="section-note"
+                data-section="engineering"
+                rows="2"
+                placeholder="cross-cutting notes for this whole section…"></textarea>
+    </details>
     
     
     <article class="item" id="item-ENG-1" tabindex="-1" aria-labelledby="item-title-ENG-1">
@@ -2143,6 +2669,7 @@ html[data-theme="slate"] .item-art {
       <p class="item-desc">Read from 4 cheap Bluetooth LE thermometers. Pi scans every 60 s, writes the latest reading per sensor.</p>
       
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:84%;height:auto'><g><circle cx='15' cy='45' r='2' fill='var(--ink-3)'/><circle cx='27' cy='40' r='2' fill='var(--ink-3)'/><circle cx='39' cy='36' r='2' fill='var(--ink-3)'/><circle cx='51' cy='30' r='2' fill='var(--ink-3)'/><circle cx='63' cy='22' r='2' fill='var(--accent)'/><circle cx='75' cy='18' r='2' fill='var(--accent)'/><circle cx='87' cy='12' r='2.5' fill='var(--accent)'/></g><line x1='15' y1='45' x2='87' y2='12' stroke='var(--accent)' stroke-width='0.6' stroke-dasharray='2 2' opacity='0.5'/></svg></div>
+      
       
       
       <ul class="refs" aria-label="References">
@@ -2189,12 +2716,63 @@ html[data-theme="slate"] .item-art {
     
     <article class="item" id="item-ENG-2" tabindex="-1" aria-labelledby="item-title-ENG-2">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-ENG-2">Local storage (SQLite)</h2>
+        <h2 class="item-title" id="item-title-ENG-2">Local storage choice</h2>
         <span class="item-id" aria-label="Identifier ENG-2">ENG-2</span>
       </header>
-      <p class="item-desc">One SQLite file on the Pi. Append-only readings table; downsampled aggregates rebuilt nightly.</p>
+      <p class="item-desc">Where the year-long history actually lives on the Pi. Trade-off between query speed, disk footprint, and tooling overhead.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><g font-family='IBM Plex Mono' font-size='8' fill='var(--ink-2)'><g transform='translate(10,12)'><path d='M 0 0 L 8 0 L 11 3 L 11 14 L 0 14 Z' fill='var(--surface)' stroke='var(--accent)' stroke-width='1'/><path d='M 8 0 L 8 3 L 11 3' fill='none' stroke='var(--accent)' stroke-width='1'/><text x='14' y='10'>spec.md</text></g><g transform='translate(10,28)'><path d='M 0 0 L 8 0 L 11 3 L 11 14 L 0 14 Z' fill='var(--surface)' stroke='var(--accent)' stroke-width='1'/><path d='M 8 0 L 8 3 L 11 3' fill='none' stroke='var(--accent)' stroke-width='1'/><text x='14' y='10'>ideas.md</text></g><g transform='translate(10,44)'><path d='M 0 0 L 8 0 L 11 3 L 11 14 L 0 14 Z' fill='var(--surface)' stroke='var(--accent)' stroke-width='1'/><path d='M 8 0 L 8 3 L 11 3' fill='none' stroke='var(--accent)' stroke-width='1'/><text x='14' y='10'>todo.md</text></g></g></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><ellipse cx='50' cy='16' rx='16' ry='4' fill='var(--accent-soft)'/><path d='M 34 16 L 34 44 A 16 4 0 0 0 66 44 L 66 16'/><path d='M 34 26 A 16 4 0 0 0 66 26' stroke='var(--ink)' stroke-width='1'/><path d='M 34 36 A 16 4 0 0 0 66 36' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
+      
+      
+      
+      <div class="options item-options" role="radiogroup" aria-labelledby="item-title-ENG-2" data-item="ENG-2">
+        
+        <button type="button" class="option item-option" role="radio"
+                aria-checked="false"
+                tabindex="0"
+                data-item="ENG-2" data-option="sqlite" data-letter="A"
+                aria-label="Option A: SQLite (append-only) — One file, no daemon, easy backups by cp. Best for the 1-writer/N-reader shape we have.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><ellipse cx='50' cy='16' rx='16' ry='4' fill='var(--accent-soft)'/><path d='M 34 16 L 34 44 A 16 4 0 0 0 66 44 L 66 16'/><path d='M 34 26 A 16 4 0 0 0 66 26' stroke='var(--ink)' stroke-width='1'/><path d='M 34 36 A 16 4 0 0 0 66 36' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">A</span>
+            <span class="option-label" aria-hidden="true">Option A</span>
+            <span class="option-name">SQLite (append-only)</span>
+            <span class="option-desc">One file, no daemon, easy backups by cp. Best for the 1-writer/N-reader shape we have.</span>
+          </div>
+        </button>
+        
+        <button type="button" class="option item-option" role="radio"
+                aria-checked="false"
+                tabindex="-1"
+                data-item="ENG-2" data-option="duckdb" data-letter="B"
+                aria-label="Option B: DuckDB — Columnar — faster aggregations over a year of minute readings. Heavier binary, less ubiquitous on the Pi.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='28' y='14' width='44' height='32'/><rect x='28' y='14' width='44' height='6' fill='var(--accent-soft)' stroke='var(--accent)' stroke-width='1.4'/><line x1='28' y1='28' x2='72' y2='28' stroke='var(--ink)' stroke-width='1'/><line x1='28' y1='36' x2='72' y2='36' stroke='var(--ink)' stroke-width='1'/><line x1='44' y1='20' x2='44' y2='46' stroke='var(--ink)' stroke-width='1'/><line x1='58' y1='20' x2='58' y2='46' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">B</span>
+            <span class="option-label" aria-hidden="true">Option B</span>
+            <span class="option-name">DuckDB</span>
+            <span class="option-desc">Columnar — faster aggregations over a year of minute readings. Heavier binary, less ubiquitous on the Pi.</span>
+          </div>
+        </button>
+        
+        <button type="button" class="option item-option" role="radio"
+                aria-checked="false"
+                tabindex="-1"
+                data-item="ENG-2" data-option="flatfiles" data-letter="C"
+                aria-label="Option C: Per-day CSV files — Most portable; manual aggregation queries; cheapest backup story. No transactions.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='30' y='16' width='40' height='12' rx='1'/><rect x='30' y='32' width='40' height='12' rx='1'/><circle cx='62' cy='22' r='1.4' fill='var(--accent)' stroke='none'/><circle cx='62' cy='38' r='1.4' fill='var(--accent)' stroke='none'/><line x1='35' y1='22' x2='55' y2='22' stroke='var(--ink)' stroke-width='1'/><line x1='35' y1='38' x2='55' y2='38' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">C</span>
+            <span class="option-label" aria-hidden="true">Option C</span>
+            <span class="option-name">Per-day CSV files</span>
+            <span class="option-desc">Most portable; manual aggregation queries; cheapest backup story. No transactions.</span>
+          </div>
+        </button>
+        
+      </div>
       
       
       <ul class="refs" aria-label="References">
@@ -2263,6 +2841,7 @@ html[data-theme="slate"] .item-art {
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g transform='translate(30,4)'><rect x='0' y='0' width='42' height='52' rx='4' fill='var(--surface)' stroke='var(--ink)' stroke-width='1.2'/><line x1='15' y1='4' x2='27' y2='4' stroke='var(--ink-3)' stroke-width='0.5'/><rect x='4' y='8' width='34' height='28' fill='none' stroke='var(--rule)' stroke-width='0.4'/><line x1='2' y1='44' x2='40' y2='44' stroke='var(--rule-2)' stroke-width='0.4'/><circle cx='10' cy='49' r='1.5' fill='var(--accent)'/><circle cx='21' cy='49' r='1.5' fill='var(--ink-3)' opacity='0.5'/><circle cx='32' cy='49' r='1.5' fill='var(--ink-3)' opacity='0.5'/></g></svg></div>
       
       
+      
       <ul class="refs" aria-label="References">
         <li class="refs-label">refs</li>
         
@@ -2319,7 +2898,8 @@ html[data-theme="slate"] .item-art {
       </header>
       <p class="item-desc">Rolling-window check every 5 min; fires to a local ntfy.sh instance, which the homeowner has subscribed to from their phone.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:60%;height:auto'><rect x='28' y='20' width='44' height='20' fill='var(--accent)'/><text x='50' y='34' text-anchor='middle' font-family='IBM Plex Mono' font-size='10' font-weight='700' fill='var(--bg)' letter-spacing='0.16em'>NEW</text></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:90%;height:auto'><rect x='5.00' y='14.00' width='26.00' height='32.00' rx='2' fill='var(--surface)' stroke='var(--accent)' stroke-width='1.4'/><text x='18.00' y='32.50' text-anchor='middle' font-family='IBM Plex Mono' font-size='6.5' font-weight='600' fill='var(--ink)'>scheduler</text><line x1='31.00' y1='30.00' x2='36.00' y2='30.00' stroke='var(--ink)' stroke-width='1'/><polygon points='36.00,30.00 33.00,28.00 33.00,32.00' fill='var(--ink)'/><rect x='37.00' y='14.00' width='26.00' height='32.00' rx='2' fill='var(--surface)' stroke='var(--accent)' stroke-width='1.4'/><text x='50.00' y='32.50' text-anchor='middle' font-family='IBM Plex Mono' font-size='6.5' font-weight='600' fill='var(--ink)'>worker</text><line x1='63.00' y1='30.00' x2='68.00' y2='30.00' stroke='var(--ink)' stroke-width='1'/><polygon points='68.00,30.00 65.00,28.00 65.00,32.00' fill='var(--ink)'/><rect x='69.00' y='14.00' width='26.00' height='32.00' rx='2' fill='var(--surface)' stroke='var(--accent)' stroke-width='1.4'/><text x='82.00' y='32.50' text-anchor='middle' font-family='IBM Plex Mono' font-size='6.5' font-weight='600' fill='var(--ink)'>gateway</text></svg></div>
+      
       
       
       <ul class="refs" aria-label="References">
@@ -2364,6 +2944,29 @@ html[data-theme="slate"] .item-art {
       </div>
     </article>
     
+    <div class="proposed-items" data-section="engineering" aria-label="Proposed items for Engineering"></div>
+    <div class="add-item-wrap">
+      <button type="button" class="add-item-btn" data-section="engineering"
+              aria-expanded="false" aria-controls="add-item-form-engineering">
+        + add item
+      </button>
+      <form class="add-item-form" id="add-item-form-engineering"
+            data-section="engineering" hidden>
+        <label class="add-item-label" for="add-item-title-engineering">title</label>
+        <input class="add-item-title" id="add-item-title-engineering" type="text"
+               placeholder="short title for the proposed item" />
+        <label class="add-item-label" for="add-item-desc-engineering">desc</label>
+        <textarea class="add-item-desc" id="add-item-desc-engineering"
+                  rows="3" placeholder="1-3 sentences"></textarea>
+        <label class="add-item-label" for="add-item-refs-engineering">refs</label>
+        <select class="add-item-refs" id="add-item-refs-engineering" multiple size="4"
+                aria-label="References (hold Ctrl/Cmd to select multiple)"></select>
+        <div class="add-item-actions">
+          <button type="button" class="add-item-cancel">cancel</button>
+          <button type="submit" class="add-item-submit">add</button>
+        </div>
+      </form>
+    </div>
   </section>
   
   <section class="tabpanel"
@@ -2372,6 +2975,15 @@ html[data-theme="slate"] .item-art {
            aria-labelledby="tab-build"
            tabindex="0"
            hidden>
+    <details class="section-note-wrap">
+      <summary class="section-note-summary">section notes</summary>
+      <label class="visually-hidden" for="section-note-build">Notes for the Build section</label>
+      <textarea id="section-note-build"
+                class="section-note"
+                data-section="build"
+                rows="2"
+                placeholder="cross-cutting notes for this whole section…"></textarea>
+    </details>
     
     
     <article class="item" id="item-BUILD-1" tabindex="-1" aria-labelledby="item-title-BUILD-1">
@@ -2382,6 +2994,7 @@ html[data-theme="slate"] .item-art {
       <p class="item-desc">Pi Zero 2 W, 4 × Xiaomi LYWSDCGQ sensors, 1 × ntfy.sh container on the LAN. Total cost target &lt; £80.</p>
       
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><rect x='8.00' y='14.00' width='26.67' height='32.00' fill='#1a1814' stroke='var(--ink)' stroke-width='0.3'/><rect x='36.67' y='14.00' width='26.67' height='32.00' fill='#b34a1a' stroke='var(--ink)' stroke-width='0.3'/><rect x='65.33' y='14.00' width='26.67' height='32.00' fill='#f1ebde' stroke='var(--ink)' stroke-width='0.3'/></svg></div>
+      
       
       
       <ul class="refs" aria-label="References">
@@ -2431,9 +3044,10 @@ html[data-theme="slate"] .item-art {
         <h2 class="item-title" id="item-title-BUILD-2">Pi firmware</h2>
         <span class="item-id" aria-label="Identifier BUILD-2">BUILD-2</span>
       </header>
-      <p class="item-desc">Go binary on the Pi: ble-scanner &#43; sqlite-writer &#43; alert-checker as one process. systemd unit, no Docker.</p>
+      <p class="item-desc">Go binary on the Pi: ble-scanner &#43; storage-writer &#43; alert-checker as one process. systemd unit, no Docker.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:82%;height:auto'><text x='50' y='30.00' text-anchor='middle' font-family='IBM Plex Mono' font-style='normal' font-weight='500' font-size='9' fill='var(--ink)'>systemctl enable thermolog</text></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><text x='6' y='27.00' text-anchor='start' font-family='IBM Plex Mono' font-size='12' font-weight='600' fill='var(--ink)'>systemctl enable</text><text x='6' y='41.40' text-anchor='start' font-family='IBM Plex Mono' font-size='12' font-weight='600' fill='var(--ink)'>thermolog.service</text></svg></div>
+      
       
       
       <ul class="refs" aria-label="References">
@@ -2495,6 +3109,7 @@ html[data-theme="slate"] .item-art {
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g transform='translate(30,4)'><rect x='0' y='0' width='42' height='52' rx='4' fill='var(--surface)' stroke='var(--ink)' stroke-width='1.2'/><line x1='15' y1='4' x2='27' y2='4' stroke='var(--ink-3)' stroke-width='0.5'/><rect x='4' y='8' width='34' height='28' fill='none' stroke='var(--rule)' stroke-width='0.4'/><line x1='2' y1='44' x2='40' y2='44' stroke='var(--rule-2)' stroke-width='0.4'/><circle cx='10' cy='49' r='1.5' fill='var(--accent)'/><circle cx='21' cy='49' r='1.5' fill='var(--ink-3)' opacity='0.5'/><circle cx='32' cy='49' r='1.5' fill='var(--ink-3)' opacity='0.5'/></g></svg></div>
       
       
+      
       <ul class="refs" aria-label="References">
         <li class="refs-label">refs</li>
         
@@ -2538,6 +3153,7 @@ html[data-theme="slate"] .item-art {
       <p class="item-desc">One install script: scp the binary, install the unit, set Wi-Fi sensor credentials, test alert end-to-end, hand the homeowner a printed cheat-sheet.</p>
       
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:50%;height:auto'><circle cx='50' cy='30' r='20' fill='var(--accent)'/><path d='M 38 30 L 47 38 L 62 22' fill='none' stroke='var(--bg)' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'/></svg></div>
+      
       
       
       <ul class="refs" aria-label="References">
@@ -2596,6 +3212,29 @@ html[data-theme="slate"] .item-art {
       </div>
     </article>
     
+    <div class="proposed-items" data-section="build" aria-label="Proposed items for Build"></div>
+    <div class="add-item-wrap">
+      <button type="button" class="add-item-btn" data-section="build"
+              aria-expanded="false" aria-controls="add-item-form-build">
+        + add item
+      </button>
+      <form class="add-item-form" id="add-item-form-build"
+            data-section="build" hidden>
+        <label class="add-item-label" for="add-item-title-build">title</label>
+        <input class="add-item-title" id="add-item-title-build" type="text"
+               placeholder="short title for the proposed item" />
+        <label class="add-item-label" for="add-item-desc-build">desc</label>
+        <textarea class="add-item-desc" id="add-item-desc-build"
+                  rows="3" placeholder="1-3 sentences"></textarea>
+        <label class="add-item-label" for="add-item-refs-build">refs</label>
+        <select class="add-item-refs" id="add-item-refs-build" multiple size="4"
+                aria-label="References (hold Ctrl/Cmd to select multiple)"></select>
+        <div class="add-item-actions">
+          <button type="button" class="add-item-cancel">cancel</button>
+          <button type="submit" class="add-item-submit">add</button>
+        </div>
+      </form>
+    </div>
   </section>
   
 </main>
@@ -2618,6 +3257,14 @@ html[data-theme="slate"] .item-art {
       <button type="button" class="x" aria-label="Close dialog">&#10005;</button>
     </header>
     <div class="modal-body">
+      <details class="plan-note-wrap" open>
+        <summary class="plan-note-summary">plan-level notes</summary>
+        <label class="visually-hidden" for="plan-note">Notes for the whole plan</label>
+        <textarea id="plan-note"
+                  class="plan-note"
+                  rows="3"
+                  placeholder="overall thoughts on this plan…"></textarea>
+      </details>
       <pre></pre>
     </div>
     <footer class="modal-foot">
@@ -2628,10 +3275,24 @@ html[data-theme="slate"] .item-art {
 </div>
 
 <script>
-const PLAN = {"lede":"A small offline-first home temperature logger. Six load-bearing sections, traceable from goal to build step.","sections":[{"id":"overview","items":[{"desc":"Track temperature in 4 rooms of a home, alert on anomalies, and let the homeowner answer 'was the heating off when we were away?' months later.","id":"OVR-1","title":"Mission"},{"desc":"One homeowner. Comfortable with a phone, not with a CLI. Will never SSH into anything.","id":"OVR-2","title":"Audience"},{"desc":"Runs entirely on-premise: no cloud sync, no account, no internet dependency. Must survive a 2-week internet outage with full functionality.","id":"OVR-3","title":"Hard constraints"}],"label":"Overview"},{"id":"functional","items":[{"desc":"Each sensor reports °C every minute; the logger writes one row per sensor per minute.","id":"FR-1","title":"Log temperature every 60 s"},{"desc":"Per-room view: last 24h, 7d, 30d, all-time. Touchable on a phone.","id":"FR-2","title":"Chart room history"},{"desc":"Push a notification when a room is \u003e5 °C outside its 7-day band for more than 20 minutes.","id":"FR-3","title":"Anomaly alerts"},{"desc":"Download all historical readings as CSV from the web UI. One file per room.","id":"FR-4","title":"CSV export"}],"label":"Functional"},{"id":"non-functional","items":[{"desc":"All features work with the WAN disconnected. No background sync, no \"cloud login required\" splash.","id":"NFR-1","title":"Offline-first"},{"desc":"Whole system draws \u003c 5 W idle. Logger lives on a Pi Zero 2 W; sensors run on coin cells for \u003e 12 months.","id":"NFR-2","title":"Low-power"},{"desc":"No data ever leaves the house network. Alerts use a local push gateway, not Apple/Google push.","id":"NFR-3","title":"Local-only data"}],"label":"Non-functional"},{"id":"cases","items":[{"desc":"Homeowner returns from a 10-day trip, opens the app, jumps to the timeframe of the trip, sees the temperature line for the living room and confirms it stayed above 16 °C the whole time.","id":"CASE-1","title":"\"Did the heating fail while we were away?\""},{"desc":"Mid-winter, 2 am. Bedroom drops to 11 °C, the alert fires on the phone, homeowner gets up to investigate before the pipes freeze.","id":"CASE-2","title":"\"The bedroom is freezing tonight\""},{"desc":"End of winter. Homeowner exports a year of CSV, drops it into a spreadsheet next to the gas bill, decides whether next year's boiler tune-up is worth it.","id":"CASE-3","title":"\"What does our heating cost actually buy us?\""}],"label":"Cases"},{"id":"engineering","items":[{"desc":"Read from 4 cheap Bluetooth LE thermometers. Pi scans every 60 s, writes the latest reading per sensor.","id":"ENG-1","title":"Sensor driver (BLE)"},{"desc":"One SQLite file on the Pi. Append-only readings table; downsampled aggregates rebuilt nightly.","id":"ENG-2","title":"Local storage (SQLite)"},{"desc":"Single-page app on the Pi, served on the LAN. Chart + room picker + CSV download. No build step beyond `make`.","id":"ENG-3","title":"Web UI"},{"desc":"Rolling-window check every 5 min; fires to a local ntfy.sh instance, which the homeowner has subscribed to from their phone.","id":"ENG-4","title":"Alert pipeline"}],"label":"Engineering"},{"id":"build","items":[{"desc":"Pi Zero 2 W, 4 × Xiaomi LYWSDCGQ sensors, 1 × ntfy.sh container on the LAN. Total cost target \u003c £80.","id":"BUILD-1","title":"BOM + initial wiring"},{"desc":"Go binary on the Pi: ble-scanner + sqlite-writer + alert-checker as one process. systemd unit, no Docker.","id":"BUILD-2","title":"Pi firmware"},{"desc":"Static HTML/CSS/JS embedded in the Go binary via go:embed. Charts via uPlot. CSV download by serving the SQLite query result as text/csv.","id":"BUILD-3","title":"Web UI"},{"desc":"One install script: scp the binary, install the unit, set Wi-Fi sensor credentials, test alert end-to-end, hand the homeowner a printed cheat-sheet.","id":"BUILD-4","title":"Deploy + handover"}],"label":"Build"}],"title":"ThermoLog — home temperature logger"};
+const PLAN = {"lede":"A small offline-first home temperature logger. Six load-bearing sections, traceable from goal to build step.","sections":[{"id":"overview","items":[{"desc":"Track temperature in 4 rooms of a home, alert on anomalies, and let the homeowner answer 'was the heating off when we were away?' months later.","id":"OVR-1","title":"Mission"},{"desc":"One homeowner. Comfortable with a phone, not with a CLI. Will never SSH into anything.","id":"OVR-2","title":"Audience"},{"desc":"Runs entirely on-premise: no cloud sync, no account, no internet dependency. Must survive a 2-week internet outage with full functionality.","id":"OVR-3","title":"Hard constraints"}],"label":"Overview"},{"id":"functional","items":[{"desc":"Each sensor reports °C every minute; the logger writes one row per sensor per minute.","id":"FR-1","title":"Log temperature every 60 s"},{"desc":"Per-room view: last 24h, 7d, 30d, all-time. Touchable on a phone.","id":"FR-2","title":"Chart room history"},{"desc":"Push a notification when a room is \u003e5 °C outside its 7-day band for more than 20 minutes.","id":"FR-3","title":"Anomaly alerts"},{"desc":"Download all historical readings as CSV from the web UI. One file per room.","id":"FR-4","title":"CSV export"}],"label":"Functional"},{"id":"non-functional","items":[{"desc":"All features work with the WAN disconnected. No background sync, no \"cloud login required\" splash.","id":"NFR-1","title":"Offline-first"},{"desc":"Whole system draws \u003c 5 W idle. Logger lives on a Pi Zero 2 W; sensors run on coin cells for \u003e 12 months.","id":"NFR-2","title":"Low-power"},{"desc":"No data ever leaves the house network. Alerts use a local push gateway, not Apple/Google push.","id":"NFR-3","title":"Local-only data"}],"label":"Non-functional"},{"id":"cases","items":[{"desc":"Homeowner returns from a 10-day trip, opens the app, jumps to the timeframe of the trip, sees the temperature line for the living room and confirms it stayed above 16 °C the whole time.","id":"CASE-1","title":"\"Did the heating fail while we were away?\""},{"desc":"Mid-winter, 2 am. Bedroom drops to 11 °C, the alert fires on the phone, homeowner gets up to investigate before the pipes freeze.","id":"CASE-2","title":"\"The bedroom is freezing tonight\""},{"desc":"End of winter. Homeowner exports a year of CSV, drops it into a spreadsheet next to the gas bill, decides whether next year's boiler tune-up is worth it.","id":"CASE-3","title":"\"What does our heating cost actually buy us?\""}],"label":"Cases"},{"id":"engineering","items":[{"desc":"Read from 4 cheap Bluetooth LE thermometers. Pi scans every 60 s, writes the latest reading per sensor.","id":"ENG-1","title":"Sensor driver (BLE)"},{"desc":"Where the year-long history actually lives on the Pi. Trade-off between query speed, disk footprint, and tooling overhead.","id":"ENG-2","title":"Local storage choice"},{"desc":"Single-page app on the Pi, served on the LAN. Chart + room picker + CSV download. No build step beyond `make`.","id":"ENG-3","title":"Web UI"},{"desc":"Rolling-window check every 5 min; fires to a local ntfy.sh instance, which the homeowner has subscribed to from their phone.","id":"ENG-4","title":"Alert pipeline"}],"label":"Engineering"},{"id":"build","items":[{"desc":"Pi Zero 2 W, 4 × Xiaomi LYWSDCGQ sensors, 1 × ntfy.sh container on the LAN. Total cost target \u003c £80.","id":"BUILD-1","title":"BOM + initial wiring"},{"desc":"Go binary on the Pi: ble-scanner + storage-writer + alert-checker as one process. systemd unit, no Docker.","id":"BUILD-2","title":"Pi firmware"},{"desc":"Static HTML/CSS/JS embedded in the Go binary via go:embed. Charts via uPlot. CSV download by serving the SQLite query result as text/csv.","id":"BUILD-3","title":"Web UI"},{"desc":"One install script: scp the binary, install the unit, set Wi-Fi sensor credentials, test alert end-to-end, hand the homeowner a printed cheat-sheet.","id":"BUILD-4","title":"Deploy + handover"}],"label":"Build"}],"title":"ThermoLog — home temperature logger"};
 const SOURCE = {"basename":"plan.html","file":"/test/plan.html"};
 window.PLAN = PLAN;
 window.SOURCE = SOURCE;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 (function () {
   'use strict';
 
@@ -2645,6 +3306,8 @@ window.SOURCE = SOURCE;
     const PLAN = window.PLAN || { sections: [] };
     const SOURCE = window.SOURCE || { file: '', basename: '' };
 
+    
+    
     const itemIndex = {};
     (PLAN.sections || []).forEach(s => {
       (s.items || []).forEach(it => {
@@ -2652,13 +3315,28 @@ window.SOURCE = SOURCE;
       });
     });
 
-    const feedback = {};
+    
+    
+    
+    
+    
+    const state = {
+      feedback: {},
+      sectionNotes: {},
+      planNote: '',
+      proposedItems: []
+    };
 
+    
     const tabs = Array.from(document.querySelectorAll('.plan-tab'));
     const panels = Array.from(document.querySelectorAll('.tabpanel'));
 
-    function panelFor(tabId) { return document.getElementById('panel-' + tabId); }
-    function tabFor(tabId)   { return document.getElementById('tab-' + tabId); }
+    function panelFor(tabId) {
+      return document.getElementById('panel-' + tabId);
+    }
+    function tabFor(tabId) {
+      return document.getElementById('tab-' + tabId);
+    }
 
     function activateTab(tabId, opts) {
       opts = opts || {};
@@ -2670,8 +3348,12 @@ window.SOURCE = SOURCE;
         t.setAttribute('aria-selected', me ? 'true' : 'false');
         t.setAttribute('tabindex', me ? '0' : '-1');
       });
-      panels.forEach(p => { p.hidden = (p !== panel); });
-      if (opts.focus) tab.focus({ preventScroll: !!opts.preventScroll });
+      panels.forEach(p => {
+        p.hidden = (p !== panel);
+      });
+      if (opts.focus) {
+        tab.focus({ preventScroll: !!opts.preventScroll });
+      }
       return true;
     }
 
@@ -2686,6 +3368,7 @@ window.SOURCE = SOURCE;
       });
     });
 
+    
     const tablist = document.querySelector('.plan-tabs');
     if (tablist) {
       tablist.addEventListener('keydown', e => {
@@ -2715,6 +3398,7 @@ window.SOURCE = SOURCE;
       });
     }
 
+    
     let highlightTimer = null;
     function navigateToItem(itemId, opts) {
       opts = opts || {};
@@ -2723,15 +3407,20 @@ window.SOURCE = SOURCE;
       activateTab(entry.sectionId);
       const target = document.getElementById('item-' + itemId);
       if (!target) return false;
+      
       target.scrollIntoView({
         behavior: opts.smooth === false ? 'auto' : 'smooth',
         block: 'start'
       });
+      
       target.classList.remove('is-target');
+      
       void target.offsetWidth;
       target.classList.add('is-target');
       if (highlightTimer) clearTimeout(highlightTimer);
-      highlightTimer = setTimeout(() => { target.classList.remove('is-target'); }, 1500);
+      highlightTimer = setTimeout(() => {
+        target.classList.remove('is-target');
+      }, 1500);
       setTimeout(() => {
         try { target.focus({ preventScroll: true }); } catch (e) {   }
       }, 250);
@@ -2751,20 +3440,25 @@ window.SOURCE = SOURCE;
       });
     });
 
+    
     window.addEventListener('popstate', e => {
-      const state = e.state;
-      if (state && state.kind === 'item') {
-        navigateToItem(state.itemId, { smooth: false });
-      } else if (state && state.kind === 'tab') {
-        activateTab(state.tabId);
+      const st = e.state;
+      if (st && st.kind === 'item') {
+        navigateToItem(st.itemId, { smooth: false });
+      } else if (st && st.kind === 'tab') {
+        activateTab(st.tabId);
       } else {
+        
         applyHash(location.hash, { smooth: false });
       }
     });
 
+    
     function ensureFb(itemId) {
-      if (!feedback[itemId]) feedback[itemId] = { status: null, note: '', edits: {} };
-      return feedback[itemId];
+      if (!state.feedback[itemId]) {
+        state.feedback[itemId] = { status: null, note: '', edits: {}, chose: null };
+      }
+      return state.feedback[itemId];
     }
 
     document.querySelectorAll('.feedback').forEach(fb => {
@@ -2773,6 +3467,7 @@ window.SOURCE = SOURCE;
         btn.addEventListener('click', () => {
           const value = btn.dataset.value;
           const current = ensureFb(itemId);
+          
           if (current.status === value) {
             current.status = null;
             fb.removeAttribute('data-status');
@@ -2830,11 +3525,223 @@ window.SOURCE = SOURCE;
       }
     });
 
+    
+    function selectOption(btn) {
+      const group = btn.closest('.item-options');
+      if (!group) return;
+      const itemId = group.dataset.item;
+      const optionId = btn.dataset.option;
+      ensureFb(itemId).chose = optionId;
+      group.querySelectorAll('.item-option').forEach(o => {
+        const isMe = o === btn;
+        o.classList.toggle('selected', isMe);
+        o.setAttribute('aria-checked', isMe ? 'true' : 'false');
+        o.setAttribute('tabindex', isMe ? '0' : '-1');
+      });
+      updateStats();
+    }
+
+    document.querySelectorAll('.item-options').forEach(group => {
+      const opts = Array.from(group.querySelectorAll('.item-option'));
+      opts.forEach(btn => {
+        btn.addEventListener('click', () => selectOption(btn));
+      });
+      group.addEventListener('keydown', e => {
+        const current = document.activeElement;
+        const idx = opts.indexOf(current);
+        if (idx < 0) return;
+        let next = null;
+        switch (e.key) {
+          case 'ArrowRight':
+          case 'ArrowDown':
+            next = opts[(idx + 1) % opts.length]; break;
+          case 'ArrowLeft':
+          case 'ArrowUp':
+            next = opts[(idx - 1 + opts.length) % opts.length]; break;
+          case 'Home':
+            next = opts[0]; break;
+          case 'End':
+            next = opts[opts.length - 1]; break;
+          case ' ':
+          case 'Enter':
+            e.preventDefault();
+            selectOption(current);
+            return;
+          default:
+            return;
+        }
+        if (next) {
+          e.preventDefault();
+          opts.forEach(o => o.setAttribute('tabindex', o === next ? '0' : '-1'));
+          next.focus();
+        }
+      });
+    });
+
+    
+    document.querySelectorAll('.section-note').forEach(ta => {
+      ta.addEventListener('input', () => {
+        const sid = ta.dataset.section;
+        state.sectionNotes[sid] = ta.value;
+        ta.style.height = 'auto';
+        ta.style.height = ta.scrollHeight + 'px';
+        updateStats();
+      });
+    });
+
+    
+    const planNoteEl = document.querySelector('.plan-note');
+    if (planNoteEl) {
+      planNoteEl.addEventListener('input', () => {
+        state.planNote = planNoteEl.value;
+        
+        refreshModalPreview();
+        updateStats();
+      });
+    }
+
+    
+    
+    function populateRefsSelect(sel) {
+      sel.innerHTML = '';
+      Object.keys(itemIndex).forEach(id => {
+        const opt = document.createElement('option');
+        opt.value = id;
+        opt.textContent = id;
+        sel.appendChild(opt);
+      });
+    }
+
+    document.querySelectorAll('.add-item-form').forEach(form => {
+      const sel = form.querySelector('.add-item-refs');
+      if (sel) populateRefsSelect(sel);
+    });
+
+    document.querySelectorAll('.add-item-btn').forEach(btn => {
+      const sectionId = btn.dataset.section;
+      const form = document.getElementById('add-item-form-' + sectionId);
+      if (!form) return;
+      btn.addEventListener('click', () => {
+        const open = !form.hidden;
+        form.hidden = open;
+        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        if (!open) {
+          const titleInput = form.querySelector('.add-item-title');
+          if (titleInput) {
+            try { titleInput.focus(); } catch (e) {   }
+          }
+        }
+      });
+      const cancelBtn = form.querySelector('.add-item-cancel');
+      if (cancelBtn) {
+        cancelBtn.addEventListener('click', () => {
+          form.reset();
+          form.hidden = true;
+          btn.setAttribute('aria-expanded', 'false');
+          try { btn.focus(); } catch (e) {   }
+        });
+      }
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const titleInput = form.querySelector('.add-item-title');
+        const descInput = form.querySelector('.add-item-desc');
+        const refsSel = form.querySelector('.add-item-refs');
+        const title = (titleInput && titleInput.value || '').trim();
+        const desc = (descInput && descInput.value || '').trim();
+        const refs = refsSel
+          ? Array.from(refsSel.selectedOptions).map(o => o.value)
+          : [];
+        if (!title && !desc) return;
+        const proposal = { section: sectionId, title: title, desc: desc, refs: refs };
+        state.proposedItems.push(proposal);
+        renderProposed(sectionId, proposal, state.proposedItems.length - 1);
+        form.reset();
+        form.hidden = true;
+        btn.setAttribute('aria-expanded', 'false');
+        try { btn.focus(); } catch (e) {   }
+        updateStats();
+      });
+    });
+
+    function renderProposed(sectionId, proposal, idx) {
+      const wrap = document.querySelector('.proposed-items[data-section="' + sectionId + '"]');
+      if (!wrap) return;
+      const art = document.createElement('article');
+      art.className = 'item proposed';
+      art.dataset.proposedIdx = String(idx);
+      art.setAttribute('aria-label', 'Proposed item: ' + (proposal.title || '(untitled)'));
+
+      const header = document.createElement('header');
+      header.className = 'item-head';
+      const h2 = document.createElement('h2');
+      h2.className = 'item-title';
+      h2.textContent = proposal.title || '(untitled)';
+      const badge = document.createElement('span');
+      badge.className = 'item-id proposed-badge';
+      badge.textContent = 'PROPOSED';
+      header.appendChild(h2);
+      header.appendChild(badge);
+      art.appendChild(header);
+
+      if (proposal.desc) {
+        const p = document.createElement('p');
+        p.className = 'item-desc';
+        p.textContent = proposal.desc;
+        art.appendChild(p);
+      }
+
+      if (proposal.refs && proposal.refs.length) {
+        const ul = document.createElement('ul');
+        ul.className = 'refs';
+        ul.setAttribute('aria-label', 'References');
+        const lbl = document.createElement('li');
+        lbl.className = 'refs-label';
+        lbl.textContent = 'refs';
+        ul.appendChild(lbl);
+        proposal.refs.forEach(rid => {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = '#item-' + rid;
+          a.dataset.target = rid;
+          a.textContent = rid;
+          a.addEventListener('click', ev => {
+            ev.preventDefault();
+            if (itemIndex[rid]) navigateToItem(rid);
+          });
+          li.appendChild(a);
+          ul.appendChild(li);
+        });
+        art.appendChild(ul);
+      }
+
+      const actions = document.createElement('div');
+      actions.className = 'proposed-actions';
+      const rm = document.createElement('button');
+      rm.type = 'button';
+      rm.className = 'proposed-remove';
+      rm.textContent = 'remove';
+      rm.addEventListener('click', () => {
+        
+        
+        const i = Number(art.dataset.proposedIdx);
+        if (!Number.isNaN(i)) state.proposedItems[i] = null;
+        art.remove();
+        updateStats();
+      });
+      actions.appendChild(rm);
+      art.appendChild(actions);
+
+      wrap.appendChild(art);
+    }
+
+    
     function buildExport() {
+      
       const entries = [];
-      let withStatus = 0, withNotes = 0, withEdits = 0;
-      Object.keys(feedback).forEach(id => {
-        const f = feedback[id];
+      let approved = 0, questioned = 0, rejected = 0;
+      let withNotes = 0, withEdits = 0, withChose = 0;
+      Object.keys(state.feedback).forEach(id => {
+        const f = state.feedback[id];
         const orig = (itemIndex[id] && itemIndex[id].item) || {};
         const edits = {};
         if (f.edits) {
@@ -2847,30 +3754,68 @@ window.SOURCE = SOURCE;
         }
         const note = (f.note || '').trim();
         const hasEdits = Object.keys(edits).length > 0;
-        if (!f.status && !note && !hasEdits) return;
+        const chose = f.chose || null;
+        if (!f.status && !note && !hasEdits && !chose) return;
         entries.push({
           id: id,
           status: f.status || null,
+          anchor: '#item-' + id,
           note: note || null,
-          edits: hasEdits ? edits : null
+          edits: hasEdits ? edits : null,
+          chose: chose
         });
-        if (f.status) withStatus++;
+        if (f.status === 'approved') approved++;
+        else if (f.status === 'questioned') questioned++;
+        else if (f.status === 'rejected') rejected++;
         if (note) withNotes++;
         if (hasEdits) withEdits++;
+        if (chose) withChose++;
       });
+
+      
+      const sectionNotes = {};
+      let sectionsWithNotes = 0;
+      Object.keys(state.sectionNotes).forEach(sid => {
+        const v = (state.sectionNotes[sid] || '').trim();
+        if (v) {
+          sectionNotes[sid] = v;
+          sectionsWithNotes++;
+        }
+      });
+
+      const planNote = (state.planNote || '').trim();
+
+      
+      const proposed = state.proposedItems
+        .filter(p => p && (p.title || p.desc || (p.refs && p.refs.length)));
+
       const total = Object.keys(itemIndex).length;
-      return {
-        spec: PLAN.title || '',
+      const out = {
+        plan: PLAN.title || '',
         source: SOURCE,
         generatedAt: new Date().toISOString().slice(0, 19) + 'Z',
-        feedback: entries,
-        summary: {
-          total: total,
-          withStatus: withStatus,
-          withNotes: withNotes,
-          withEdits: withEdits
-        }
+        feedback: entries
       };
+      if (Object.keys(sectionNotes).length) {
+        out.section_notes = sectionNotes;
+      }
+      if (planNote) {
+        out.plan_note = planNote;
+      }
+      out.proposed_items = proposed;
+      out.summary = {
+        total: total,
+        approved: approved,
+        questioned: questioned,
+        rejected: rejected,
+        withNotes: withNotes,
+        withEdits: withEdits,
+        withChose: withChose,
+        sectionsWithNotes: sectionsWithNotes,
+        hasPlanNote: !!planNote,
+        proposedItems: proposed.length
+      };
+      return out;
     }
 
     function updateStats() {
@@ -2879,18 +3824,28 @@ window.SOURCE = SOURCE;
       const btn = document.querySelector('.copy-bar-btn');
       const total = Object.keys(itemIndex).length;
       let touched = 0;
-      Object.keys(feedback).forEach(id => {
-        const f = feedback[id];
+      Object.keys(state.feedback).forEach(id => {
+        const f = state.feedback[id];
         const note = (f.note || '').trim();
         const hasEdits = f.edits && (
           (typeof f.edits.title === 'string' && f.edits.title.length > 0) ||
           (typeof f.edits.desc === 'string' && f.edits.desc.length > 0)
         );
-        if (f.status || note || hasEdits) touched++;
+        if (f.status || note || hasEdits || f.chose) touched++;
       });
+      
+      
+      
+      const sectionsWithNotes = Object.keys(state.sectionNotes)
+        .filter(k => (state.sectionNotes[k] || '').trim()).length;
+      const proposedCount = state.proposedItems.filter(p => p).length;
+      const planNoteLen = (state.planNote || '').trim().length;
+
       if (totalEl) totalEl.textContent = String(total).padStart(2, '0');
       if (touchedEl) touchedEl.textContent = String(touched).padStart(2, '0');
-      if (btn) btn.disabled = touched === 0;
+      if (btn) {
+        btn.disabled = (touched + sectionsWithNotes + proposedCount + (planNoteLen ? 1 : 0)) === 0;
+      }
     }
 
     function syntaxHighlight(json) {
@@ -2904,12 +3859,21 @@ window.SOURCE = SOURCE;
         .replace(/(?<!["\w-])(-?\d+(\.\d+)?)/g, '<span class="n">$1</span>');
     }
 
+    
     const modal = document.querySelector('.modal-overlay');
     const modalPre = modal ? modal.querySelector('pre') : null;
     const copyBarBtn = document.querySelector('.copy-bar-btn');
     const closeBtn = modal ? modal.querySelector('.x') : null;
     const copyBtn = modal ? modal.querySelector('.copy-btn') : null;
     let modalReturnFocus = null;
+
+    function refreshModalPreview() {
+      if (!modal || !modalPre) return;
+      if (modal.style.display === 'none' || modal.style.display === '') return;
+      const json = JSON.stringify(buildExport(), null, 2);
+      modalPre.innerHTML = syntaxHighlight(json);
+      modalPre.dataset.raw = json;
+    }
 
     function openModal() {
       if (!modal || !modalPre) return;
@@ -2940,7 +3904,8 @@ window.SOURCE = SOURCE;
       if (!modal || modal.style.display === 'none') return;
       if (e.key === 'Escape') { e.preventDefault(); closeModal(); return; }
       if (e.key === 'Tab') {
-        const focusables = [closeBtn, copyBtn].filter(Boolean);
+        
+        const focusables = [closeBtn, planNoteEl, copyBtn].filter(Boolean);
         if (focusables.length === 0) return;
         const idx = focusables.indexOf(document.activeElement);
         if (idx < 0) {
@@ -2956,7 +3921,13 @@ window.SOURCE = SOURCE;
 
     if (copyBtn) {
       copyBtn.addEventListener('click', async () => {
-        const raw = (modalPre && modalPre.dataset.raw) || '';
+        
+        const json = JSON.stringify(buildExport(), null, 2);
+        if (modalPre) {
+          modalPre.innerHTML = syntaxHighlight(json);
+          modalPre.dataset.raw = json;
+        }
+        const raw = json;
         try {
           await navigator.clipboard.writeText(raw);
         } catch (err) {
@@ -2977,9 +3948,11 @@ window.SOURCE = SOURCE;
       });
     }
 
+    
     function applyHash(hash, opts) {
       opts = opts || {};
       if (!hash || hash === '#') {
+        
         if (tabs.length) activateTab(tabs[0].dataset.tab);
         return;
       }
@@ -2995,6 +3968,7 @@ window.SOURCE = SOURCE;
         const tabId = h.slice('tab-'.length);
         if (activateTab(tabId)) return;
       }
+      
       if (tabs.length) activateTab(tabs[0].dataset.tab);
     }
 

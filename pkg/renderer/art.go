@@ -30,6 +30,8 @@ func RenderArt(art string, letterIdx int) (svg string, hidden bool) {
 		return art, false
 	case strings.HasPrefix(art, "wf:"):
 		return resolveNamed(strings.TrimPrefix(art, "wf:"))
+	case strings.HasPrefix(art, "arch:"):
+		return resolveArch(strings.TrimPrefix(art, "arch:"))
 	case dslPrefixRE.MatchString(art):
 		return resolveDSL(art)
 	default:
@@ -50,6 +52,16 @@ func resolveNamed(name string) (svg string, hidden bool) {
 		return entry, false
 	}
 	return fmt.Sprintf(`<svg viewBox='0 0 100 60' style='width:78%%;height:auto'><rect x='4' y='4' width='92' height='52' fill='none' stroke='var(--accent)' stroke-width='1' stroke-dasharray='3 2'/><text x='50' y='28' text-anchor='middle' font-family='IBM Plex Mono' font-size='7' fill='var(--ink-3)'>wf:</text><text x='50' y='40' text-anchor='middle' font-family='IBM Plex Mono' font-size='8' font-weight='600' fill='var(--accent)'>%s ?</text></svg>`, name), false
+}
+
+// resolveArch wraps an ArchLibrary <g> snippet in the standard sized SVG
+// container so it slots into the option-art area at the same visual size
+// as wf:* entries.
+func resolveArch(name string) (svg string, hidden bool) {
+	if g := ArchIcon(name); g != "" {
+		return `<svg viewBox='0 0 100 60' style='width:55%;height:auto'>` + g + `</svg>`, false
+	}
+	return errArt("unknown arch: " + name), false
 }
 
 // ──────────────────────────────────────────────────────────────────────

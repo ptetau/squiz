@@ -29,6 +29,14 @@ func resolveDSL(s string) (svg string, hidden bool) {
 		return dslSample(args), false
 	case "circle-pack":
 		return dslCirclePack(args), false
+	case "text":
+		return dslText(args), false
+	case "flow":
+		return dslFlow(args), false
+	case "box":
+		return dslBox(args), false
+	case "arrow":
+		return dslArrow(args), false
 	default:
 		return errArt("unknown dsl: " + prefix), false
 	}

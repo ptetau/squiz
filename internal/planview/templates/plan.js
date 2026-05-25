@@ -1,8 +1,10 @@
 // squiz-plan client-side controller.
 //
 // Wires the tabbed plan view: tab switching, cross-ref badge navigation,
-// per-item feedback (status / note / inline edits), and the copy-json
-// modal. Expects two globals injected by the template at parse time:
+// per-item feedback (status / note / inline edits), per-item options
+// chooser (v0.4.0), per-section notes (v0.4.0), plan-level note
+// (v0.4.0), proposed-item form (v0.4.0), and the copy-json modal.
+// Expects two globals injected by the template at parse time:
 //
 //   window.PLAN   — { title, lede, sections: [{id, label, items: [...]}], ... }
 //   window.SOURCE — { file, basename }
@@ -32,8 +34,17 @@
       });
     });
 
-    // In-memory feedback state: feedback[itemId] = { status, note, edits }
-    const feedback = {};
+    // In-memory feedback state.
+    //   feedback[itemId]    = { status, note, edits, chose }
+    //   sectionNotes[id]    = string
+    //   planNote            = string
+    //   proposedItems[]     = { section, title, desc, refs[] }
+    const state = {
+      feedback: {},
+      sectionNotes: {},
+      planNote: '',
+      proposedItems: []
+    };
 
     // ── TAB SWITCHING ───────────────────────────────────────────────
     const tabs = Array.from(document.querySelectorAll('.plan-tab'));
@@ -150,11 +161,11 @@
 
     // popstate: respond to back / forward.
     window.addEventListener('popstate', e => {
-      const state = e.state;
-      if (state && state.kind === 'item') {
-        navigateToItem(state.itemId, { smooth: false });
-      } else if (state && state.kind === 'tab') {
-        activateTab(state.tabId);
+      const st = e.state;
+      if (st && st.kind === 'item') {
+        navigateToItem(st.itemId, { smooth: false });
+      } else if (st && st.kind === 'tab') {
+        activateTab(st.tabId);
       } else {
         // No state — interpret current hash.
         applyHash(location.hash, { smooth: false });
@@ -163,8 +174,10 @@
 
     // ── FEEDBACK WIDGETS ────────────────────────────────────────────
     function ensureFb(itemId) {
-      if (!feedback[itemId]) feedback[itemId] = { status: null, note: '', edits: {} };
-      return feedback[itemId];
+      if (!state.feedback[itemId]) {
+        state.feedback[itemId] = { status: null, note: '', edits: {}, chose: null };
+      }
+      return state.feedback[itemId];
     }
 
     document.querySelectorAll('.feedback').forEach(fb => {
@@ -231,13 +244,223 @@
       }
     });
 
+    // ── PER-ITEM OPTIONS CHOOSER (v0.4.0) ───────────────────────────
+    function selectOption(btn) {
+      const group = btn.closest('.item-options');
+      if (!group) return;
+      const itemId = group.dataset.item;
+      const optionId = btn.dataset.option;
+      ensureFb(itemId).chose = optionId;
+      group.querySelectorAll('.item-option').forEach(o => {
+        const isMe = o === btn;
+        o.classList.toggle('selected', isMe);
+        o.setAttribute('aria-checked', isMe ? 'true' : 'false');
+        o.setAttribute('tabindex', isMe ? '0' : '-1');
+      });
+      updateStats();
+    }
+
+    document.querySelectorAll('.item-options').forEach(group => {
+      const opts = Array.from(group.querySelectorAll('.item-option'));
+      opts.forEach(btn => {
+        btn.addEventListener('click', () => selectOption(btn));
+      });
+      group.addEventListener('keydown', e => {
+        const current = document.activeElement;
+        const idx = opts.indexOf(current);
+        if (idx < 0) return;
+        let next = null;
+        switch (e.key) {
+          case 'ArrowRight':
+          case 'ArrowDown':
+            next = opts[(idx + 1) % opts.length]; break;
+          case 'ArrowLeft':
+          case 'ArrowUp':
+            next = opts[(idx - 1 + opts.length) % opts.length]; break;
+          case 'Home':
+            next = opts[0]; break;
+          case 'End':
+            next = opts[opts.length - 1]; break;
+          case ' ':
+          case 'Enter':
+            e.preventDefault();
+            selectOption(current);
+            return;
+          default:
+            return;
+        }
+        if (next) {
+          e.preventDefault();
+          opts.forEach(o => o.setAttribute('tabindex', o === next ? '0' : '-1'));
+          next.focus();
+        }
+      });
+    });
+
+    // ── SECTION NOTES (v0.4.0) ──────────────────────────────────────
+    document.querySelectorAll('.section-note').forEach(ta => {
+      ta.addEventListener('input', () => {
+        const sid = ta.dataset.section;
+        state.sectionNotes[sid] = ta.value;
+        ta.style.height = 'auto';
+        ta.style.height = ta.scrollHeight + 'px';
+        updateStats();
+      });
+    });
+
+    // ── PLAN-LEVEL NOTE (v0.4.0) ────────────────────────────────────
+    const planNoteEl = document.querySelector('.plan-note');
+    if (planNoteEl) {
+      planNoteEl.addEventListener('input', () => {
+        state.planNote = planNoteEl.value;
+        // Live-refresh the JSON preview while the modal is open.
+        refreshModalPreview();
+        updateStats();
+      });
+    }
+
+    // ── ADD-ITEM FORM (v0.4.0) ──────────────────────────────────────
+    // Populate the refs <select> on every form with all known item IDs.
+    function populateRefsSelect(sel) {
+      sel.innerHTML = '';
+      Object.keys(itemIndex).forEach(id => {
+        const opt = document.createElement('option');
+        opt.value = id;
+        opt.textContent = id;
+        sel.appendChild(opt);
+      });
+    }
+
+    document.querySelectorAll('.add-item-form').forEach(form => {
+      const sel = form.querySelector('.add-item-refs');
+      if (sel) populateRefsSelect(sel);
+    });
+
+    document.querySelectorAll('.add-item-btn').forEach(btn => {
+      const sectionId = btn.dataset.section;
+      const form = document.getElementById('add-item-form-' + sectionId);
+      if (!form) return;
+      btn.addEventListener('click', () => {
+        const open = !form.hidden;
+        form.hidden = open;
+        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        if (!open) {
+          const titleInput = form.querySelector('.add-item-title');
+          if (titleInput) {
+            try { titleInput.focus(); } catch (e) { /* noop */ }
+          }
+        }
+      });
+      const cancelBtn = form.querySelector('.add-item-cancel');
+      if (cancelBtn) {
+        cancelBtn.addEventListener('click', () => {
+          form.reset();
+          form.hidden = true;
+          btn.setAttribute('aria-expanded', 'false');
+          try { btn.focus(); } catch (e) { /* noop */ }
+        });
+      }
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const titleInput = form.querySelector('.add-item-title');
+        const descInput = form.querySelector('.add-item-desc');
+        const refsSel = form.querySelector('.add-item-refs');
+        const title = (titleInput && titleInput.value || '').trim();
+        const desc = (descInput && descInput.value || '').trim();
+        const refs = refsSel
+          ? Array.from(refsSel.selectedOptions).map(o => o.value)
+          : [];
+        if (!title && !desc) return;
+        const proposal = { section: sectionId, title: title, desc: desc, refs: refs };
+        state.proposedItems.push(proposal);
+        renderProposed(sectionId, proposal, state.proposedItems.length - 1);
+        form.reset();
+        form.hidden = true;
+        btn.setAttribute('aria-expanded', 'false');
+        try { btn.focus(); } catch (e) { /* noop */ }
+        updateStats();
+      });
+    });
+
+    function renderProposed(sectionId, proposal, idx) {
+      const wrap = document.querySelector('.proposed-items[data-section="' + sectionId + '"]');
+      if (!wrap) return;
+      const art = document.createElement('article');
+      art.className = 'item proposed';
+      art.dataset.proposedIdx = String(idx);
+      art.setAttribute('aria-label', 'Proposed item: ' + (proposal.title || '(untitled)'));
+
+      const header = document.createElement('header');
+      header.className = 'item-head';
+      const h2 = document.createElement('h2');
+      h2.className = 'item-title';
+      h2.textContent = proposal.title || '(untitled)';
+      const badge = document.createElement('span');
+      badge.className = 'item-id proposed-badge';
+      badge.textContent = 'PROPOSED';
+      header.appendChild(h2);
+      header.appendChild(badge);
+      art.appendChild(header);
+
+      if (proposal.desc) {
+        const p = document.createElement('p');
+        p.className = 'item-desc';
+        p.textContent = proposal.desc;
+        art.appendChild(p);
+      }
+
+      if (proposal.refs && proposal.refs.length) {
+        const ul = document.createElement('ul');
+        ul.className = 'refs';
+        ul.setAttribute('aria-label', 'References');
+        const lbl = document.createElement('li');
+        lbl.className = 'refs-label';
+        lbl.textContent = 'refs';
+        ul.appendChild(lbl);
+        proposal.refs.forEach(rid => {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = '#item-' + rid;
+          a.dataset.target = rid;
+          a.textContent = rid;
+          a.addEventListener('click', ev => {
+            ev.preventDefault();
+            if (itemIndex[rid]) navigateToItem(rid);
+          });
+          li.appendChild(a);
+          ul.appendChild(li);
+        });
+        art.appendChild(ul);
+      }
+
+      const actions = document.createElement('div');
+      actions.className = 'proposed-actions';
+      const rm = document.createElement('button');
+      rm.type = 'button';
+      rm.className = 'proposed-remove';
+      rm.textContent = 'remove';
+      rm.addEventListener('click', () => {
+        // Null out (preserves indexes used as dataset.proposedIdx) and
+        // remove the DOM node; buildExport filters nulls.
+        const i = Number(art.dataset.proposedIdx);
+        if (!Number.isNaN(i)) state.proposedItems[i] = null;
+        art.remove();
+        updateStats();
+      });
+      actions.appendChild(rm);
+      art.appendChild(actions);
+
+      wrap.appendChild(art);
+    }
+
     // ── EXPORT BUILDER ──────────────────────────────────────────────
     function buildExport() {
-      // Filter empties + diff edits against original PLAN values.
+      // Per-item feedback: drop empties, diff edits against original.
       const entries = [];
-      let withStatus = 0, withNotes = 0, withEdits = 0;
-      Object.keys(feedback).forEach(id => {
-        const f = feedback[id];
+      let approved = 0, questioned = 0, rejected = 0;
+      let withNotes = 0, withEdits = 0, withChose = 0;
+      Object.keys(state.feedback).forEach(id => {
+        const f = state.feedback[id];
         const orig = (itemIndex[id] && itemIndex[id].item) || {};
         const edits = {};
         if (f.edits) {
@@ -250,30 +473,68 @@
         }
         const note = (f.note || '').trim();
         const hasEdits = Object.keys(edits).length > 0;
-        if (!f.status && !note && !hasEdits) return;
+        const chose = f.chose || null;
+        if (!f.status && !note && !hasEdits && !chose) return;
         entries.push({
           id: id,
           status: f.status || null,
+          anchor: '#item-' + id,
           note: note || null,
-          edits: hasEdits ? edits : null
+          edits: hasEdits ? edits : null,
+          chose: chose
         });
-        if (f.status) withStatus++;
+        if (f.status === 'approved') approved++;
+        else if (f.status === 'questioned') questioned++;
+        else if (f.status === 'rejected') rejected++;
         if (note) withNotes++;
         if (hasEdits) withEdits++;
+        if (chose) withChose++;
       });
+
+      // Section notes: drop empties.
+      const sectionNotes = {};
+      let sectionsWithNotes = 0;
+      Object.keys(state.sectionNotes).forEach(sid => {
+        const v = (state.sectionNotes[sid] || '').trim();
+        if (v) {
+          sectionNotes[sid] = v;
+          sectionsWithNotes++;
+        }
+      });
+
+      const planNote = (state.planNote || '').trim();
+
+      // Proposed items: skip nulls (removed).
+      const proposed = state.proposedItems
+        .filter(p => p && (p.title || p.desc || (p.refs && p.refs.length)));
+
       const total = Object.keys(itemIndex).length;
-      return {
-        spec: PLAN.title || '',
+      const out = {
+        plan: PLAN.title || '',
         source: SOURCE,
         generatedAt: new Date().toISOString().slice(0, 19) + 'Z',
-        feedback: entries,
-        summary: {
-          total: total,
-          withStatus: withStatus,
-          withNotes: withNotes,
-          withEdits: withEdits
-        }
+        feedback: entries
       };
+      if (Object.keys(sectionNotes).length) {
+        out.section_notes = sectionNotes;
+      }
+      if (planNote) {
+        out.plan_note = planNote;
+      }
+      out.proposed_items = proposed;
+      out.summary = {
+        total: total,
+        approved: approved,
+        questioned: questioned,
+        rejected: rejected,
+        withNotes: withNotes,
+        withEdits: withEdits,
+        withChose: withChose,
+        sectionsWithNotes: sectionsWithNotes,
+        hasPlanNote: !!planNote,
+        proposedItems: proposed.length
+      };
+      return out;
     }
 
     function updateStats() {
@@ -282,18 +543,28 @@
       const btn = document.querySelector('.copy-bar-btn');
       const total = Object.keys(itemIndex).length;
       let touched = 0;
-      Object.keys(feedback).forEach(id => {
-        const f = feedback[id];
+      Object.keys(state.feedback).forEach(id => {
+        const f = state.feedback[id];
         const note = (f.note || '').trim();
         const hasEdits = f.edits && (
           (typeof f.edits.title === 'string' && f.edits.title.length > 0) ||
           (typeof f.edits.desc === 'string' && f.edits.desc.length > 0)
         );
-        if (f.status || note || hasEdits) touched++;
+        if (f.status || note || hasEdits || f.chose) touched++;
       });
+      // The copy-bar counter tracks per-item touched only (its label
+      // reads "items touched"); section/plan/proposed inputs separately
+      // enable the export button below.
+      const sectionsWithNotes = Object.keys(state.sectionNotes)
+        .filter(k => (state.sectionNotes[k] || '').trim()).length;
+      const proposedCount = state.proposedItems.filter(p => p).length;
+      const planNoteLen = (state.planNote || '').trim().length;
+
       if (totalEl) totalEl.textContent = String(total).padStart(2, '0');
       if (touchedEl) touchedEl.textContent = String(touched).padStart(2, '0');
-      if (btn) btn.disabled = touched === 0;
+      if (btn) {
+        btn.disabled = (touched + sectionsWithNotes + proposedCount + (planNoteLen ? 1 : 0)) === 0;
+      }
     }
 
     function syntaxHighlight(json) {
@@ -314,6 +585,14 @@
     const closeBtn = modal ? modal.querySelector('.x') : null;
     const copyBtn = modal ? modal.querySelector('.copy-btn') : null;
     let modalReturnFocus = null;
+
+    function refreshModalPreview() {
+      if (!modal || !modalPre) return;
+      if (modal.style.display === 'none' || modal.style.display === '') return;
+      const json = JSON.stringify(buildExport(), null, 2);
+      modalPre.innerHTML = syntaxHighlight(json);
+      modalPre.dataset.raw = json;
+    }
 
     function openModal() {
       if (!modal || !modalPre) return;
@@ -344,7 +623,8 @@
       if (!modal || modal.style.display === 'none') return;
       if (e.key === 'Escape') { e.preventDefault(); closeModal(); return; }
       if (e.key === 'Tab') {
-        const focusables = [closeBtn, copyBtn].filter(Boolean);
+        // Focus trap: cycle between close + plan-note + copy.
+        const focusables = [closeBtn, planNoteEl, copyBtn].filter(Boolean);
         if (focusables.length === 0) return;
         const idx = focusables.indexOf(document.activeElement);
         if (idx < 0) {
@@ -360,7 +640,13 @@
 
     if (copyBtn) {
       copyBtn.addEventListener('click', async () => {
-        const raw = (modalPre && modalPre.dataset.raw) || '';
+        // Rebuild on copy so a late edit in plan-note is captured.
+        const json = JSON.stringify(buildExport(), null, 2);
+        if (modalPre) {
+          modalPre.innerHTML = syntaxHighlight(json);
+          modalPre.dataset.raw = json;
+        }
+        const raw = json;
         try {
           await navigator.clipboard.writeText(raw);
         } catch (err) {

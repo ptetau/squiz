@@ -221,6 +221,183 @@ func TestResolveDSL_UnknownPrefix(t *testing.T) {
 	assertSVG(t, "resolveDSL unknown", svg, "unknown dsl")
 }
 
+// TestResolveDSL_NewPrefixes confirms text/flow/box/arrow are routed
+// through resolveDSL rather than falling into the "unknown" placeholder.
+func TestResolveDSL_NewPrefixes(t *testing.T) {
+	cases := []struct {
+		in       string
+		wantSub  string
+		notUnk   bool
+	}{
+		{`text:"hi"`, "hi", true},
+		{`flow:[a,b]`, "<rect", true},
+		{`box:hello`, "hello", true},
+		{`arrow:"go"`, "go", true},
+	}
+	for _, tc := range cases {
+		svg, hidden := resolveDSL(tc.in)
+		if hidden {
+			t.Errorf("resolveDSL(%q) hidden = true, want false", tc.in)
+		}
+		assertSVG(t, "resolveDSL "+tc.in, svg, tc.wantSub)
+		if tc.notUnk && strings.Contains(svg, "unknown dsl") {
+			t.Errorf("resolveDSL(%q) fell through to unknown branch: %s", tc.in, svg)
+		}
+	}
+}
+
+// ──────────────────────────────────────────────────────────────────────
+// text
+// ──────────────────────────────────────────────────────────────────────
+
+func TestDslText_Valid(t *testing.T) {
+	// Default font/attrs.
+	out := dslText(`"hello world"`)
+	assertSVG(t, "text default", out, "hello world", "IBM Plex Sans")
+
+	// @mono with multi-line, attrs.
+	out2 := dslText(`"line one\nline two"@mono?size=12&align=center&weight=600&color=accent`)
+	assertSVG(t, "text mono multi", out2, "line one", "line two", "IBM Plex Mono",
+		"text-anchor='middle'", "font-size='12'", "font-weight='600'", "var(--accent)")
+
+	// @serif.
+	out3 := dslText(`"editorial"@serif`)
+	assertSVG(t, "text serif", out3, "editorial", "IBM Plex Serif")
+
+	// align=right.
+	out4 := dslText(`"end"?align=right`)
+	assertSVG(t, "text right", out4, "text-anchor='end'")
+
+	// color=rule-2 (verifies hyphenated color names parse).
+	out5 := dslText(`"x"?color=rule-2`)
+	assertSVG(t, "text color rule-2", out5, "var(--rule-2)")
+}
+
+func TestDslText_Invalid(t *testing.T) {
+	cases := map[string]string{
+		"no quotes":           `bare-text`,
+		"unterminated quote":  `"oops`,
+		"empty body":          `""`,
+		"unknown font":        `"x"@cursive`,
+		"size below range":    `"x"?size=2`,
+		"size above range":    `"x"?size=99`,
+		"weight out of range": `"x"?weight=900`,
+		"bad align":           `"x"?align=middle`,
+		"unknown color":       `"x"?color=tomato`,
+		"unknown attr":        `"x"?wobble=12`,
+		"bad attr no eq":      `"x"?broken`,
+	}
+	for name, in := range cases {
+		t.Run(name, func(t *testing.T) {
+			out := dslText(in)
+			assertSVG(t, "text "+name, out, "text:")
+		})
+	}
+}
+
+// ──────────────────────────────────────────────────────────────────────
+// flow
+// ──────────────────────────────────────────────────────────────────────
+
+func TestDslFlow_Valid(t *testing.T) {
+	out := dslFlow(`[a,b,c]`)
+	assertSVG(t, "flow simple", out, "<rect", "a", "b", "c")
+
+	out2 := dslFlow(`[client?icon=user,api?icon=api,db?icon=database]`)
+	assertSVG(t, "flow icons", out2, "client", "api", "db")
+
+	// One element is fine (no arrow needed).
+	out3 := dslFlow(`[only]`)
+	assertSVG(t, "flow single", out3, "only")
+}
+
+func TestDslFlow_Invalid(t *testing.T) {
+	cases := map[string]string{
+		"empty list":      `[]`,
+		"no brackets":     `a,b,c`,
+		"empty token":     `[a,,b]`,
+		"unknown icon":    `[x?icon=nope]`,
+		"bad attr":        `[x?color=red]`,
+		"icon empty":      `[x?icon=]`,
+		"only brackets":   `[`,
+	}
+	for name, in := range cases {
+		t.Run(name, func(t *testing.T) {
+			out := dslFlow(in)
+			assertSVG(t, "flow "+name, out, "flow:")
+		})
+	}
+}
+
+// ──────────────────────────────────────────────────────────────────────
+// box
+// ──────────────────────────────────────────────────────────────────────
+
+func TestDslBox_Valid(t *testing.T) {
+	out := dslBox(`hello`)
+	assertSVG(t, "box plain", out, "<rect", "hello")
+
+	out2 := dslBox(`web?icon=browser`)
+	assertSVG(t, "box icon", out2, "web", "<g")
+
+	out3 := dslBox(`db?icon=database`)
+	assertSVG(t, "box db icon", out3, "db")
+}
+
+func TestDslBox_Invalid(t *testing.T) {
+	cases := map[string]string{
+		"empty":          ``,
+		"unknown icon":   `x?icon=nope`,
+		"unknown attr":   `x?color=red`,
+		"bad attr no eq": `x?broken`,
+		"empty label":    `?icon=server`,
+	}
+	for name, in := range cases {
+		t.Run(name, func(t *testing.T) {
+			out := dslBox(in)
+			assertSVG(t, "box "+name, out, "box:")
+		})
+	}
+}
+
+// ──────────────────────────────────────────────────────────────────────
+// arrow
+// ──────────────────────────────────────────────────────────────────────
+
+func TestDslArrow_Valid(t *testing.T) {
+	out := dslArrow(`"go"`)
+	assertSVG(t, "arrow default", out, "go", "<polygon", "<line")
+
+	out2 := dslArrow(`"down"?dir=down`)
+	assertSVG(t, "arrow down", out2, "down")
+
+	out3 := dslArrow(`"up"?dir=up`)
+	assertSVG(t, "arrow up", out3, "up")
+
+	out4 := dslArrow(`"left"?dir=left`)
+	assertSVG(t, "arrow left", out4, "left")
+
+	out5 := dslArrow(`"right"?dir=right`)
+	assertSVG(t, "arrow right", out5, "right")
+}
+
+func TestDslArrow_Invalid(t *testing.T) {
+	cases := map[string]string{
+		"no quotes":          `bare`,
+		"unterminated quote": `"oops`,
+		"empty label":        `""`,
+		"unknown dir":        `"x"?dir=sideways`,
+		"unknown attr":       `"x"?color=red`,
+		"bad attr no eq":     `"x"?broken`,
+	}
+	for name, in := range cases {
+		t.Run(name, func(t *testing.T) {
+			out := dslArrow(in)
+			assertSVG(t, "arrow "+name, out, "arrow:")
+		})
+	}
+}
+
 // ──────────────────────────────────────────────────────────────────────
 // helpers
 // ──────────────────────────────────────────────────────────────────────
