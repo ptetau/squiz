@@ -257,6 +257,17 @@ html[data-theme="slate"] body {
 html[data-cursor="on"] .topbar .squiz::after {
   animation: blink 1.1s steps(2) infinite;
 }
+.topbar .squiz-version {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  padding: 1px 5px;
+  border: 1px solid var(--rule-2);
+  border-radius: 2px;
+  margin-left: 6px;
+  text-transform: lowercase;
+}
 .topbar .path { color: var(--ink-2); }
 .topbar .right { color: var(--ink-3); }
 @keyframes blink { 50% { opacity: 0; } }

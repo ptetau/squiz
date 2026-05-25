@@ -14,7 +14,7 @@
 
 <main class="page">
   <div class="topbar">
-    <div class="left"><span class="squiz">squiz</span> · {{.Doc.Spec.Path}}</div>
+    <div class="left"><span class="squiz">squiz</span>{{if .Version}}<span class="squiz-version" aria-label="squiz version">v{{.Version}}</span>{{end}} · {{.Doc.Spec.Path}}</div>
     <div class="right topbar-clock" aria-hidden="true"></div>
   </div>
 

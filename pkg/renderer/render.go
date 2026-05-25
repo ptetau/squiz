@@ -32,6 +32,7 @@ type RenderOpts struct {
 	OutputPath    string // absolute path of the .html being written
 	ThemeOverride string // from --theme; trumps doc.Theme
 	WorkDir       string // dir used for repo→theme resolution
+	Version       string // generator version (squiz binary) — shown in topbar + export JSON; empty → badge hidden
 }
 
 func Render(d *Document, opts RenderOpts) (string, error) {
@@ -110,10 +111,12 @@ func Render(d *Document, opts RenderOpts) (string, error) {
 	specTitleJSON, _ := json.Marshal(d.Spec.Title)
 
 	// Source: absolute path of the rendered HTML, embedded so the export
-	// JSON can carry it back to the agent.
+	// JSON can carry it back to the agent. `version` carries the generator
+	// version so feedback round-trips know what produced the doc.
 	source := map[string]any{
 		"file":     opts.OutputPath,
 		"basename": filepath.Base(opts.OutputPath),
+		"version":  opts.Version,
 	}
 	sourceJSON, _ := json.Marshal(source)
 
@@ -138,6 +141,7 @@ func Render(d *Document, opts RenderOpts) (string, error) {
 		ScanlinesAttr  string
 		CursorAttr     string
 		Total          int
+		Version        string // generator version; empty → topbar badge hidden
 	}
 
 	funcs := template.FuncMap{
@@ -169,6 +173,7 @@ func Render(d *Document, opts RenderOpts) (string, error) {
 		ScanlinesAttr:  scanlines,
 		CursorAttr:     cursor,
 		Total:          len(d.Squizzes),
+		Version:        opts.Version,
 	}
 
 	var buf bytes.Buffer

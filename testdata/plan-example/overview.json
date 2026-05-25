@@ -3,18 +3,18 @@
     {
       "id": "OVR-1",
       "title": "Mission",
-      "desc": "Track temperature in 4 rooms of a home, alert on anomalies, and let the homeowner answer 'was the heating off when we were away?' months later."
+      "desc": "A self-hostable URL shortener that small teams can stand up on their own domain in an afternoon. Bring-your-own-domain, real analytics, no third party tracking your users."
     },
     {
       "id": "OVR-2",
       "title": "Audience",
-      "desc": "One homeowner. Comfortable with a phone, not with a CLI. Will never SSH into anything.",
-      "art": "wf:avatar-single"
+      "desc": "Small teams (3-50 people) who already own a short domain and want to use it for campaign tracking, internal redirects, and link-shortening without handing data to a SaaS.",
+      "art": "arch:user"
     },
     {
       "id": "OVR-3",
       "title": "Hard constraints",
-      "desc": "Runs entirely on-premise: no cloud sync, no account, no internet dependency. Must survive a 2-week internet outage with full functionality."
+      "desc": "One static binary. One config file. Must run on a $5/month VPS with 1 GB RAM. No SaaS dependencies for the redirect path — even if every other service is down, slugs still resolve."
     }
   ]
 }

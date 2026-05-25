@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ThermoLog — home temperature logger</title>
+<title>clipsi — self-hostable URL shortener with analytics</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
@@ -265,6 +265,17 @@ html[data-theme="slate"] body {
 }
 html[data-cursor="on"] .topbar .squiz::after {
   animation: blink 1.1s steps(2) infinite;
+}
+.topbar .squiz-version {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  padding: 1px 5px;
+  border: 1px solid var(--rule-2);
+  border-radius: 2px;
+  margin-left: 6px;
+  text-transform: lowercase;
 }
 .topbar .path { color: var(--ink-2); }
 .topbar .right { color: var(--ink-3); }
@@ -1840,13 +1851,13 @@ html[data-theme="slate"]    .item-options .option-art {
 
 <main class="plan-page" id="main">
   <div class="plan-topbar">
-    <div class="left"><span class="plan-wordmark">squiz-plan</span> &middot; ThermoLog — home temperature logger</div>
+    <div class="left"><span class="plan-wordmark">squiz-plan</span> &middot; clipsi — self-hostable URL shortener with analytics</div>
     <div class="right" aria-hidden="true">plan</div>
   </div>
 
   <section class="plan-intro">
-    <h1 class="plan-intro-title">ThermoLog — home temperature logger</h1>
-    <p class="plan-intro-lede">A small offline-first home temperature logger. Six load-bearing sections, traceable from goal to build step.</p>
+    <h1 class="plan-intro-title">clipsi — self-hostable URL shortener with analytics</h1>
+    <p class="plan-intro-lede">Six load-bearing sections for a tiny but real service: redirect path, analytics pipeline, four embedded engineering decisions. Designed to fit in one binary, one config file, one $5 VPS.</p>
   </section>
 
   <div class="plan-tabs" role="tablist" aria-label="Plan sections">
@@ -1870,7 +1881,7 @@ html[data-theme="slate"]    .item-options .option-art {
             aria-controls="panel-functional"
             aria-selected="false"
             tabindex="-1">
-      Functional<span class="plan-tab-count">4</span>
+      Functional<span class="plan-tab-count">5</span>
     </button>
     
     <button type="button"
@@ -1881,7 +1892,7 @@ html[data-theme="slate"]    .item-options .option-art {
             aria-controls="panel-non-functional"
             aria-selected="false"
             tabindex="-1">
-      Non-functional<span class="plan-tab-count">3</span>
+      Non-functional<span class="plan-tab-count">4</span>
     </button>
     
     <button type="button"
@@ -1903,7 +1914,7 @@ html[data-theme="slate"]    .item-options .option-art {
             aria-controls="panel-engineering"
             aria-selected="false"
             tabindex="-1">
-      Engineering<span class="plan-tab-count">4</span>
+      Engineering<span class="plan-tab-count">5</span>
     </button>
     
     <button type="button"
@@ -1914,7 +1925,7 @@ html[data-theme="slate"]    .item-options .option-art {
             aria-controls="panel-build"
             aria-selected="false"
             tabindex="-1">
-      Build<span class="plan-tab-count">4</span>
+      Build<span class="plan-tab-count">5</span>
     </button>
     
   </div>
@@ -1942,7 +1953,7 @@ html[data-theme="slate"]    .item-options .option-art {
         <h2 class="item-title" id="item-title-OVR-1">Mission</h2>
         <span class="item-id" aria-label="Identifier OVR-1">OVR-1</span>
       </header>
-      <p class="item-desc">Track temperature in 4 rooms of a home, alert on anomalies, and let the homeowner answer &#39;was the heating off when we were away?&#39; months later.</p>
+      <p class="item-desc">A self-hostable URL shortener that small teams can stand up on their own domain in an afternoon. Bring-your-own-domain, real analytics, no third party tracking your users.</p>
       
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:78%;height:auto'><defs><pattern id='p-a' patternUnits='userSpaceOnUse' width='5' height='5' patternTransform='rotate(45)'><line x1='0' y1='0' x2='0' y2='5' stroke='var(--accent)' stroke-width='1' opacity='0.55'/></pattern></defs><rect x='6' y='6' width='88' height='48' fill='url(#p-a)' stroke='var(--rule-2)' stroke-width='0.5'/></svg></div>
       
@@ -1976,9 +1987,9 @@ html[data-theme="slate"]    .item-options .option-art {
         <h2 class="item-title" id="item-title-OVR-2">Audience</h2>
         <span class="item-id" aria-label="Identifier OVR-2">OVR-2</span>
       </header>
-      <p class="item-desc">One homeowner. Comfortable with a phone, not with a CLI. Will never SSH into anything.</p>
+      <p class="item-desc">Small teams (3-50 people) who already own a short domain and want to use it for campaign tracking, internal redirects, and link-shortening without handing data to a SaaS.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:60%;height:auto'><circle cx='50' cy='28' r='14' fill='var(--surface)' stroke='var(--ink)' stroke-width='1.4'/><text x='50' y='33' text-anchor='middle' font-family='IBM Plex Mono' font-size='13' font-weight='600' fill='var(--ink)'>M</text><text x='50' y='52' text-anchor='middle' font-family='IBM Plex Mono' font-size='5' fill='var(--ink-3)' letter-spacing='0.1em'>· JUST YOU ·</text></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><circle cx='50' cy='22' r='7'/><path d='M 34 46 Q 34 32 50 32 Q 66 32 66 46'/></g></svg></div>
       
       
       
@@ -2010,7 +2021,7 @@ html[data-theme="slate"]    .item-options .option-art {
         <h2 class="item-title" id="item-title-OVR-3">Hard constraints</h2>
         <span class="item-id" aria-label="Identifier OVR-3">OVR-3</span>
       </header>
-      <p class="item-desc">Runs entirely on-premise: no cloud sync, no account, no internet dependency. Must survive a 2-week internet outage with full functionality.</p>
+      <p class="item-desc">One static binary. One config file. Must run on a $5/month VPS with 1 GB RAM. No SaaS dependencies for the redirect path — even if every other service is down, slugs still resolve.</p>
       
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:78%;height:auto'><defs><pattern id='p-a' patternUnits='userSpaceOnUse' width='5' height='5' patternTransform='rotate(45)'><line x1='0' y1='0' x2='0' y2='5' stroke='var(--accent)' stroke-width='1' opacity='0.55'/></pattern></defs><rect x='6' y='6' width='88' height='48' fill='url(#p-a)' stroke='var(--rule-2)' stroke-width='0.5'/></svg></div>
       
@@ -2083,12 +2094,12 @@ html[data-theme="slate"]    .item-options .option-art {
     
     <article class="item" id="item-FR-1" tabindex="-1" aria-labelledby="item-title-FR-1">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-FR-1">Log temperature every 60 s</h2>
+        <h2 class="item-title" id="item-title-FR-1">Create a short link</h2>
         <span class="item-id" aria-label="Identifier FR-1">FR-1</span>
       </header>
-      <p class="item-desc">Each sensor reports °C every minute; the logger writes one row per sensor per minute.</p>
+      <p class="item-desc">POST /api/links with a target URL → returns a slug. Web form mirrors the API. Auth is optional per-instance (open / api-key / OAuth).</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:82%;height:auto'><path d='M 10 48 L 22 44 L 34 40 L 46 35 L 58 28 L 70 22 L 82 14 L 90 8 L 90 52 L 10 52 Z' fill='var(--accent)' opacity='0.15'/><path d='M 10 48 L 22 44 L 34 40 L 46 35 L 58 28 L 70 22 L 82 14 L 90 8' fill='none' stroke='var(--accent)' stroke-width='1.6' stroke-linejoin='round'/><circle cx='90' cy='8' r='2.2' fill='var(--accent)'/></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.6' stroke-linejoin='round' stroke-linecap='round'><path d='M 38 16 Q 30 16 30 22 L 30 28 Q 30 30 28 30 Q 30 30 30 32 L 30 38 Q 30 44 38 44'/><path d='M 62 16 Q 70 16 70 22 L 70 28 Q 70 30 72 30 Q 70 30 70 32 L 70 38 Q 70 44 62 44'/><circle cx='44' cy='30' r='1.8' fill='var(--accent)' stroke='none'/><circle cx='50' cy='30' r='1.8' fill='var(--accent)' stroke='none'/><circle cx='56' cy='30' r='1.8' fill='var(--accent)' stroke='none'/></g></svg></div>
       
       
       
@@ -2129,12 +2140,12 @@ html[data-theme="slate"]    .item-options .option-art {
     
     <article class="item" id="item-FR-2" tabindex="-1" aria-labelledby="item-title-FR-2">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-FR-2">Chart room history</h2>
+        <h2 class="item-title" id="item-title-FR-2">Redirect by slug</h2>
         <span class="item-id" aria-label="Identifier FR-2">FR-2</span>
       </header>
-      <p class="item-desc">Per-room view: last 24h, 7d, 30d, all-time. Touchable on a phone.</p>
+      <p class="item-desc">GET /:slug → HTTP 302 to the stored target. The hot path of the service: cheap, cacheable, no auth, no DB write.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g transform='translate(30,4)'><rect x='0' y='0' width='42' height='52' rx='4' fill='var(--surface)' stroke='var(--ink)' stroke-width='1.2'/><line x1='15' y1='4' x2='27' y2='4' stroke='var(--ink-3)' stroke-width='0.5'/><rect x='4' y='8' width='12' height='2.5' fill='var(--ink)' opacity='0.6'/><text x='4' y='20' font-family='IBM Plex Mono' font-size='10' font-weight='700' fill='var(--accent)'>27</text><rect x='4' y='28' width='34' height='14' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><path d='M 5 40 L 11 36 L 17 38 L 23 32 L 29 30 L 35 26' fill='none' stroke='var(--accent)' stroke-width='1.2'/></g></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='30' y='14' width='8' height='32'/><rect x='62' y='14' width='8' height='32'/><path d='M 38 18 L 62 18' stroke='var(--ink)' stroke-width='1.2'/><path d='M 42 30 L 58 30' stroke='var(--accent)' stroke-width='1.6'/><polygon points='58,30 54,28 54,32' fill='var(--accent)' stroke='none'/></g></svg></div>
       
       
       
@@ -2182,12 +2193,12 @@ html[data-theme="slate"]    .item-options .option-art {
     
     <article class="item" id="item-FR-3" tabindex="-1" aria-labelledby="item-title-FR-3">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-FR-3">Anomaly alerts</h2>
+        <h2 class="item-title" id="item-title-FR-3">Custom slugs &#43; auto-generation</h2>
         <span class="item-id" aria-label="Identifier FR-3">FR-3</span>
       </header>
-      <p class="item-desc">Push a notification when a room is &gt;5 °C outside its 7-day band for more than 20 minutes.</p>
+      <p class="item-desc">User can specify the slug (&#34;black-friday-2026&#34;) or let the server generate a short base62 ID. Custom slugs collide-check; auto slugs are 6-8 chars.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:60%;height:auto'><rect x='28' y='20' width='44' height='20' fill='var(--accent)'/><text x='50' y='34' text-anchor='middle' font-family='IBM Plex Mono' font-size='10' font-weight='700' fill='var(--bg)' letter-spacing='0.16em'>NEW</text></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><text x='6' y='33.85' text-anchor='start' font-family='IBM Plex Mono' font-size='11' font-weight='400' fill='var(--accent)'>/black-friday-2026</text></svg></div>
       
       
       
@@ -2195,10 +2206,10 @@ html[data-theme="slate"]    .item-options .option-art {
         <li class="refs-label">refs</li>
         
         <li>
-          <a href="#item-OVR-1"
-             data-target="OVR-1"
-             data-target-section="overview"
-             aria-label="Jump to Overview · OVR-1">OVR-1</a>
+          <a href="#item-FR-1"
+             data-target="FR-1"
+             data-target-section="functional"
+             aria-label="Jump to Functional · FR-1">FR-1</a>
         </li>
         
       </ul>
@@ -2228,12 +2239,12 @@ html[data-theme="slate"]    .item-options .option-art {
     
     <article class="item" id="item-FR-4" tabindex="-1" aria-labelledby="item-title-FR-4">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-FR-4">CSV export</h2>
+        <h2 class="item-title" id="item-title-FR-4">Link expiry (optional)</h2>
         <span class="item-id" aria-label="Identifier FR-4">FR-4</span>
       </header>
-      <p class="item-desc">Download all historical readings as CSV from the web UI. One file per room.</p>
+      <p class="item-desc">Per-link TTL: &#34;expires in 30 days&#34; or &#34;after 1000 clicks&#34;. A nightly job sweeps expired links. Expired slugs return HTTP 410 Gone.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><g font-family='IBM Plex Mono' font-size='8' fill='var(--ink-2)'><g transform='translate(10,12)'><path d='M 0 0 L 8 0 L 11 3 L 11 14 L 0 14 Z' fill='var(--surface)' stroke='var(--accent)' stroke-width='1'/><path d='M 8 0 L 8 3 L 11 3' fill='none' stroke='var(--accent)' stroke-width='1'/><text x='14' y='10'>spec.md</text></g><g transform='translate(10,28)'><path d='M 0 0 L 8 0 L 11 3 L 11 14 L 0 14 Z' fill='var(--surface)' stroke='var(--accent)' stroke-width='1'/><path d='M 8 0 L 8 3 L 11 3' fill='none' stroke='var(--accent)' stroke-width='1'/><text x='14' y='10'>ideas.md</text></g><g transform='translate(10,44)'><path d='M 0 0 L 8 0 L 11 3 L 11 14 L 0 14 Z' fill='var(--surface)' stroke='var(--accent)' stroke-width='1'/><path d='M 8 0 L 8 3 L 11 3' fill='none' stroke='var(--accent)' stroke-width='1'/><text x='14' y='10'>todo.md</text></g></g></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:70%;height:auto'><circle cx='50' cy='30' r='22' fill='none' stroke='var(--ink)' stroke-width='1.6'/><g stroke='var(--ink-3)' stroke-width='0.8'><line x1='50' y1='10' x2='50' y2='13'/><line x1='70' y1='30' x2='67' y2='30'/><line x1='50' y1='50' x2='50' y2='47'/><line x1='30' y1='30' x2='33' y2='30'/></g><line x1='50' y1='30' x2='50' y2='17' stroke='var(--accent)' stroke-width='1.8' stroke-linecap='round'/><line x1='50' y1='30' x2='62' y2='34' stroke='var(--accent)' stroke-width='1.4' stroke-linecap='round'/><circle cx='50' cy='30' r='1.8' fill='var(--accent)'/></svg></div>
       
       
       
@@ -2241,10 +2252,10 @@ html[data-theme="slate"]    .item-options .option-art {
         <li class="refs-label">refs</li>
         
         <li>
-          <a href="#item-OVR-1"
-             data-target="OVR-1"
-             data-target-section="overview"
-             aria-label="Jump to Overview · OVR-1">OVR-1</a>
+          <a href="#item-FR-1"
+             data-target="FR-1"
+             data-target-section="functional"
+             aria-label="Jump to Functional · FR-1">FR-1</a>
         </li>
         
       </ul>
@@ -2266,6 +2277,52 @@ html[data-theme="slate"]    .item-options .option-art {
         </div>
         <label class="visually-hidden" for="fb-note-FR-4">Notes for FR-4</label>
         <textarea id="fb-note-FR-4"
+                  class="fb-note"
+                  rows="1"
+                  placeholder="notes, edge cases, follow-ups…"></textarea>
+      </div>
+    </article>
+    
+    <article class="item" id="item-FR-5" tabindex="-1" aria-labelledby="item-title-FR-5">
+      <header class="item-head">
+        <h2 class="item-title" id="item-title-FR-5">Per-link analytics (no PII)</h2>
+        <span class="item-id" aria-label="Identifier FR-5">FR-5</span>
+      </header>
+      <p class="item-desc">Per-slug dashboard: total clicks, referrers, rough geo (country only), user agent buckets. IPs are hashed; no cookies; no individual user records — only aggregates.</p>
+      
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g transform='translate(30,4)'><rect x='0' y='0' width='42' height='52' rx='4' fill='var(--surface)' stroke='var(--ink)' stroke-width='1.2'/><line x1='15' y1='4' x2='27' y2='4' stroke='var(--ink-3)' stroke-width='0.5'/><rect x='4' y='8' width='12' height='2.5' fill='var(--ink)' opacity='0.6'/><text x='4' y='20' font-family='IBM Plex Mono' font-size='10' font-weight='700' fill='var(--accent)'>27</text><rect x='4' y='28' width='34' height='14' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><path d='M 5 40 L 11 36 L 17 38 L 23 32 L 29 30 L 35 26' fill='none' stroke='var(--accent)' stroke-width='1.2'/></g></svg></div>
+      
+      
+      
+      <ul class="refs" aria-label="References">
+        <li class="refs-label">refs</li>
+        
+        <li>
+          <a href="#item-OVR-1"
+             data-target="OVR-1"
+             data-target-section="overview"
+             aria-label="Jump to Overview · OVR-1">OVR-1</a>
+        </li>
+        
+      </ul>
+      
+      <div class="feedback" data-item="FR-5">
+        <div class="feedback-row">
+          <div class="feedback-buttons" role="group" aria-label="Feedback status for FR-5">
+            <button type="button" class="fb-btn" data-value="approved"
+                    aria-label="Approve FR-5" aria-pressed="false">&#10003;</button>
+            <button type="button" class="fb-btn" data-value="questioned"
+                    aria-label="Question FR-5" aria-pressed="false">?</button>
+            <button type="button" class="fb-btn" data-value="rejected"
+                    aria-label="Reject FR-5" aria-pressed="false">&#10007;</button>
+          </div>
+          <span class="fb-status-label" aria-hidden="true">feedback</span>
+          <button type="button" class="fb-edit"
+                  aria-pressed="false"
+                  aria-label="Toggle inline edit for FR-5">edit</button>
+        </div>
+        <label class="visually-hidden" for="fb-note-FR-5">Notes for FR-5</label>
+        <textarea id="fb-note-FR-5"
                   class="fb-note"
                   rows="1"
                   placeholder="notes, edge cases, follow-ups…"></textarea>
@@ -2316,12 +2373,12 @@ html[data-theme="slate"]    .item-options .option-art {
     
     <article class="item" id="item-NFR-1" tabindex="-1" aria-labelledby="item-title-NFR-1">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-NFR-1">Offline-first</h2>
+        <h2 class="item-title" id="item-title-NFR-1">Redirect p99 &lt; 50 ms</h2>
         <span class="item-id" aria-label="Identifier NFR-1">NFR-1</span>
       </header>
-      <p class="item-desc">All features work with the WAN disconnected. No background sync, no &#34;cloud login required&#34; splash.</p>
+      <p class="item-desc">From the moment a browser sends GET /:slug to the moment it gets a 302 response — under 50 ms at the 99th percentile, measured from the same region as the VPS.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:45%;height:auto'><rect x='38' y='28' width='24' height='18' rx='2' fill='var(--accent)'/><path d='M 42 28 V 22 a 8 8 0 0 1 16 0 V 28' fill='none' stroke='var(--accent)' stroke-width='2'/><circle cx='50' cy='37' r='2.5' fill='var(--bg)'/></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:78%;height:auto'><path d='M 18 48 A 32 32 0 0 1 82 48' fill='none' stroke='var(--ink-3)' stroke-width='6' opacity='0.3'/><path d='M 18 48 A 32 32 0 0 1 70 24' fill='none' stroke='var(--accent)' stroke-width='6'/><circle cx='70' cy='24' r='3.5' fill='var(--accent)'/><text x='50' y='44' text-anchor='middle' font-family='IBM Plex Mono' font-size='7' font-weight='600' fill='var(--ink)'>72%</text></svg></div>
       
       
       
@@ -2329,10 +2386,10 @@ html[data-theme="slate"]    .item-options .option-art {
         <li class="refs-label">refs</li>
         
         <li>
-          <a href="#item-OVR-3"
-             data-target="OVR-3"
+          <a href="#item-OVR-1"
+             data-target="OVR-1"
              data-target-section="overview"
-             aria-label="Jump to Overview · OVR-3">OVR-3</a>
+             aria-label="Jump to Overview · OVR-1">OVR-1</a>
         </li>
         
       </ul>
@@ -2362,12 +2419,12 @@ html[data-theme="slate"]    .item-options .option-art {
     
     <article class="item" id="item-NFR-2" tabindex="-1" aria-labelledby="item-title-NFR-2">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-NFR-2">Low-power</h2>
+        <h2 class="item-title" id="item-title-NFR-2">Survives reboot &#43; buffered writes</h2>
         <span class="item-id" aria-label="Identifier NFR-2">NFR-2</span>
       </header>
-      <p class="item-desc">Whole system draws &lt; 5 W idle. Logger lives on a Pi Zero 2 W; sensors run on coin cells for &gt; 12 months.</p>
+      <p class="item-desc">All link state in durable storage before any 200 is returned to the creator. Analytics events are buffered locally and replayed if the analytics backend is briefly unreachable.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:78%;height:auto'><path d='M 18 48 A 32 32 0 0 1 82 48' fill='none' stroke='var(--ink-3)' stroke-width='6' opacity='0.3'/><path d='M 18 48 A 32 32 0 0 1 70 24' fill='none' stroke='var(--accent)' stroke-width='6'/><circle cx='70' cy='24' r='3.5' fill='var(--accent)'/><text x='50' y='44' text-anchor='middle' font-family='IBM Plex Mono' font-size='7' font-weight='600' fill='var(--ink)'>72%</text></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><ellipse cx='50' cy='16' rx='16' ry='4' fill='var(--accent-soft)'/><path d='M 34 16 L 34 44 A 16 4 0 0 0 66 44 L 66 16'/><path d='M 34 26 A 16 4 0 0 0 66 26' stroke='var(--ink)' stroke-width='1'/><path d='M 34 36 A 16 4 0 0 0 66 36' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
       
       
       
@@ -2408,12 +2465,12 @@ html[data-theme="slate"]    .item-options .option-art {
     
     <article class="item" id="item-NFR-3" tabindex="-1" aria-labelledby="item-title-NFR-3">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-NFR-3">Local-only data</h2>
+        <h2 class="item-title" id="item-title-NFR-3">No PII storage</h2>
         <span class="item-id" aria-label="Identifier NFR-3">NFR-3</span>
       </header>
-      <p class="item-desc">No data ever leaves the house network. Alerts use a local push gateway, not Apple/Google push.</p>
+      <p class="item-desc">IP addresses are SHA-256 hashed with a per-instance salt before any write. No cookies on the redirect path. No third party scripts ever in the dashboard.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:78%;height:auto'><defs><pattern id='p-a' patternUnits='userSpaceOnUse' width='5' height='5' patternTransform='rotate(45)'><line x1='0' y1='0' x2='0' y2='5' stroke='var(--accent)' stroke-width='1' opacity='0.55'/></pattern></defs><rect x='6' y='6' width='88' height='48' fill='url(#p-a)' stroke='var(--rule-2)' stroke-width='0.5'/></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='38' y='28' width='24' height='18' rx='2' fill='var(--accent)' stroke='var(--accent)'/><path d='M 42 28 V 22 a 8 8 0 0 1 16 0 V 28'/><text x='50' y='42' text-anchor='middle' font-family='IBM Plex Mono' font-size='10' font-weight='700' fill='var(--bg)'>***</text></g></svg></div>
       
       
       
@@ -2421,10 +2478,10 @@ html[data-theme="slate"]    .item-options .option-art {
         <li class="refs-label">refs</li>
         
         <li>
-          <a href="#item-OVR-3"
-             data-target="OVR-3"
+          <a href="#item-OVR-1"
+             data-target="OVR-1"
              data-target-section="overview"
-             aria-label="Jump to Overview · OVR-3">OVR-3</a>
+             aria-label="Jump to Overview · OVR-1">OVR-1</a>
         </li>
         
       </ul>
@@ -2446,6 +2503,52 @@ html[data-theme="slate"]    .item-options .option-art {
         </div>
         <label class="visually-hidden" for="fb-note-NFR-3">Notes for NFR-3</label>
         <textarea id="fb-note-NFR-3"
+                  class="fb-note"
+                  rows="1"
+                  placeholder="notes, edge cases, follow-ups…"></textarea>
+      </div>
+    </article>
+    
+    <article class="item" id="item-NFR-4" tabindex="-1" aria-labelledby="item-title-NFR-4">
+      <header class="item-head">
+        <h2 class="item-title" id="item-title-NFR-4">One binary, one config</h2>
+        <span class="item-id" aria-label="Identifier NFR-4">NFR-4</span>
+      </header>
+      <p class="item-desc">Single static Go binary plus one TOML config file. No external dependencies for the redirect path (cache is in-process by default; external cache is opt-in).</p>
+      
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><text x='6' y='27.25' text-anchor='start' font-family='IBM Plex Mono' font-size='11' font-weight='400' fill='var(--accent)'>clipsi.toml</text><text x='6' y='40.45' text-anchor='start' font-family='IBM Plex Mono' font-size='11' font-weight='400' fill='var(--accent)'>clipsi.service</text></svg></div>
+      
+      
+      
+      <ul class="refs" aria-label="References">
+        <li class="refs-label">refs</li>
+        
+        <li>
+          <a href="#item-OVR-3"
+             data-target="OVR-3"
+             data-target-section="overview"
+             aria-label="Jump to Overview · OVR-3">OVR-3</a>
+        </li>
+        
+      </ul>
+      
+      <div class="feedback" data-item="NFR-4">
+        <div class="feedback-row">
+          <div class="feedback-buttons" role="group" aria-label="Feedback status for NFR-4">
+            <button type="button" class="fb-btn" data-value="approved"
+                    aria-label="Approve NFR-4" aria-pressed="false">&#10003;</button>
+            <button type="button" class="fb-btn" data-value="questioned"
+                    aria-label="Question NFR-4" aria-pressed="false">?</button>
+            <button type="button" class="fb-btn" data-value="rejected"
+                    aria-label="Reject NFR-4" aria-pressed="false">&#10007;</button>
+          </div>
+          <span class="fb-status-label" aria-hidden="true">feedback</span>
+          <button type="button" class="fb-edit"
+                  aria-pressed="false"
+                  aria-label="Toggle inline edit for NFR-4">edit</button>
+        </div>
+        <label class="visually-hidden" for="fb-note-NFR-4">Notes for NFR-4</label>
+        <textarea id="fb-note-NFR-4"
                   class="fb-note"
                   rows="1"
                   placeholder="notes, edge cases, follow-ups…"></textarea>
@@ -2496,12 +2599,12 @@ html[data-theme="slate"]    .item-options .option-art {
     
     <article class="item" id="item-CASE-1" tabindex="-1" aria-labelledby="item-title-CASE-1">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-CASE-1">&#34;Did the heating fail while we were away?&#34;</h2>
+        <h2 class="item-title" id="item-title-CASE-1">&#34;Our newsletter went viral&#34;</h2>
         <span class="item-id" aria-label="Identifier CASE-1">CASE-1</span>
       </header>
-      <p class="item-desc">Homeowner returns from a 10-day trip, opens the app, jumps to the timeframe of the trip, sees the temperature line for the living room and confirms it stayed above 16 °C the whole time.</p>
+      <p class="item-desc">Marketing sends an email with one tracked link. 10 000 req/s for 90 seconds. The redirect path must hold; the analytics pipeline can fall behind and catch up — but no redirect can drop.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g transform='translate(30,4)'><rect x='0' y='0' width='42' height='52' rx='4' fill='var(--surface)' stroke='var(--ink)' stroke-width='1.2'/><line x1='15' y1='4' x2='27' y2='4' stroke='var(--ink-3)' stroke-width='0.5'/><rect x='4' y='8' width='12' height='2.5' fill='var(--ink)' opacity='0.6'/><text x='4' y='20' font-family='IBM Plex Mono' font-size='10' font-weight='700' fill='var(--accent)'>27</text><rect x='4' y='28' width='34' height='14' fill='none' stroke='var(--rule-2)' stroke-width='0.4'/><path d='M 5 40 L 11 36 L 17 38 L 23 32 L 29 30 L 35 26' fill='none' stroke='var(--accent)' stroke-width='1.2'/></g></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:82%;height:auto'><path d='M 10 48 L 22 44 L 34 40 L 46 35 L 58 28 L 70 22 L 82 14 L 90 8 L 90 52 L 10 52 Z' fill='var(--accent)' opacity='0.15'/><path d='M 10 48 L 22 44 L 34 40 L 46 35 L 58 28 L 70 22 L 82 14 L 90 8' fill='none' stroke='var(--accent)' stroke-width='1.6' stroke-linejoin='round'/><circle cx='90' cy='8' r='2.2' fill='var(--accent)'/></svg></div>
       
       
       
@@ -2513,6 +2616,13 @@ html[data-theme="slate"]    .item-options .option-art {
              data-target="FR-2"
              data-target-section="functional"
              aria-label="Jump to Functional · FR-2">FR-2</a>
+        </li>
+        
+        <li>
+          <a href="#item-NFR-1"
+             data-target="NFR-1"
+             data-target-section="non-functional"
+             aria-label="Jump to Non-functional · NFR-1">NFR-1</a>
         </li>
         
       </ul>
@@ -2542,17 +2652,24 @@ html[data-theme="slate"]    .item-options .option-art {
     
     <article class="item" id="item-CASE-2" tabindex="-1" aria-labelledby="item-title-CASE-2">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-CASE-2">&#34;The bedroom is freezing tonight&#34;</h2>
+        <h2 class="item-title" id="item-title-CASE-2">&#34;I want a memorable slug for the all-hands&#34;</h2>
         <span class="item-id" aria-label="Identifier CASE-2">CASE-2</span>
       </header>
-      <p class="item-desc">Mid-winter, 2 am. Bedroom drops to 11 °C, the alert fires on the phone, homeowner gets up to investigate before the pipes freeze.</p>
+      <p class="item-desc">Someone types a slug into the form (&#34;all-hands-q4&#34;), pastes the Zoom link, copies the resulting short URL, and pastes it into the calendar invite. End-to-end under 30 seconds, no API key.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:82%;height:auto'><text x='50' y='30.00' text-anchor='middle' font-family='IBM Plex Mono' font-style='normal' font-weight='500' font-size='9' fill='var(--ink)'>BEDROOM 11°C</text></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><text x='6' y='33.50' text-anchor='start' font-family='IBM Plex Mono' font-size='10' font-weight='400' fill='var(--accent)'>clipsi.co/all-hands-q4</text></svg></div>
       
       
       
       <ul class="refs" aria-label="References">
         <li class="refs-label">refs</li>
+        
+        <li>
+          <a href="#item-FR-1"
+             data-target="FR-1"
+             data-target-section="functional"
+             aria-label="Jump to Functional · FR-1">FR-1</a>
+        </li>
         
         <li>
           <a href="#item-FR-3"
@@ -2588,10 +2705,10 @@ html[data-theme="slate"]    .item-options .option-art {
     
     <article class="item" id="item-CASE-3" tabindex="-1" aria-labelledby="item-title-CASE-3">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-CASE-3">&#34;What does our heating cost actually buy us?&#34;</h2>
+        <h2 class="item-title" id="item-title-CASE-3">&#34;We printed it on a flyer&#34;</h2>
         <span class="item-id" aria-label="Identifier CASE-3">CASE-3</span>
       </header>
-      <p class="item-desc">End of winter. Homeowner exports a year of CSV, drops it into a spreadsheet next to the gas bill, decides whether next year&#39;s boiler tune-up is worth it.</p>
+      <p class="item-desc">A short URL was printed on 5 000 flyers six months ago. The slug must still resolve. Expiry never set; data never lost; the link works as long as the box is up.</p>
       
       
       
@@ -2599,10 +2716,17 @@ html[data-theme="slate"]    .item-options .option-art {
         <li class="refs-label">refs</li>
         
         <li>
-          <a href="#item-FR-4"
-             data-target="FR-4"
+          <a href="#item-FR-2"
+             data-target="FR-2"
              data-target-section="functional"
-             aria-label="Jump to Functional · FR-4">FR-4</a>
+             aria-label="Jump to Functional · FR-2">FR-2</a>
+        </li>
+        
+        <li>
+          <a href="#item-NFR-2"
+             data-target="NFR-2"
+             data-target-section="non-functional"
+             aria-label="Jump to Non-functional · NFR-2">NFR-2</a>
         </li>
         
       </ul>
@@ -2674,12 +2798,12 @@ html[data-theme="slate"]    .item-options .option-art {
     
     <article class="item" id="item-ENG-1" tabindex="-1" aria-labelledby="item-title-ENG-1">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-ENG-1">Sensor driver (BLE)</h2>
+        <h2 class="item-title" id="item-title-ENG-1">HTTP API service</h2>
         <span class="item-id" aria-label="Identifier ENG-1">ENG-1</span>
       </header>
-      <p class="item-desc">Read from 4 cheap Bluetooth LE thermometers. Pi scans every 60 s, writes the latest reading per sensor.</p>
+      <p class="item-desc">Single Go process: net/http, no framework. Routes: GET /:slug (hot path), POST /api/links, GET /api/links/:slug, GET /api/links/:slug/stats, plus a tiny dashboard SPA served from go:embed.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:84%;height:auto'><g><circle cx='15' cy='45' r='2' fill='var(--ink-3)'/><circle cx='27' cy='40' r='2' fill='var(--ink-3)'/><circle cx='39' cy='36' r='2' fill='var(--ink-3)'/><circle cx='51' cy='30' r='2' fill='var(--ink-3)'/><circle cx='63' cy='22' r='2' fill='var(--accent)'/><circle cx='75' cy='18' r='2' fill='var(--accent)'/><circle cx='87' cy='12' r='2.5' fill='var(--accent)'/></g><line x1='15' y1='45' x2='87' y2='12' stroke='var(--accent)' stroke-width='0.6' stroke-dasharray='2 2' opacity='0.5'/></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.6' stroke-linejoin='round' stroke-linecap='round'><path d='M 38 16 Q 30 16 30 22 L 30 28 Q 30 30 28 30 Q 30 30 30 32 L 30 38 Q 30 44 38 44'/><path d='M 62 16 Q 70 16 70 22 L 70 28 Q 70 30 72 30 Q 70 30 70 32 L 70 38 Q 70 44 62 44'/><circle cx='44' cy='30' r='1.8' fill='var(--accent)' stroke='none'/><circle cx='50' cy='30' r='1.8' fill='var(--accent)' stroke='none'/><circle cx='56' cy='30' r='1.8' fill='var(--accent)' stroke='none'/></g></svg></div>
       
       
       
@@ -2691,6 +2815,20 @@ html[data-theme="slate"]    .item-options .option-art {
              data-target="FR-1"
              data-target-section="functional"
              aria-label="Jump to Functional · FR-1">FR-1</a>
+        </li>
+        
+        <li>
+          <a href="#item-FR-2"
+             data-target="FR-2"
+             data-target-section="functional"
+             aria-label="Jump to Functional · FR-2">FR-2</a>
+        </li>
+        
+        <li>
+          <a href="#item-FR-3"
+             data-target="FR-3"
+             data-target-section="functional"
+             aria-label="Jump to Functional · FR-3">FR-3</a>
         </li>
         
         <li>
@@ -2727,10 +2865,10 @@ html[data-theme="slate"]    .item-options .option-art {
     
     <article class="item" id="item-ENG-2" tabindex="-1" aria-labelledby="item-title-ENG-2">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-ENG-2">Local storage choice</h2>
+        <h2 class="item-title" id="item-title-ENG-2">Link storage backend</h2>
         <span class="item-id" aria-label="Identifier ENG-2">ENG-2</span>
       </header>
-      <p class="item-desc">Where the year-long history actually lives on the Pi. Trade-off between query speed, disk footprint, and tooling overhead.</p>
+      <p class="item-desc">Where the slug → target map lives. The hot path issues one read per redirect; the cold path writes one row per created link.</p>
       
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><ellipse cx='50' cy='16' rx='16' ry='4' fill='var(--accent-soft)'/><path d='M 34 16 L 34 44 A 16 4 0 0 0 66 44 L 66 16'/><path d='M 34 26 A 16 4 0 0 0 66 26' stroke='var(--ink)' stroke-width='1'/><path d='M 34 36 A 16 4 0 0 0 66 36' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
       
@@ -2742,44 +2880,44 @@ html[data-theme="slate"]    .item-options .option-art {
                 aria-checked="false"
                 tabindex="0"
                 data-item="ENG-2" data-option="sqlite" data-letter="A"
-                aria-label="Option A: SQLite (append-only) — One file, no daemon, easy backups by cp. Best for the 1-writer/N-reader shape we have.">
+                aria-label="Option A: SQLite (single file) — Embedded, one file, zero ops. Best for ≤1M links and one VPS. Backup = scp the file. Default choice.">
           <div class="option-check" aria-hidden="true">&#10003;</div>
           <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><ellipse cx='50' cy='16' rx='16' ry='4' fill='var(--accent-soft)'/><path d='M 34 16 L 34 44 A 16 4 0 0 0 66 44 L 66 16'/><path d='M 34 26 A 16 4 0 0 0 66 26' stroke='var(--ink)' stroke-width='1'/><path d='M 34 36 A 16 4 0 0 0 66 36' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
           <div class="option-body">
             <span class="option-letter" aria-hidden="true">A</span>
             <span class="option-label" aria-hidden="true">Option A</span>
-            <span class="option-name">SQLite (append-only)</span>
-            <span class="option-desc">One file, no daemon, easy backups by cp. Best for the 1-writer/N-reader shape we have.</span>
+            <span class="option-name">SQLite (single file)</span>
+            <span class="option-desc">Embedded, one file, zero ops. Best for ≤1M links and one VPS. Backup = scp the file. Default choice.</span>
           </div>
         </button>
         
         <button type="button" class="option item-option" role="radio"
                 aria-checked="false"
                 tabindex="-1"
-                data-item="ENG-2" data-option="duckdb" data-letter="B"
-                aria-label="Option B: DuckDB — Columnar — faster aggregations over a year of minute readings. Heavier binary, less ubiquitous on the Pi.">
+                data-item="ENG-2" data-option="postgres" data-letter="B"
+                aria-label="Option B: Postgres (external) — Standard SQL, easy to share with other apps you already run. Adds an op dependency; needs connection pooling.">
           <div class="option-check" aria-hidden="true">&#10003;</div>
-          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='28' y='14' width='44' height='32'/><rect x='28' y='14' width='44' height='6' fill='var(--accent-soft)' stroke='var(--accent)' stroke-width='1.4'/><line x1='28' y1='28' x2='72' y2='28' stroke='var(--ink)' stroke-width='1'/><line x1='28' y1='36' x2='72' y2='36' stroke='var(--ink)' stroke-width='1'/><line x1='44' y1='20' x2='44' y2='46' stroke='var(--ink)' stroke-width='1'/><line x1='58' y1='20' x2='58' y2='46' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><ellipse cx='50' cy='16' rx='16' ry='4' fill='var(--accent-soft)'/><path d='M 34 16 L 34 44 A 16 4 0 0 0 66 44 L 66 16'/><path d='M 34 26 A 16 4 0 0 0 66 26' stroke='var(--ink)' stroke-width='1'/><path d='M 34 36 A 16 4 0 0 0 66 36' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
           <div class="option-body">
             <span class="option-letter" aria-hidden="true">B</span>
             <span class="option-label" aria-hidden="true">Option B</span>
-            <span class="option-name">DuckDB</span>
-            <span class="option-desc">Columnar — faster aggregations over a year of minute readings. Heavier binary, less ubiquitous on the Pi.</span>
+            <span class="option-name">Postgres (external)</span>
+            <span class="option-desc">Standard SQL, easy to share with other apps you already run. Adds an op dependency; needs connection pooling.</span>
           </div>
         </button>
         
         <button type="button" class="option item-option" role="radio"
                 aria-checked="false"
                 tabindex="-1"
-                data-item="ENG-2" data-option="flatfiles" data-letter="C"
-                aria-label="Option C: Per-day CSV files — Most portable; manual aggregation queries; cheapest backup story. No transactions.">
+                data-item="ENG-2" data-option="dynamodb" data-letter="C"
+                aria-label="Option C: DynamoDB — Managed, scales beyond a single VPS. Cheap at this volume. AWS lock-in; breaks the &#34;runs anywhere&#34; story.">
           <div class="option-check" aria-hidden="true">&#10003;</div>
-          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='30' y='16' width='40' height='12' rx='1'/><rect x='30' y='32' width='40' height='12' rx='1'/><circle cx='62' cy='22' r='1.4' fill='var(--accent)' stroke='none'/><circle cx='62' cy='38' r='1.4' fill='var(--accent)' stroke='none'/><line x1='35' y1='22' x2='55' y2='22' stroke='var(--ink)' stroke-width='1'/><line x1='35' y1='38' x2='55' y2='38' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='28' y='14' width='44' height='32'/><rect x='28' y='14' width='44' height='6' fill='var(--accent-soft)' stroke='var(--accent)' stroke-width='1.4'/><line x1='28' y1='28' x2='72' y2='28' stroke='var(--ink)' stroke-width='1'/><line x1='28' y1='36' x2='72' y2='36' stroke='var(--ink)' stroke-width='1'/><line x1='44' y1='20' x2='44' y2='46' stroke='var(--ink)' stroke-width='1'/><line x1='58' y1='20' x2='58' y2='46' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
           <div class="option-body">
             <span class="option-letter" aria-hidden="true">C</span>
             <span class="option-label" aria-hidden="true">Option C</span>
-            <span class="option-name">Per-day CSV files</span>
-            <span class="option-desc">Most portable; manual aggregation queries; cheapest backup story. No transactions.</span>
+            <span class="option-name">DynamoDB</span>
+            <span class="option-desc">Managed, scales beyond a single VPS. Cheap at this volume. AWS lock-in; breaks the &#34;runs anywhere&#34; story.</span>
           </div>
         </button>
         
@@ -2797,17 +2935,17 @@ html[data-theme="slate"]    .item-options .option-art {
         </li>
         
         <li>
-          <a href="#item-FR-2"
-             data-target="FR-2"
+          <a href="#item-FR-3"
+             data-target="FR-3"
              data-target-section="functional"
-             aria-label="Jump to Functional · FR-2">FR-2</a>
+             aria-label="Jump to Functional · FR-3">FR-3</a>
         </li>
         
         <li>
-          <a href="#item-NFR-1"
-             data-target="NFR-1"
-             data-target-section="non-functional"
-             aria-label="Jump to Non-functional · NFR-1">NFR-1</a>
+          <a href="#item-FR-4"
+             data-target="FR-4"
+             data-target-section="functional"
+             aria-label="Jump to Functional · FR-4">FR-4</a>
         </li>
         
         <li>
@@ -2844,13 +2982,63 @@ html[data-theme="slate"]    .item-options .option-art {
     
     <article class="item" id="item-ENG-3" tabindex="-1" aria-labelledby="item-title-ENG-3">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-ENG-3">Web UI</h2>
+        <h2 class="item-title" id="item-title-ENG-3">Redirect cache strategy</h2>
         <span class="item-id" aria-label="Identifier ENG-3">ENG-3</span>
       </header>
-      <p class="item-desc">Single-page app on the Pi, served on the LAN. Chart &#43; room picker &#43; CSV download. No build step beyond `make`.</p>
+      <p class="item-desc">How the hot path stays under 50 ms p99 when a popular link gets hammered. The cache is read-mostly: invalidate on update; rebuild on miss.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g transform='translate(30,4)'><rect x='0' y='0' width='42' height='52' rx='4' fill='var(--surface)' stroke='var(--ink)' stroke-width='1.2'/><line x1='15' y1='4' x2='27' y2='4' stroke='var(--ink-3)' stroke-width='0.5'/><rect x='4' y='8' width='34' height='28' fill='none' stroke='var(--rule)' stroke-width='0.4'/><line x1='2' y1='44' x2='40' y2='44' stroke='var(--rule-2)' stroke-width='0.4'/><circle cx='10' cy='49' r='1.5' fill='var(--accent)'/><circle cx='21' cy='49' r='1.5' fill='var(--ink-3)' opacity='0.5'/><circle cx='32' cy='49' r='1.5' fill='var(--ink-3)' opacity='0.5'/></g></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='32' y='14' width='36' height='32' rx='2'/><path d='M 52 18 L 42 32 L 50 32 L 46 42 L 58 26 L 50 26 Z' fill='var(--accent)' stroke='var(--accent)' stroke-width='1.2' stroke-linejoin='round'/></g></svg></div>
       
+      
+      
+      <div class="options item-options" role="radiogroup" aria-labelledby="item-title-ENG-3" data-item="ENG-3">
+        
+        <button type="button" class="option item-option" role="radio"
+                aria-checked="false"
+                tabindex="0"
+                data-item="ENG-3" data-option="inmem" data-letter="A"
+                aria-label="Option A: In-process LRU (default) — Lives inside the binary. Free, no extra process, lost on restart (cold start is one DB hit per slug). Best for single-instance deploys.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='32' y='14' width='36' height='32' rx='2'/><path d='M 52 18 L 42 32 L 50 32 L 46 42 L 58 26 L 50 26 Z' fill='var(--accent)' stroke='var(--accent)' stroke-width='1.2' stroke-linejoin='round'/></g></svg></div>
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">A</span>
+            <span class="option-label" aria-hidden="true">Option A</span>
+            <span class="option-name">In-process LRU (default)</span>
+            <span class="option-desc">Lives inside the binary. Free, no extra process, lost on restart (cold start is one DB hit per slug). Best for single-instance deploys.</span>
+          </div>
+        </button>
+        
+        <button type="button" class="option item-option" role="radio"
+                aria-checked="false"
+                tabindex="-1"
+                data-item="ENG-3" data-option="redis" data-letter="B"
+                aria-label="Option B: Shared Redis — Survives restarts, shared across instances behind a load balancer. Adds an op dependency. Pick when you scale horizontally.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='32' y='14' width='36' height='32' rx='2'/><path d='M 52 18 L 42 32 L 50 32 L 46 42 L 58 26 L 50 26 Z' fill='var(--accent)' stroke='var(--accent)' stroke-width='1.2' stroke-linejoin='round'/></g></svg></div>
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">B</span>
+            <span class="option-label" aria-hidden="true">Option B</span>
+            <span class="option-name">Shared Redis</span>
+            <span class="option-desc">Survives restarts, shared across instances behind a load balancer. Adds an op dependency. Pick when you scale horizontally.</span>
+          </div>
+        </button>
+        
+        <button type="button" class="option item-option" role="radio"
+                aria-checked="false"
+                tabindex="-1"
+                data-item="ENG-3" data-option="none" data-letter="C"
+                aria-label="Option C: No cache — hit the DB every time — Trust the DB&#39;s own page cache (works fine for SQLite). Simplest; bets on the storage layer&#39;s index being fast enough.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">C</span>
+            <span class="option-label" aria-hidden="true">Option C</span>
+            <span class="option-name">No cache — hit the DB every time</span>
+            <span class="option-desc">Trust the DB&#39;s own page cache (works fine for SQLite). Simplest; bets on the storage layer&#39;s index being fast enough.</span>
+          </div>
+        </button>
+        
+      </div>
       
       
       <ul class="refs" aria-label="References">
@@ -2864,17 +3052,10 @@ html[data-theme="slate"]    .item-options .option-art {
         </li>
         
         <li>
-          <a href="#item-FR-4"
-             data-target="FR-4"
-             data-target-section="functional"
-             aria-label="Jump to Functional · FR-4">FR-4</a>
-        </li>
-        
-        <li>
-          <a href="#item-OVR-2"
-             data-target="OVR-2"
-             data-target-section="overview"
-             aria-label="Jump to Overview · OVR-2">OVR-2</a>
+          <a href="#item-NFR-1"
+             data-target="NFR-1"
+             data-target-section="non-functional"
+             aria-label="Jump to Non-functional · NFR-1">NFR-1</a>
         </li>
         
       </ul>
@@ -2904,23 +3085,73 @@ html[data-theme="slate"]    .item-options .option-art {
     
     <article class="item" id="item-ENG-4" tabindex="-1" aria-labelledby="item-title-ENG-4">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-ENG-4">Alert pipeline</h2>
+        <h2 class="item-title" id="item-title-ENG-4">Analytics pipeline</h2>
         <span class="item-id" aria-label="Identifier ENG-4">ENG-4</span>
       </header>
-      <p class="item-desc">Rolling-window check every 5 min; fires to a local ntfy.sh instance, which the homeowner has subscribed to from their phone.</p>
+      <p class="item-desc">Click events flow from the redirect handler into an event log, get aggregated nightly into per-slug stats. PII stripped at the handler before the event is even written.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:90%;height:auto'><rect x='5.00' y='14.00' width='26.00' height='32.00' rx='2' fill='var(--surface)' stroke='var(--accent)' stroke-width='1.4'/><text x='18.00' y='32.50' text-anchor='middle' font-family='IBM Plex Mono' font-size='6.5' font-weight='600' fill='var(--ink)'>scheduler</text><line x1='31.00' y1='30.00' x2='36.00' y2='30.00' stroke='var(--ink)' stroke-width='1'/><polygon points='36.00,30.00 33.00,28.00 33.00,32.00' fill='var(--ink)'/><rect x='37.00' y='14.00' width='26.00' height='32.00' rx='2' fill='var(--surface)' stroke='var(--accent)' stroke-width='1.4'/><text x='50.00' y='32.50' text-anchor='middle' font-family='IBM Plex Mono' font-size='6.5' font-weight='600' fill='var(--ink)'>worker</text><line x1='63.00' y1='30.00' x2='68.00' y2='30.00' stroke='var(--ink)' stroke-width='1'/><polygon points='68.00,30.00 65.00,28.00 65.00,32.00' fill='var(--ink)'/><rect x='69.00' y='14.00' width='26.00' height='32.00' rx='2' fill='var(--surface)' stroke='var(--accent)' stroke-width='1.4'/><text x='82.00' y='32.50' text-anchor='middle' font-family='IBM Plex Mono' font-size='6.5' font-weight='600' fill='var(--ink)'>gateway</text></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:90%;height:auto'><rect x='4.00' y='14.00' width='18.50' height='32.00' rx='2' fill='var(--surface)' stroke='var(--accent)' stroke-width='1.4'/><g transform='translate(-6.75,12.00) scale(0.400)'><g fill='none' stroke='var(--accent)' stroke-width='1.6' stroke-linejoin='round' stroke-linecap='round'><path d='M 38 16 Q 30 16 30 22 L 30 28 Q 30 30 28 30 Q 30 30 30 32 L 30 38 Q 30 44 38 44'/><path d='M 62 16 Q 70 16 70 22 L 70 28 Q 70 30 72 30 Q 70 30 70 32 L 70 38 Q 70 44 62 44'/><circle cx='44' cy='30' r='1.8' fill='var(--accent)' stroke='none'/><circle cx='50' cy='30' r='1.8' fill='var(--accent)' stroke='none'/><circle cx='56' cy='30' r='1.8' fill='var(--accent)' stroke='none'/></g></g><text x='13.25' y='42.00' text-anchor='middle' font-family='IBM Plex Mono' font-size='5.5' font-weight='600' fill='var(--ink)'>api</text><line x1='22.50' y1='30.00' x2='27.50' y2='30.00' stroke='var(--ink)' stroke-width='1'/><polygon points='27.50,30.00 24.50,28.00 24.50,32.00' fill='var(--ink)'/><rect x='28.50' y='14.00' width='18.50' height='32.00' rx='2' fill='var(--surface)' stroke='var(--accent)' stroke-width='1.4'/><g transform='translate(17.75,12.00) scale(0.400)'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='32' y='22' width='10' height='16' fill='var(--accent-soft)'/><rect x='44' y='22' width='10' height='16' fill='var(--accent-soft)'/><rect x='56' y='22' width='10' height='16' fill='var(--accent-soft)'/><line x1='66' y1='30' x2='72' y2='30' stroke='var(--accent)' stroke-width='1.4'/><polygon points='72,30 68,28 68,32' fill='var(--accent)' stroke='none'/><line x1='28' y1='30' x2='32' y2='30' stroke='var(--ink)' stroke-width='1'/></g></g><text x='37.75' y='42.00' text-anchor='middle' font-family='IBM Plex Mono' font-size='5.5' font-weight='600' fill='var(--ink)'>queue</text><line x1='47.00' y1='30.00' x2='52.00' y2='30.00' stroke='var(--ink)' stroke-width='1'/><polygon points='52.00,30.00 49.00,28.00 49.00,32.00' fill='var(--ink)'/><rect x='53.00' y='14.00' width='18.50' height='32.00' rx='2' fill='var(--surface)' stroke='var(--accent)' stroke-width='1.4'/><g transform='translate(42.25,12.00) scale(0.400)'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><circle cx='50' cy='30' r='10'/><circle cx='50' cy='30' r='4' fill='var(--accent)' stroke='none'/><g stroke='var(--accent)' stroke-width='1.5' stroke-linecap='round'><line x1='50' y1='14' x2='50' y2='18'/><line x1='50' y1='42' x2='50' y2='46'/><line x1='34' y1='30' x2='38' y2='30'/><line x1='62' y1='30' x2='66' y2='30'/><line x1='38' y1='18' x2='40.8' y2='20.8'/><line x1='59.2' y1='39.2' x2='62' y2='42'/><line x1='62' y1='18' x2='59.2' y2='20.8'/><line x1='40.8' y1='39.2' x2='38' y2='42'/></g></g></g><text x='62.25' y='42.00' text-anchor='middle' font-family='IBM Plex Mono' font-size='5.5' font-weight='600' fill='var(--ink)'>worker</text><line x1='71.50' y1='30.00' x2='76.50' y2='30.00' stroke='var(--ink)' stroke-width='1'/><polygon points='76.50,30.00 73.50,28.00 73.50,32.00' fill='var(--ink)'/><rect x='77.50' y='14.00' width='18.50' height='32.00' rx='2' fill='var(--surface)' stroke='var(--accent)' stroke-width='1.4'/><g transform='translate(66.75,12.00) scale(0.400)'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><ellipse cx='50' cy='16' rx='16' ry='4' fill='var(--accent-soft)'/><path d='M 34 16 L 34 44 A 16 4 0 0 0 66 44 L 66 16'/><path d='M 34 26 A 16 4 0 0 0 66 26' stroke='var(--ink)' stroke-width='1'/><path d='M 34 36 A 16 4 0 0 0 66 36' stroke='var(--ink)' stroke-width='1'/></g></g><text x='86.75' y='42.00' text-anchor='middle' font-family='IBM Plex Mono' font-size='5.5' font-weight='600' fill='var(--ink)'>db</text></svg></div>
       
+      
+      
+      <div class="options item-options" role="radiogroup" aria-labelledby="item-title-ENG-4" data-item="ENG-4">
+        
+        <button type="button" class="option item-option" role="radio"
+                aria-checked="false"
+                tabindex="0"
+                data-item="ENG-4" data-option="embedded" data-letter="A"
+                aria-label="Option A: Embedded — same SQLite — Click events table in the same SQLite file. One nightly job rolls them into per-slug aggregates. Simplest. Limits analytics queries to what SQLite can do quickly.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><ellipse cx='50' cy='16' rx='16' ry='4' fill='var(--accent-soft)'/><path d='M 34 16 L 34 44 A 16 4 0 0 0 66 44 L 66 16'/><path d='M 34 26 A 16 4 0 0 0 66 26' stroke='var(--ink)' stroke-width='1'/><path d='M 34 36 A 16 4 0 0 0 66 36' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">A</span>
+            <span class="option-label" aria-hidden="true">Option A</span>
+            <span class="option-name">Embedded — same SQLite</span>
+            <span class="option-desc">Click events table in the same SQLite file. One nightly job rolls them into per-slug aggregates. Simplest. Limits analytics queries to what SQLite can do quickly.</span>
+          </div>
+        </button>
+        
+        <button type="button" class="option item-option" role="radio"
+                aria-checked="false"
+                tabindex="-1"
+                data-item="ENG-4" data-option="clickhouse" data-letter="B"
+                aria-label="Option B: External ClickHouse — Columnar OLAP store. Trivial to query 12 months of clicks in &lt;100 ms. Another service to run, ~250 MB RAM minimum.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='28' y='14' width='44' height='32'/><rect x='28' y='14' width='44' height='6' fill='var(--accent-soft)' stroke='var(--accent)' stroke-width='1.4'/><line x1='28' y1='28' x2='72' y2='28' stroke='var(--ink)' stroke-width='1'/><line x1='28' y1='36' x2='72' y2='36' stroke='var(--ink)' stroke-width='1'/><line x1='44' y1='20' x2='44' y2='46' stroke='var(--ink)' stroke-width='1'/><line x1='58' y1='20' x2='58' y2='46' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">B</span>
+            <span class="option-label" aria-hidden="true">Option B</span>
+            <span class="option-name">External ClickHouse</span>
+            <span class="option-desc">Columnar OLAP store. Trivial to query 12 months of clicks in &lt;100 ms. Another service to run, ~250 MB RAM minimum.</span>
+          </div>
+        </button>
+        
+        <button type="button" class="option item-option" role="radio"
+                aria-checked="false"
+                tabindex="-1"
+                data-item="ENG-4" data-option="skip" data-letter="C"
+                aria-label="Option C: Counter-only, no events — Increment per-slug counters in the storage backend, throw the rest away. Cheapest. Loses referrers, geo, UA — only total clicks remain.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">C</span>
+            <span class="option-label" aria-hidden="true">Option C</span>
+            <span class="option-name">Counter-only, no events</span>
+            <span class="option-desc">Increment per-slug counters in the storage backend, throw the rest away. Cheapest. Loses referrers, geo, UA — only total clicks remain.</span>
+          </div>
+        </button>
+        
+      </div>
       
       
       <ul class="refs" aria-label="References">
         <li class="refs-label">refs</li>
         
         <li>
-          <a href="#item-FR-3"
-             data-target="FR-3"
+          <a href="#item-FR-5"
+             data-target="FR-5"
              data-target-section="functional"
-             aria-label="Jump to Functional · FR-3">FR-3</a>
+             aria-label="Jump to Functional · FR-5">FR-5</a>
         </li>
         
         <li>
@@ -2949,6 +3180,102 @@ html[data-theme="slate"]    .item-options .option-art {
         </div>
         <label class="visually-hidden" for="fb-note-ENG-4">Notes for ENG-4</label>
         <textarea id="fb-note-ENG-4"
+                  class="fb-note"
+                  rows="1"
+                  placeholder="notes, edge cases, follow-ups…"></textarea>
+      </div>
+    </article>
+    
+    <article class="item" id="item-ENG-5" tabindex="-1" aria-labelledby="item-title-ENG-5">
+      <header class="item-head">
+        <h2 class="item-title" id="item-title-ENG-5">Deploy target</h2>
+        <span class="item-id" aria-label="Identifier ENG-5">ENG-5</span>
+      </header>
+      <p class="item-desc">How the binary actually runs in production. All three options should work from the same artifact — the binary is platform-aware.</p>
+      
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='30' y='14' width='40' height='10' rx='1'/><rect x='30' y='26' width='40' height='10' rx='1'/><rect x='30' y='38' width='40' height='10' rx='1'/><circle cx='36' cy='19' r='1.2' fill='var(--accent)' stroke='none'/><circle cx='36' cy='31' r='1.2' fill='var(--accent)' stroke='none'/><circle cx='36' cy='43' r='1.2' fill='var(--accent)' stroke='none'/><line x1='42' y1='19' x2='64' y2='19' stroke='var(--ink)' stroke-width='1'/><line x1='42' y1='31' x2='64' y2='31' stroke='var(--ink)' stroke-width='1'/><line x1='42' y1='43' x2='64' y2='43' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
+      
+      
+      
+      <div class="options item-options" role="radiogroup" aria-labelledby="item-title-ENG-5" data-item="ENG-5">
+        
+        <button type="button" class="option item-option" role="radio"
+                aria-checked="false"
+                tabindex="0"
+                data-item="ENG-5" data-option="systemd" data-letter="A"
+                aria-label="Option A: systemd service on a VPS (default) — One binary &#43; one .service unit &#43; one .toml config. Matches the &#34;$5 VPS&#34; constraint perfectly. Deploy = scp &#43; systemctl restart.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><text x='6' y='27.50' text-anchor='start' font-family='IBM Plex Mono' font-size='10' font-weight='400' fill='var(--accent)'>systemctl enable</text><text x='6' y='39.50' text-anchor='start' font-family='IBM Plex Mono' font-size='10' font-weight='400' fill='var(--accent)'>clipsi.service</text></svg></div>
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">A</span>
+            <span class="option-label" aria-hidden="true">Option A</span>
+            <span class="option-name">systemd service on a VPS (default)</span>
+            <span class="option-desc">One binary &#43; one .service unit &#43; one .toml config. Matches the &#34;$5 VPS&#34; constraint perfectly. Deploy = scp &#43; systemctl restart.</span>
+          </div>
+        </button>
+        
+        <button type="button" class="option item-option" role="radio"
+                aria-checked="false"
+                tabindex="-1"
+                data-item="ENG-5" data-option="docker" data-letter="B"
+                aria-label="Option B: Docker / Compose — Same binary in a 15 MB scratch image. Easier for teams who already have Docker on the box. Adds a tiny runtime cost.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='30' y='16' width='40' height='28'/><line x1='36' y1='16' x2='36' y2='44' stroke='var(--ink)' stroke-width='1'/><line x1='44' y1='16' x2='44' y2='44' stroke='var(--ink)' stroke-width='1'/><line x1='52' y1='16' x2='52' y2='44' stroke='var(--ink)' stroke-width='1'/><line x1='60' y1='16' x2='60' y2='44' stroke='var(--ink)' stroke-width='1'/><line x1='30' y1='22' x2='70' y2='22'/></g></svg></div>
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">B</span>
+            <span class="option-label" aria-hidden="true">Option B</span>
+            <span class="option-name">Docker / Compose</span>
+            <span class="option-desc">Same binary in a 15 MB scratch image. Easier for teams who already have Docker on the box. Adds a tiny runtime cost.</span>
+          </div>
+        </button>
+        
+        <button type="button" class="option item-option" role="radio"
+                aria-checked="false"
+                tabindex="-1"
+                data-item="ENG-5" data-option="k8s" data-letter="C"
+                aria-label="Option C: Kubernetes — Helm chart, horizontal scaling, shared Redis cache required (see ENG-3). Overkill for the audience but here for completeness.">
+          <div class="option-check" aria-hidden="true">&#10003;</div>
+          <div class="option-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><polygon points='50,12 70,22 70,38 50,48 30,38 30,22' fill='var(--accent-soft)'/><line x1='50' y1='12' x2='50' y2='30' stroke='var(--ink)' stroke-width='1'/><line x1='30' y1='22' x2='50' y2='30' stroke='var(--ink)' stroke-width='1'/><line x1='70' y1='22' x2='50' y2='30' stroke='var(--ink)' stroke-width='1'/><line x1='30' y1='38' x2='50' y2='30' stroke='var(--ink)' stroke-width='1'/><line x1='70' y1='38' x2='50' y2='30' stroke='var(--ink)' stroke-width='1'/><line x1='50' y1='48' x2='50' y2='30' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
+          <div class="option-body">
+            <span class="option-letter" aria-hidden="true">C</span>
+            <span class="option-label" aria-hidden="true">Option C</span>
+            <span class="option-name">Kubernetes</span>
+            <span class="option-desc">Helm chart, horizontal scaling, shared Redis cache required (see ENG-3). Overkill for the audience but here for completeness.</span>
+          </div>
+        </button>
+        
+      </div>
+      
+      
+      <ul class="refs" aria-label="References">
+        <li class="refs-label">refs</li>
+        
+        <li>
+          <a href="#item-NFR-4"
+             data-target="NFR-4"
+             data-target-section="non-functional"
+             aria-label="Jump to Non-functional · NFR-4">NFR-4</a>
+        </li>
+        
+      </ul>
+      
+      <div class="feedback" data-item="ENG-5">
+        <div class="feedback-row">
+          <div class="feedback-buttons" role="group" aria-label="Feedback status for ENG-5">
+            <button type="button" class="fb-btn" data-value="approved"
+                    aria-label="Approve ENG-5" aria-pressed="false">&#10003;</button>
+            <button type="button" class="fb-btn" data-value="questioned"
+                    aria-label="Question ENG-5" aria-pressed="false">?</button>
+            <button type="button" class="fb-btn" data-value="rejected"
+                    aria-label="Reject ENG-5" aria-pressed="false">&#10007;</button>
+          </div>
+          <span class="fb-status-label" aria-hidden="true">feedback</span>
+          <button type="button" class="fb-edit"
+                  aria-pressed="false"
+                  aria-label="Toggle inline edit for ENG-5">edit</button>
+        </div>
+        <label class="visually-hidden" for="fb-note-ENG-5">Notes for ENG-5</label>
+        <textarea id="fb-note-ENG-5"
                   class="fb-note"
                   rows="1"
                   placeholder="notes, edge cases, follow-ups…"></textarea>
@@ -2999,12 +3326,12 @@ html[data-theme="slate"]    .item-options .option-art {
     
     <article class="item" id="item-BUILD-1" tabindex="-1" aria-labelledby="item-title-BUILD-1">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-BUILD-1">BOM &#43; initial wiring</h2>
+        <h2 class="item-title" id="item-title-BUILD-1">API scaffolding &#43; slug generation</h2>
         <span class="item-id" aria-label="Identifier BUILD-1">BUILD-1</span>
       </header>
-      <p class="item-desc">Pi Zero 2 W, 4 × Xiaomi LYWSDCGQ sensors, 1 × ntfy.sh container on the LAN. Total cost target &lt; £80.</p>
+      <p class="item-desc">Stand up the HTTP server, define the routes, implement base62 ID generation, wire collision-check for custom slugs. Auth modes (open / api-key / OAuth) gated behind config.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><rect x='8.00' y='14.00' width='26.67' height='32.00' fill='#1a1814' stroke='var(--ink)' stroke-width='0.3'/><rect x='36.67' y='14.00' width='26.67' height='32.00' fill='#b34a1a' stroke='var(--ink)' stroke-width='0.3'/><rect x='65.33' y='14.00' width='26.67' height='32.00' fill='#f1ebde' stroke='var(--ink)' stroke-width='0.3'/></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='30' y='14' width='40' height='10' rx='1'/><rect x='30' y='26' width='40' height='10' rx='1'/><rect x='30' y='38' width='40' height='10' rx='1'/><circle cx='36' cy='19' r='1.2' fill='var(--accent)' stroke='none'/><circle cx='36' cy='31' r='1.2' fill='var(--accent)' stroke='none'/><circle cx='36' cy='43' r='1.2' fill='var(--accent)' stroke='none'/><line x1='42' y1='19' x2='64' y2='19' stroke='var(--ink)' stroke-width='1'/><line x1='42' y1='31' x2='64' y2='31' stroke='var(--ink)' stroke-width='1'/><line x1='42' y1='43' x2='64' y2='43' stroke='var(--ink)' stroke-width='1'/></g></svg></div>
       
       
       
@@ -3052,12 +3379,12 @@ html[data-theme="slate"]    .item-options .option-art {
     
     <article class="item" id="item-BUILD-2" tabindex="-1" aria-labelledby="item-title-BUILD-2">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-BUILD-2">Pi firmware</h2>
+        <h2 class="item-title" id="item-title-BUILD-2">Hot-path redirect</h2>
         <span class="item-id" aria-label="Identifier BUILD-2">BUILD-2</span>
       </header>
-      <p class="item-desc">Go binary on the Pi: ble-scanner &#43; storage-writer &#43; alert-checker as one process. systemd unit, no Docker.</p>
+      <p class="item-desc">GET /:slug → cache lookup → DB fallback → 302. The most-trafficked code path in the service; budget &lt; 5 ms server-side on a cache hit.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><text x='6' y='27.00' text-anchor='start' font-family='IBM Plex Mono' font-size='12' font-weight='600' fill='var(--ink)'>systemctl enable</text><text x='6' y='41.40' text-anchor='start' font-family='IBM Plex Mono' font-size='12' font-weight='600' fill='var(--ink)'>thermolog.service</text></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:90%;height:auto'><rect x='4.00' y='14.00' width='18.50' height='32.00' rx='2' fill='var(--surface)' stroke='var(--accent)' stroke-width='1.4'/><g transform='translate(-6.75,12.00) scale(0.400)'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='28' y='14' width='44' height='32' rx='2'/><line x1='28' y1='22' x2='72' y2='22' stroke='var(--accent)' stroke-width='1.4'/><circle cx='32' cy='18' r='1.2' fill='var(--ink)' stroke='none'/><circle cx='36' cy='18' r='1.2' fill='var(--ink)' stroke='none'/><circle cx='40' cy='18' r='1.2' fill='var(--ink)' stroke='none'/><rect x='34' y='28' width='32' height='4' fill='var(--accent-soft)' stroke='var(--ink)' stroke-width='0.8'/></g></g><text x='13.25' y='42.00' text-anchor='middle' font-family='IBM Plex Mono' font-size='5.5' font-weight='600' fill='var(--ink)'>browser</text><line x1='22.50' y1='30.00' x2='27.50' y2='30.00' stroke='var(--ink)' stroke-width='1'/><polygon points='27.50,30.00 24.50,28.00 24.50,32.00' fill='var(--ink)'/><rect x='28.50' y='14.00' width='18.50' height='32.00' rx='2' fill='var(--surface)' stroke='var(--accent)' stroke-width='1.4'/><g transform='translate(17.75,12.00) scale(0.400)'><g fill='none' stroke='var(--accent)' stroke-width='1.6' stroke-linejoin='round' stroke-linecap='round'><path d='M 38 16 Q 30 16 30 22 L 30 28 Q 30 30 28 30 Q 30 30 30 32 L 30 38 Q 30 44 38 44'/><path d='M 62 16 Q 70 16 70 22 L 70 28 Q 70 30 72 30 Q 70 30 70 32 L 70 38 Q 70 44 62 44'/><circle cx='44' cy='30' r='1.8' fill='var(--accent)' stroke='none'/><circle cx='50' cy='30' r='1.8' fill='var(--accent)' stroke='none'/><circle cx='56' cy='30' r='1.8' fill='var(--accent)' stroke='none'/></g></g><text x='37.75' y='42.00' text-anchor='middle' font-family='IBM Plex Mono' font-size='5.5' font-weight='600' fill='var(--ink)'>api</text><line x1='47.00' y1='30.00' x2='52.00' y2='30.00' stroke='var(--ink)' stroke-width='1'/><polygon points='52.00,30.00 49.00,28.00 49.00,32.00' fill='var(--ink)'/><rect x='53.00' y='14.00' width='18.50' height='32.00' rx='2' fill='var(--surface)' stroke='var(--accent)' stroke-width='1.4'/><g transform='translate(42.25,12.00) scale(0.400)'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='32' y='14' width='36' height='32' rx='2'/><path d='M 52 18 L 42 32 L 50 32 L 46 42 L 58 26 L 50 26 Z' fill='var(--accent)' stroke='var(--accent)' stroke-width='1.2' stroke-linejoin='round'/></g></g><text x='62.25' y='42.00' text-anchor='middle' font-family='IBM Plex Mono' font-size='5.5' font-weight='600' fill='var(--ink)'>cache</text><line x1='71.50' y1='30.00' x2='76.50' y2='30.00' stroke='var(--ink)' stroke-width='1'/><polygon points='76.50,30.00 73.50,28.00 73.50,32.00' fill='var(--ink)'/><rect x='77.50' y='14.00' width='18.50' height='32.00' rx='2' fill='var(--surface)' stroke='var(--accent)' stroke-width='1.4'/><g transform='translate(66.75,12.00) scale(0.400)'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><ellipse cx='50' cy='16' rx='16' ry='4' fill='var(--accent-soft)'/><path d='M 34 16 L 34 44 A 16 4 0 0 0 66 44 L 66 16'/><path d='M 34 26 A 16 4 0 0 0 66 26' stroke='var(--ink)' stroke-width='1'/><path d='M 34 36 A 16 4 0 0 0 66 36' stroke='var(--ink)' stroke-width='1'/></g></g><text x='86.75' y='42.00' text-anchor='middle' font-family='IBM Plex Mono' font-size='5.5' font-weight='600' fill='var(--ink)'>db</text></svg></div>
       
       
       
@@ -3072,17 +3399,17 @@ html[data-theme="slate"]    .item-options .option-art {
         </li>
         
         <li>
-          <a href="#item-ENG-2"
-             data-target="ENG-2"
+          <a href="#item-ENG-3"
+             data-target="ENG-3"
              data-target-section="engineering"
-             aria-label="Jump to Engineering · ENG-2">ENG-2</a>
+             aria-label="Jump to Engineering · ENG-3">ENG-3</a>
         </li>
         
         <li>
-          <a href="#item-ENG-4"
-             data-target="ENG-4"
-             data-target-section="engineering"
-             aria-label="Jump to Engineering · ENG-4">ENG-4</a>
+          <a href="#item-NFR-1"
+             data-target="NFR-1"
+             data-target-section="non-functional"
+             aria-label="Jump to Non-functional · NFR-1">NFR-1</a>
         </li>
         
       </ul>
@@ -3112,10 +3439,10 @@ html[data-theme="slate"]    .item-options .option-art {
     
     <article class="item" id="item-BUILD-3" tabindex="-1" aria-labelledby="item-title-BUILD-3">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-BUILD-3">Web UI</h2>
+        <h2 class="item-title" id="item-title-BUILD-3">Dashboard &#43; create-link UI</h2>
         <span class="item-id" aria-label="Identifier BUILD-3">BUILD-3</span>
       </header>
-      <p class="item-desc">Static HTML/CSS/JS embedded in the Go binary via go:embed. Charts via uPlot. CSV download by serving the SQLite query result as text/csv.</p>
+      <p class="item-desc">Tiny embedded HTML/JS dashboard: list links, create, see per-slug stats. Served from go:embed, no separate web server. Tailwind-flavored CSS in one stylesheet.</p>
       
       <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:55%;height:auto'><g transform='translate(30,4)'><rect x='0' y='0' width='42' height='52' rx='4' fill='var(--surface)' stroke='var(--ink)' stroke-width='1.2'/><line x1='15' y1='4' x2='27' y2='4' stroke='var(--ink-3)' stroke-width='0.5'/><rect x='4' y='8' width='34' height='28' fill='none' stroke='var(--rule)' stroke-width='0.4'/><line x1='2' y1='44' x2='40' y2='44' stroke='var(--rule-2)' stroke-width='0.4'/><circle cx='10' cy='49' r='1.5' fill='var(--accent)'/><circle cx='21' cy='49' r='1.5' fill='var(--ink-3)' opacity='0.5'/><circle cx='32' cy='49' r='1.5' fill='var(--ink-3)' opacity='0.5'/></g></svg></div>
       
@@ -3125,10 +3452,24 @@ html[data-theme="slate"]    .item-options .option-art {
         <li class="refs-label">refs</li>
         
         <li>
-          <a href="#item-ENG-3"
-             data-target="ENG-3"
+          <a href="#item-ENG-1"
+             data-target="ENG-1"
              data-target-section="engineering"
-             aria-label="Jump to Engineering · ENG-3">ENG-3</a>
+             aria-label="Jump to Engineering · ENG-1">ENG-1</a>
+        </li>
+        
+        <li>
+          <a href="#item-FR-1"
+             data-target="FR-1"
+             data-target-section="functional"
+             aria-label="Jump to Functional · FR-1">FR-1</a>
+        </li>
+        
+        <li>
+          <a href="#item-FR-5"
+             data-target="FR-5"
+             data-target-section="functional"
+             aria-label="Jump to Functional · FR-5">FR-5</a>
         </li>
         
       </ul>
@@ -3158,12 +3499,12 @@ html[data-theme="slate"]    .item-options .option-art {
     
     <article class="item" id="item-BUILD-4" tabindex="-1" aria-labelledby="item-title-BUILD-4">
       <header class="item-head">
-        <h2 class="item-title" id="item-title-BUILD-4">Deploy &#43; handover</h2>
+        <h2 class="item-title" id="item-title-BUILD-4">Analytics ingestion &#43; nightly rollup</h2>
         <span class="item-id" aria-label="Identifier BUILD-4">BUILD-4</span>
       </header>
-      <p class="item-desc">One install script: scp the binary, install the unit, set Wi-Fi sensor credentials, test alert end-to-end, hand the homeowner a printed cheat-sheet.</p>
+      <p class="item-desc">Handler emits click event → buffered queue → worker writes to events table. Nightly cron rolls events into per-slug daily aggregates the dashboard reads.</p>
       
-      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:50%;height:auto'><circle cx='50' cy='30' r='20' fill='var(--accent)'/><path d='M 38 30 L 47 38 L 62 22' fill='none' stroke='var(--bg)' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'/></svg></div>
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:90%;height:auto'><rect x='4.00' y='14.00' width='18.50' height='32.00' rx='2' fill='var(--surface)' stroke='var(--accent)' stroke-width='1.4'/><g transform='translate(-6.75,12.00) scale(0.400)'><g fill='none' stroke='var(--accent)' stroke-width='1.6' stroke-linejoin='round' stroke-linecap='round'><path d='M 38 16 Q 30 16 30 22 L 30 28 Q 30 30 28 30 Q 30 30 30 32 L 30 38 Q 30 44 38 44'/><path d='M 62 16 Q 70 16 70 22 L 70 28 Q 70 30 72 30 Q 70 30 70 32 L 70 38 Q 70 44 62 44'/><circle cx='44' cy='30' r='1.8' fill='var(--accent)' stroke='none'/><circle cx='50' cy='30' r='1.8' fill='var(--accent)' stroke='none'/><circle cx='56' cy='30' r='1.8' fill='var(--accent)' stroke='none'/></g></g><text x='13.25' y='42.00' text-anchor='middle' font-family='IBM Plex Mono' font-size='5.5' font-weight='600' fill='var(--ink)'>api</text><line x1='22.50' y1='30.00' x2='27.50' y2='30.00' stroke='var(--ink)' stroke-width='1'/><polygon points='27.50,30.00 24.50,28.00 24.50,32.00' fill='var(--ink)'/><rect x='28.50' y='14.00' width='18.50' height='32.00' rx='2' fill='var(--surface)' stroke='var(--accent)' stroke-width='1.4'/><g transform='translate(17.75,12.00) scale(0.400)'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><rect x='32' y='22' width='10' height='16' fill='var(--accent-soft)'/><rect x='44' y='22' width='10' height='16' fill='var(--accent-soft)'/><rect x='56' y='22' width='10' height='16' fill='var(--accent-soft)'/><line x1='66' y1='30' x2='72' y2='30' stroke='var(--accent)' stroke-width='1.4'/><polygon points='72,30 68,28 68,32' fill='var(--accent)' stroke='none'/><line x1='28' y1='30' x2='32' y2='30' stroke='var(--ink)' stroke-width='1'/></g></g><text x='37.75' y='42.00' text-anchor='middle' font-family='IBM Plex Mono' font-size='5.5' font-weight='600' fill='var(--ink)'>queue</text><line x1='47.00' y1='30.00' x2='52.00' y2='30.00' stroke='var(--ink)' stroke-width='1'/><polygon points='52.00,30.00 49.00,28.00 49.00,32.00' fill='var(--ink)'/><rect x='53.00' y='14.00' width='18.50' height='32.00' rx='2' fill='var(--surface)' stroke='var(--accent)' stroke-width='1.4'/><g transform='translate(42.25,12.00) scale(0.400)'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><circle cx='50' cy='30' r='10'/><circle cx='50' cy='30' r='4' fill='var(--accent)' stroke='none'/><g stroke='var(--accent)' stroke-width='1.5' stroke-linecap='round'><line x1='50' y1='14' x2='50' y2='18'/><line x1='50' y1='42' x2='50' y2='46'/><line x1='34' y1='30' x2='38' y2='30'/><line x1='62' y1='30' x2='66' y2='30'/><line x1='38' y1='18' x2='40.8' y2='20.8'/><line x1='59.2' y1='39.2' x2='62' y2='42'/><line x1='62' y1='18' x2='59.2' y2='20.8'/><line x1='40.8' y1='39.2' x2='38' y2='42'/></g></g></g><text x='62.25' y='42.00' text-anchor='middle' font-family='IBM Plex Mono' font-size='5.5' font-weight='600' fill='var(--ink)'>worker</text><line x1='71.50' y1='30.00' x2='76.50' y2='30.00' stroke='var(--ink)' stroke-width='1'/><polygon points='76.50,30.00 73.50,28.00 73.50,32.00' fill='var(--ink)'/><rect x='77.50' y='14.00' width='18.50' height='32.00' rx='2' fill='var(--surface)' stroke='var(--accent)' stroke-width='1.4'/><g transform='translate(66.75,12.00) scale(0.400)'><g fill='none' stroke='var(--accent)' stroke-width='1.5' stroke-linejoin='round'><ellipse cx='50' cy='16' rx='16' ry='4' fill='var(--accent-soft)'/><path d='M 34 16 L 34 44 A 16 4 0 0 0 66 44 L 66 16'/><path d='M 34 26 A 16 4 0 0 0 66 26' stroke='var(--ink)' stroke-width='1'/><path d='M 34 36 A 16 4 0 0 0 66 36' stroke='var(--ink)' stroke-width='1'/></g></g><text x='86.75' y='42.00' text-anchor='middle' font-family='IBM Plex Mono' font-size='5.5' font-weight='600' fill='var(--ink)'>db</text></svg></div>
       
       
       
@@ -3178,24 +3519,17 @@ html[data-theme="slate"]    .item-options .option-art {
         </li>
         
         <li>
-          <a href="#item-ENG-2"
-             data-target="ENG-2"
-             data-target-section="engineering"
-             aria-label="Jump to Engineering · ENG-2">ENG-2</a>
-        </li>
-        
-        <li>
-          <a href="#item-ENG-3"
-             data-target="ENG-3"
-             data-target-section="engineering"
-             aria-label="Jump to Engineering · ENG-3">ENG-3</a>
-        </li>
-        
-        <li>
           <a href="#item-ENG-4"
              data-target="ENG-4"
              data-target-section="engineering"
              aria-label="Jump to Engineering · ENG-4">ENG-4</a>
+        </li>
+        
+        <li>
+          <a href="#item-FR-5"
+             data-target="FR-5"
+             data-target-section="functional"
+             aria-label="Jump to Functional · FR-5">FR-5</a>
         </li>
         
       </ul>
@@ -3217,6 +3551,52 @@ html[data-theme="slate"]    .item-options .option-art {
         </div>
         <label class="visually-hidden" for="fb-note-BUILD-4">Notes for BUILD-4</label>
         <textarea id="fb-note-BUILD-4"
+                  class="fb-note"
+                  rows="1"
+                  placeholder="notes, edge cases, follow-ups…"></textarea>
+      </div>
+    </article>
+    
+    <article class="item" id="item-BUILD-5" tabindex="-1" aria-labelledby="item-title-BUILD-5">
+      <header class="item-head">
+        <h2 class="item-title" id="item-title-BUILD-5">Deploy guide &#43; handover</h2>
+        <span class="item-id" aria-label="Identifier BUILD-5">BUILD-5</span>
+      </header>
+      <p class="item-desc">One-page deploy script per target (systemd / docker / k8s). Worked example: from `wget` to first redirect in under 5 minutes. Backup &#43; restore documented.</p>
+      
+      <div class="item-art" aria-hidden="true"><svg viewBox='0 0 100 60' style='width:80%;height:auto'><text x='6' y='27.50' text-anchor='start' font-family='IBM Plex Mono' font-size='10' font-weight='400' fill='var(--accent)'>$ ./install-clipsi.sh</text><text x='6' y='39.50' text-anchor='start' font-family='IBM Plex Mono' font-size='10' font-weight='400' fill='var(--accent)'>→ first redirect in 5 min</text></svg></div>
+      
+      
+      
+      <ul class="refs" aria-label="References">
+        <li class="refs-label">refs</li>
+        
+        <li>
+          <a href="#item-ENG-5"
+             data-target="ENG-5"
+             data-target-section="engineering"
+             aria-label="Jump to Engineering · ENG-5">ENG-5</a>
+        </li>
+        
+      </ul>
+      
+      <div class="feedback" data-item="BUILD-5">
+        <div class="feedback-row">
+          <div class="feedback-buttons" role="group" aria-label="Feedback status for BUILD-5">
+            <button type="button" class="fb-btn" data-value="approved"
+                    aria-label="Approve BUILD-5" aria-pressed="false">&#10003;</button>
+            <button type="button" class="fb-btn" data-value="questioned"
+                    aria-label="Question BUILD-5" aria-pressed="false">?</button>
+            <button type="button" class="fb-btn" data-value="rejected"
+                    aria-label="Reject BUILD-5" aria-pressed="false">&#10007;</button>
+          </div>
+          <span class="fb-status-label" aria-hidden="true">feedback</span>
+          <button type="button" class="fb-edit"
+                  aria-pressed="false"
+                  aria-label="Toggle inline edit for BUILD-5">edit</button>
+        </div>
+        <label class="visually-hidden" for="fb-note-BUILD-5">Notes for BUILD-5</label>
+        <textarea id="fb-note-BUILD-5"
                   class="fb-note"
                   rows="1"
                   placeholder="notes, edge cases, follow-ups…"></textarea>
@@ -3286,7 +3666,7 @@ html[data-theme="slate"]    .item-options .option-art {
 </div>
 
 <script>
-const PLAN = {"lede":"A small offline-first home temperature logger. Six load-bearing sections, traceable from goal to build step.","sections":[{"id":"overview","items":[{"desc":"Track temperature in 4 rooms of a home, alert on anomalies, and let the homeowner answer 'was the heating off when we were away?' months later.","id":"OVR-1","title":"Mission"},{"desc":"One homeowner. Comfortable with a phone, not with a CLI. Will never SSH into anything.","id":"OVR-2","title":"Audience"},{"desc":"Runs entirely on-premise: no cloud sync, no account, no internet dependency. Must survive a 2-week internet outage with full functionality.","id":"OVR-3","title":"Hard constraints"}],"label":"Overview"},{"id":"functional","items":[{"desc":"Each sensor reports °C every minute; the logger writes one row per sensor per minute.","id":"FR-1","title":"Log temperature every 60 s"},{"desc":"Per-room view: last 24h, 7d, 30d, all-time. Touchable on a phone.","id":"FR-2","title":"Chart room history"},{"desc":"Push a notification when a room is \u003e5 °C outside its 7-day band for more than 20 minutes.","id":"FR-3","title":"Anomaly alerts"},{"desc":"Download all historical readings as CSV from the web UI. One file per room.","id":"FR-4","title":"CSV export"}],"label":"Functional"},{"id":"non-functional","items":[{"desc":"All features work with the WAN disconnected. No background sync, no \"cloud login required\" splash.","id":"NFR-1","title":"Offline-first"},{"desc":"Whole system draws \u003c 5 W idle. Logger lives on a Pi Zero 2 W; sensors run on coin cells for \u003e 12 months.","id":"NFR-2","title":"Low-power"},{"desc":"No data ever leaves the house network. Alerts use a local push gateway, not Apple/Google push.","id":"NFR-3","title":"Local-only data"}],"label":"Non-functional"},{"id":"cases","items":[{"desc":"Homeowner returns from a 10-day trip, opens the app, jumps to the timeframe of the trip, sees the temperature line for the living room and confirms it stayed above 16 °C the whole time.","id":"CASE-1","title":"\"Did the heating fail while we were away?\""},{"desc":"Mid-winter, 2 am. Bedroom drops to 11 °C, the alert fires on the phone, homeowner gets up to investigate before the pipes freeze.","id":"CASE-2","title":"\"The bedroom is freezing tonight\""},{"desc":"End of winter. Homeowner exports a year of CSV, drops it into a spreadsheet next to the gas bill, decides whether next year's boiler tune-up is worth it.","id":"CASE-3","title":"\"What does our heating cost actually buy us?\""}],"label":"Cases"},{"id":"engineering","items":[{"desc":"Read from 4 cheap Bluetooth LE thermometers. Pi scans every 60 s, writes the latest reading per sensor.","id":"ENG-1","title":"Sensor driver (BLE)"},{"desc":"Where the year-long history actually lives on the Pi. Trade-off between query speed, disk footprint, and tooling overhead.","id":"ENG-2","title":"Local storage choice"},{"desc":"Single-page app on the Pi, served on the LAN. Chart + room picker + CSV download. No build step beyond `make`.","id":"ENG-3","title":"Web UI"},{"desc":"Rolling-window check every 5 min; fires to a local ntfy.sh instance, which the homeowner has subscribed to from their phone.","id":"ENG-4","title":"Alert pipeline"}],"label":"Engineering"},{"id":"build","items":[{"desc":"Pi Zero 2 W, 4 × Xiaomi LYWSDCGQ sensors, 1 × ntfy.sh container on the LAN. Total cost target \u003c £80.","id":"BUILD-1","title":"BOM + initial wiring"},{"desc":"Go binary on the Pi: ble-scanner + storage-writer + alert-checker as one process. systemd unit, no Docker.","id":"BUILD-2","title":"Pi firmware"},{"desc":"Static HTML/CSS/JS embedded in the Go binary via go:embed. Charts via uPlot. CSV download by serving the SQLite query result as text/csv.","id":"BUILD-3","title":"Web UI"},{"desc":"One install script: scp the binary, install the unit, set Wi-Fi sensor credentials, test alert end-to-end, hand the homeowner a printed cheat-sheet.","id":"BUILD-4","title":"Deploy + handover"}],"label":"Build"}],"title":"ThermoLog — home temperature logger"};
+const PLAN = {"lede":"Six load-bearing sections for a tiny but real service: redirect path, analytics pipeline, four embedded engineering decisions. Designed to fit in one binary, one config file, one $5 VPS.","sections":[{"id":"overview","items":[{"desc":"A self-hostable URL shortener that small teams can stand up on their own domain in an afternoon. Bring-your-own-domain, real analytics, no third party tracking your users.","id":"OVR-1","title":"Mission"},{"desc":"Small teams (3-50 people) who already own a short domain and want to use it for campaign tracking, internal redirects, and link-shortening without handing data to a SaaS.","id":"OVR-2","title":"Audience"},{"desc":"One static binary. One config file. Must run on a $5/month VPS with 1 GB RAM. No SaaS dependencies for the redirect path — even if every other service is down, slugs still resolve.","id":"OVR-3","title":"Hard constraints"}],"label":"Overview"},{"id":"functional","items":[{"desc":"POST /api/links with a target URL → returns a slug. Web form mirrors the API. Auth is optional per-instance (open / api-key / OAuth).","id":"FR-1","title":"Create a short link"},{"desc":"GET /:slug → HTTP 302 to the stored target. The hot path of the service: cheap, cacheable, no auth, no DB write.","id":"FR-2","title":"Redirect by slug"},{"desc":"User can specify the slug (\"black-friday-2026\") or let the server generate a short base62 ID. Custom slugs collide-check; auto slugs are 6-8 chars.","id":"FR-3","title":"Custom slugs + auto-generation"},{"desc":"Per-link TTL: \"expires in 30 days\" or \"after 1000 clicks\". A nightly job sweeps expired links. Expired slugs return HTTP 410 Gone.","id":"FR-4","title":"Link expiry (optional)"},{"desc":"Per-slug dashboard: total clicks, referrers, rough geo (country only), user agent buckets. IPs are hashed; no cookies; no individual user records — only aggregates.","id":"FR-5","title":"Per-link analytics (no PII)"}],"label":"Functional"},{"id":"non-functional","items":[{"desc":"From the moment a browser sends GET /:slug to the moment it gets a 302 response — under 50 ms at the 99th percentile, measured from the same region as the VPS.","id":"NFR-1","title":"Redirect p99 \u003c 50 ms"},{"desc":"All link state in durable storage before any 200 is returned to the creator. Analytics events are buffered locally and replayed if the analytics backend is briefly unreachable.","id":"NFR-2","title":"Survives reboot + buffered writes"},{"desc":"IP addresses are SHA-256 hashed with a per-instance salt before any write. No cookies on the redirect path. No third party scripts ever in the dashboard.","id":"NFR-3","title":"No PII storage"},{"desc":"Single static Go binary plus one TOML config file. No external dependencies for the redirect path (cache is in-process by default; external cache is opt-in).","id":"NFR-4","title":"One binary, one config"}],"label":"Non-functional"},{"id":"cases","items":[{"desc":"Marketing sends an email with one tracked link. 10 000 req/s for 90 seconds. The redirect path must hold; the analytics pipeline can fall behind and catch up — but no redirect can drop.","id":"CASE-1","title":"\"Our newsletter went viral\""},{"desc":"Someone types a slug into the form (\"all-hands-q4\"), pastes the Zoom link, copies the resulting short URL, and pastes it into the calendar invite. End-to-end under 30 seconds, no API key.","id":"CASE-2","title":"\"I want a memorable slug for the all-hands\""},{"desc":"A short URL was printed on 5 000 flyers six months ago. The slug must still resolve. Expiry never set; data never lost; the link works as long as the box is up.","id":"CASE-3","title":"\"We printed it on a flyer\""}],"label":"Cases"},{"id":"engineering","items":[{"desc":"Single Go process: net/http, no framework. Routes: GET /:slug (hot path), POST /api/links, GET /api/links/:slug, GET /api/links/:slug/stats, plus a tiny dashboard SPA served from go:embed.","id":"ENG-1","title":"HTTP API service"},{"desc":"Where the slug → target map lives. The hot path issues one read per redirect; the cold path writes one row per created link.","id":"ENG-2","title":"Link storage backend"},{"desc":"How the hot path stays under 50 ms p99 when a popular link gets hammered. The cache is read-mostly: invalidate on update; rebuild on miss.","id":"ENG-3","title":"Redirect cache strategy"},{"desc":"Click events flow from the redirect handler into an event log, get aggregated nightly into per-slug stats. PII stripped at the handler before the event is even written.","id":"ENG-4","title":"Analytics pipeline"},{"desc":"How the binary actually runs in production. All three options should work from the same artifact — the binary is platform-aware.","id":"ENG-5","title":"Deploy target"}],"label":"Engineering"},{"id":"build","items":[{"desc":"Stand up the HTTP server, define the routes, implement base62 ID generation, wire collision-check for custom slugs. Auth modes (open / api-key / OAuth) gated behind config.","id":"BUILD-1","title":"API scaffolding + slug generation"},{"desc":"GET /:slug → cache lookup → DB fallback → 302. The most-trafficked code path in the service; budget \u003c 5 ms server-side on a cache hit.","id":"BUILD-2","title":"Hot-path redirect"},{"desc":"Tiny embedded HTML/JS dashboard: list links, create, see per-slug stats. Served from go:embed, no separate web server. Tailwind-flavored CSS in one stylesheet.","id":"BUILD-3","title":"Dashboard + create-link UI"},{"desc":"Handler emits click event → buffered queue → worker writes to events table. Nightly cron rolls events into per-slug daily aggregates the dashboard reads.","id":"BUILD-4","title":"Analytics ingestion + nightly rollup"},{"desc":"One-page deploy script per target (systemd / docker / k8s). Worked example: from `wget` to first redirect in under 5 minutes. Backup + restore documented.","id":"BUILD-5","title":"Deploy guide + handover"}],"label":"Build"}],"title":"clipsi — self-hostable URL shortener with analytics"};
 const SOURCE = {"basename":"plan.html","file":"/test/plan.html","version":""};
 window.PLAN = PLAN;
 window.SOURCE = SOURCE;

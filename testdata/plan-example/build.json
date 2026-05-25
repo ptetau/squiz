@@ -2,31 +2,38 @@
   "items": [
     {
       "id": "BUILD-1",
-      "title": "BOM + initial wiring",
-      "desc": "Pi Zero 2 W, 4 × Xiaomi LYWSDCGQ sensors, 1 × ntfy.sh container on the LAN. Total cost target < £80.",
-      "art": "swatches:#1a1814,#b34a1a,#f1ebde",
+      "title": "API scaffolding + slug generation",
+      "desc": "Stand up the HTTP server, define the routes, implement base62 ID generation, wire collision-check for custom slugs. Auth modes (open / api-key / OAuth) gated behind config.",
+      "art": "arch:server",
       "refs": ["ENG-1", "ENG-2"]
     },
     {
       "id": "BUILD-2",
-      "title": "Pi firmware",
-      "desc": "Go binary on the Pi: ble-scanner + storage-writer + alert-checker as one process. systemd unit, no Docker.",
-      "art": "text:\"systemctl enable\\nthermolog.service\"@mono?size=12&weight=600",
-      "refs": ["ENG-1", "ENG-2", "ENG-4"]
+      "title": "Hot-path redirect",
+      "desc": "GET /:slug → cache lookup → DB fallback → 302. The most-trafficked code path in the service; budget < 5 ms server-side on a cache hit.",
+      "art": "flow:[browser?icon=browser,api?icon=api,cache?icon=cache,db?icon=database]",
+      "refs": ["ENG-1", "ENG-3", "NFR-1"]
     },
     {
       "id": "BUILD-3",
-      "title": "Web UI",
-      "desc": "Static HTML/CSS/JS embedded in the Go binary via go:embed. Charts via uPlot. CSV download by serving the SQLite query result as text/csv.",
+      "title": "Dashboard + create-link UI",
+      "desc": "Tiny embedded HTML/JS dashboard: list links, create, see per-slug stats. Served from go:embed, no separate web server. Tailwind-flavored CSS in one stylesheet.",
       "art": "wf:phone-tabs",
-      "refs": ["ENG-3"]
+      "refs": ["ENG-1", "FR-1", "FR-5"]
     },
     {
       "id": "BUILD-4",
-      "title": "Deploy + handover",
-      "desc": "One install script: scp the binary, install the unit, set Wi-Fi sensor credentials, test alert end-to-end, hand the homeowner a printed cheat-sheet.",
-      "art": "wf:check-large",
-      "refs": ["ENG-1", "ENG-2", "ENG-3", "ENG-4"]
+      "title": "Analytics ingestion + nightly rollup",
+      "desc": "Handler emits click event → buffered queue → worker writes to events table. Nightly cron rolls events into per-slug daily aggregates the dashboard reads.",
+      "art": "flow:[api?icon=api,queue?icon=queue,worker?icon=worker,db?icon=database]",
+      "refs": ["ENG-1", "ENG-4", "FR-5"]
+    },
+    {
+      "id": "BUILD-5",
+      "title": "Deploy guide + handover",
+      "desc": "One-page deploy script per target (systemd / docker / k8s). Worked example: from `wget` to first redirect in under 5 minutes. Backup + restore documented.",
+      "art": "text:\"$ ./install-clipsi.sh\\n→ first redirect in 5 min\"@mono?size=10&color=accent",
+      "refs": ["ENG-5"]
     }
   ]
 }

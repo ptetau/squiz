@@ -2,22 +2,30 @@
   "items": [
     {
       "id": "NFR-1",
-      "title": "Offline-first",
-      "desc": "All features work with the WAN disconnected. No background sync, no \"cloud login required\" splash.",
-      "art": "wf:lock",
-      "refs": ["OVR-3"]
+      "title": "Redirect p99 < 50 ms",
+      "desc": "From the moment a browser sends GET /:slug to the moment it gets a 302 response — under 50 ms at the 99th percentile, measured from the same region as the VPS.",
+      "art": "wf:gauge",
+      "refs": ["OVR-1"]
     },
     {
       "id": "NFR-2",
-      "title": "Low-power",
-      "desc": "Whole system draws < 5 W idle. Logger lives on a Pi Zero 2 W; sensors run on coin cells for > 12 months.",
-      "art": "wf:gauge",
+      "title": "Survives reboot + buffered writes",
+      "desc": "All link state in durable storage before any 200 is returned to the creator. Analytics events are buffered locally and replayed if the analytics backend is briefly unreachable.",
+      "art": "arch:database",
       "refs": ["OVR-3"]
     },
     {
       "id": "NFR-3",
-      "title": "Local-only data",
-      "desc": "No data ever leaves the house network. Alerts use a local push gateway, not Apple/Google push.",
+      "title": "No PII storage",
+      "desc": "IP addresses are SHA-256 hashed with a per-instance salt before any write. No cookies on the redirect path. No third party scripts ever in the dashboard.",
+      "art": "arch:secret",
+      "refs": ["OVR-1"]
+    },
+    {
+      "id": "NFR-4",
+      "title": "One binary, one config",
+      "desc": "Single static Go binary plus one TOML config file. No external dependencies for the redirect path (cache is in-process by default; external cache is opt-in).",
+      "art": "text:\"clipsi.toml\\nclipsi.service\"@mono?size=11&color=accent",
       "refs": ["OVR-3"]
     }
   ]

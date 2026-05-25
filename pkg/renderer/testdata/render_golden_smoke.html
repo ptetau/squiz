@@ -266,6 +266,17 @@ html[data-theme="slate"] body {
 html[data-cursor="on"] .topbar .squiz::after {
   animation: blink 1.1s steps(2) infinite;
 }
+.topbar .squiz-version {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  padding: 1px 5px;
+  border: 1px solid var(--rule-2);
+  border-radius: 2px;
+  margin-left: 6px;
+  text-transform: lowercase;
+}
 .topbar .path { color: var(--ink-2); }
 .topbar .right { color: var(--ink-3); }
 @keyframes blink { 50% { opacity: 0; } }
@@ -1403,7 +1414,7 @@ html[data-theme="slate"] .modal-head .x:focus-visible {
 (function () {
   const SPEC_TITLE = "Smoke test — every art form, every shape";
   const SQUIZZES = [{"anchor":"#squiz-namedlib","id":"namedlib","options":[{"desc":"Monthly heatmap.","id":"cal","name":"calendar-grid"},{"desc":"Sparkline trending up.","id":"spark","name":"spark-rising"},{"desc":"Accountability circle.","id":"av","name":"avatar-circle"},{"desc":"Force-directed graph.","id":"graph","name":"graph-force"}],"title":"Named library: wf:* references"},{"anchor":"#squiz-dslparams","id":"dslparams","options":[{"desc":"grid:7x7@0.55","id":"g","name":"grid"},{"desc":"spark:[3,5,4,7,6,9,11,9,12]","id":"s","name":"spark"},{"desc":"bars:[3,5,4,7,6,9,11]","id":"b","name":"bars"},{"desc":"swatches:#f1ebde,#1a1814,#b34a1a","id":"sw","name":"swatches"},{"desc":"pills:morning*|midday|evening*","id":"p","name":"pills"},{"desc":"sample:\"Quiet welcome back.\"@serif","id":"sa","name":"sample serif"},{"desc":"circle-pack:12","id":"cp","name":"circle-pack"}],"title":"DSL primitives"},{"anchor":"#squiz-autoart","id":"autoart","options":[{"desc":"Hatched pattern auto-default.","id":"a","name":"Option A"},{"desc":"Dotted pattern auto-default.","id":"b","name":"Option B"},{"desc":"Striped pattern auto-default.","id":"c","name":"Option C"},{"desc":"Grid pattern auto-default.","id":"d","name":"Option D"}],"title":"Auto-art when omitted"},{"anchor":"#squiz-hidden","id":"hidden","options":[{"desc":"No art slot at all.","id":"x","name":"First"},{"desc":"No art slot at all.","id":"y","name":"Second"}],"title":"Explicit no-art (art:\"none\")"}];
-  const SOURCE = {"basename":"smoke.html","file":"/test/smoke.html"};
+  const SOURCE = {"basename":"smoke.html","file":"/test/smoke.html","version":""};
   const total = SQUIZZES.length;
   const state = { selections: {}, notes: {} };
 

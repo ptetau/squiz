@@ -15,10 +15,10 @@ func TestLoadPlan_Example(t *testing.T) {
 		t.Fatalf("LoadPlan: %v", err)
 	}
 
-	if p.Title != "ThermoLog — home temperature logger" {
+	if p.Title != "clipsi — self-hostable URL shortener with analytics" {
 		t.Errorf("Title = %q", p.Title)
 	}
-	if !strings.HasPrefix(p.Lede, "A small offline-first") {
+	if !strings.HasPrefix(p.Lede, "Six load-bearing sections") {
 		t.Errorf("Lede = %q", p.Lede)
 	}
 	if p.Theme != "paper" {
@@ -34,11 +34,11 @@ func TestLoadPlan_Example(t *testing.T) {
 	}
 	wantCounts := map[string]int{
 		"overview":       3,
-		"functional":     4,
-		"non-functional": 3,
+		"functional":     5,
+		"non-functional": 4,
 		"cases":          3,
-		"engineering":    4,
-		"build":          4,
+		"engineering":    5,
+		"build":          5,
 	}
 
 	if len(p.Sections) != len(wantOrder) {
