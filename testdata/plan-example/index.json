@@ -1,0 +1,7 @@
+{
+  "title": "ThermoLog — home temperature logger",
+  "lede": "A small offline-first home temperature logger. Six load-bearing sections, traceable from goal to build step.",
+  "theme": "paper",
+  "density": "compact",
+  "sections": ["overview", "functional", "non-functional", "cases", "engineering", "build"]
+}

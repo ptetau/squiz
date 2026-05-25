@@ -1,0 +1,32 @@
+{
+  "items": [
+    {
+      "id": "BUILD-1",
+      "title": "BOM + initial wiring",
+      "desc": "Pi Zero 2 W, 4 × Xiaomi LYWSDCGQ sensors, 1 × ntfy.sh container on the LAN. Total cost target < £80.",
+      "art": "swatches:#1a1814,#b34a1a,#f1ebde",
+      "refs": ["ENG-1", "ENG-2"]
+    },
+    {
+      "id": "BUILD-2",
+      "title": "Pi firmware",
+      "desc": "Go binary on the Pi: ble-scanner + sqlite-writer + alert-checker as one process. systemd unit, no Docker.",
+      "art": "sample:\"systemctl enable thermolog\"@mono",
+      "refs": ["ENG-1", "ENG-2", "ENG-4"]
+    },
+    {
+      "id": "BUILD-3",
+      "title": "Web UI",
+      "desc": "Static HTML/CSS/JS embedded in the Go binary via go:embed. Charts via uPlot. CSV download by serving the SQLite query result as text/csv.",
+      "art": "wf:phone-tabs",
+      "refs": ["ENG-3"]
+    },
+    {
+      "id": "BUILD-4",
+      "title": "Deploy + handover",
+      "desc": "One install script: scp the binary, install the unit, set Wi-Fi sensor credentials, test alert end-to-end, hand the homeowner a printed cheat-sheet.",
+      "art": "wf:check-large",
+      "refs": ["ENG-1", "ENG-2", "ENG-3", "ENG-4"]
+    }
+  ]
+}

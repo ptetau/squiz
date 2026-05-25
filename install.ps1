@@ -51,7 +51,14 @@ try {
   Expand-Archive -Path (Join-Path $tmp $archive) -DestinationPath $tmp -Force
 
   New-Item -ItemType Directory -Path $BinDir -Force | Out-Null
-  Move-Item -Path (Join-Path $tmp 'squiz.exe') -Destination (Join-Path $BinDir 'squiz.exe') -Force
+  # Install every .exe the archive ships at its top level (squiz.exe, squiz-plan.exe, …).
+  foreach ($exe in 'squiz.exe','squiz-plan.exe') {
+    $src = Join-Path $tmp $exe
+    if (Test-Path $src) {
+      Move-Item -Path $src -Destination (Join-Path $BinDir $exe) -Force
+      Write-Host "  binary:  $BinDir\$exe"
+    }
+  }
 
   # Install every SKILL.md the archive ships under skills\<name>\.
   $skillsDir = Join-Path $tmp 'skills'
@@ -77,8 +84,10 @@ try {
 
   Write-Host ""
   Write-Host "OK installed squiz $version"
-  Write-Host "  binary:  $BinDir\squiz.exe"
   try { & (Join-Path $BinDir 'squiz.exe') version } catch { }
+  if (Test-Path (Join-Path $BinDir 'squiz-plan.exe')) {
+    try { & (Join-Path $BinDir 'squiz-plan.exe') version } catch { }
+  }
 } finally {
   Remove-Item -Recurse -Force $tmp -ErrorAction SilentlyContinue
 }

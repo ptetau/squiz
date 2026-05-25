@@ -1,0 +1,32 @@
+{
+  "items": [
+    {
+      "id": "ENG-1",
+      "title": "Sensor driver (BLE)",
+      "desc": "Read from 4 cheap Bluetooth LE thermometers. Pi scans every 60 s, writes the latest reading per sensor.",
+      "art": "wf:dot-trend",
+      "refs": ["FR-1", "NFR-1"]
+    },
+    {
+      "id": "ENG-2",
+      "title": "Local storage (SQLite)",
+      "desc": "One SQLite file on the Pi. Append-only readings table; downsampled aggregates rebuilt nightly.",
+      "art": "wf:file-icons",
+      "refs": ["FR-1", "FR-2", "NFR-1", "NFR-2"]
+    },
+    {
+      "id": "ENG-3",
+      "title": "Web UI",
+      "desc": "Single-page app on the Pi, served on the LAN. Chart + room picker + CSV download. No build step beyond `make`.",
+      "art": "wf:phone-tabs",
+      "refs": ["FR-2", "FR-4", "OVR-2"]
+    },
+    {
+      "id": "ENG-4",
+      "title": "Alert pipeline",
+      "desc": "Rolling-window check every 5 min; fires to a local ntfy.sh instance, which the homeowner has subscribed to from their phone.",
+      "art": "wf:badge-new",
+      "refs": ["FR-3", "NFR-3"]
+    }
+  ]
+}

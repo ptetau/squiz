@@ -1,8 +1,11 @@
 # Squiz
 
-A visual document-style clarifier for [Claude Code](https://github.com/anthropics/claude-code). The agent writes a compact JSON spec; the `squiz` CLI renders it as a self-contained, retro-styled interactive HTML doc with mini-wireframe option art and a sticky `copy json` status bar. The user fills it in at their own pace and pastes the JSON payload back.
+Two visual document tools for [Claude Code](https://github.com/anthropics/claude-code), sharing the Apple //e × IBM Plex aesthetic:
 
-Apple //e × IBM Plex aesthetic. Eight themes (paper / phosphor / amber / beige / rose / ocean / forest / slate), auto-rotated per repo so every project gets a distinct identity.
+- **`squiz`** — clarifying questions. The agent writes a JSON spec; the CLI renders it as an interactive document with mini-wireframe option art and a `copy json` payload the user pastes back.
+- **`squiz-plan`** — structured plans (overview → functional → non-functional → cases → engineering → build). The agent writes a multi-file plan tree; the CLI renders one tabbed HTML doc where every item carries clickable `[FR-3]`-style badges back to the parent items that motivated it.
+
+Eight themes (paper / phosphor / amber / beige / rose / ocean / forest / slate), auto-rotated per repo so every project gets a distinct identity.
 
 ## Install
 
@@ -16,64 +19,73 @@ curl -fsSL https://raw.githubusercontent.com/ptetau/squiz/main/install.sh | sh
 irm https://raw.githubusercontent.com/ptetau/squiz/main/install.ps1 | iex
 ```
 
+Drops both `squiz` and `squiz-plan` on PATH; lays down `~/.claude/skills/squiz/SKILL.md` and `~/.claude/skills/squiz-plan/SKILL.md` so Claude Code picks them up.
+
 **From source** (Go ≥ 1.22)
 ```sh
 go install github.com/ptetau/squiz/cmd/squiz@latest
-mkdir -p ~/.claude/skills/squiz
+go install github.com/ptetau/squiz/cmd/squiz-plan@latest
+mkdir -p ~/.claude/skills/squiz ~/.claude/skills/squiz-plan
 curl -fsSL https://raw.githubusercontent.com/ptetau/squiz/main/skills/squiz/SKILL.md \
   -o ~/.claude/skills/squiz/SKILL.md
+curl -fsSL https://raw.githubusercontent.com/ptetau/squiz/main/skills/squiz-plan/SKILL.md \
+  -o ~/.claude/skills/squiz-plan/SKILL.md
 ```
-
-The install scripts drop the `squiz` binary on PATH and copy each `skills/<name>/SKILL.md` into `~/.claude/skills/<name>/` so the Claude Code agent picks them up. Today that's `squiz` plus a placeholder `squiz-plan` stub (full implementation in v0.3.0).
 
 ## Quick start
 
 ```sh
-# render a sample
+# clarifier
 squiz testdata/smoke.json --open
 
-# verify install
+# structured plan
+squiz-plan testdata/plan-example/index.json --open
+
+# verify
 squiz version
+squiz-plan version
 ```
 
-Then ask Claude Code:
+Then in Claude Code:
 
 > /squiz let's design a personal habit tracker
 
-The agent will write a `.json` spec, run the binary, and hand you back the rendered HTML.
+> /squiz-plan turn the resolved decisions into a structured build plan
 
 ## CLI
 
 ```
-squiz <input.json>                    # render <input>.html next to input
-squiz <input.json> --open             # also open in default browser
-squiz <input.json> --theme phosphor   # force a specific theme
-squiz <input.json> --out path.html    # explicit output path
-squiz <input.json> --stdout > x.html  # write to stdout
-squiz version
-squiz help
+squiz       <input.json>   [--out path] [--stdout] [--open] [--theme name]
+squiz-plan  <index.json>   [--out path] [--stdout] [--open] [--theme name]
 ```
 
-## How the skills work
+Both accept flags before or after the positional argument. Both support `version` and `help` subcommands.
 
-- **[skills/squiz/SKILL.md](./skills/squiz/SKILL.md)** — the active skill: JSON schema, 50 named wireframes, 7 DSL primitives, 8 themes, export payload shape.
-- **[skills/squiz-plan/SKILL.md](./skills/squiz-plan/SKILL.md)** — sibling skill (placeholder; v0.3.0).
+## Skills
+
+- **[skills/squiz/SKILL.md](./skills/squiz/SKILL.md)** — full agent contract: JSON schema, 50 named wireframes, 7 DSL primitives, 8 themes, export payload shape.
+- **[skills/squiz-plan/SKILL.md](./skills/squiz-plan/SKILL.md)** — agent contract for structured plans: section model, ID conventions, refs, feedback shape.
 
 ## Layout
 
 ```
-cmd/squiz/        # CLI entry point
-pkg/renderer/     # exported library: themes, art, DSL, templates
-skills/<name>/    # SKILL.md per skill
+cmd/squiz/             # squiz CLI entry point
+cmd/squiz-plan/        # squiz-plan CLI entry point
+pkg/renderer/          # exported library: themes, art, DSL, base templates
+internal/planview/     # squiz-plan-specific: parser, render, template
+skills/<name>/         # SKILL.md per skill (installed to ~/.claude/skills/<name>/)
+testdata/              # smoke + plan fixtures used by tests
 ```
 
 ## Build
 
 ```sh
-go build -o squiz ./cmd/squiz
+go build -o squiz       ./cmd/squiz
+go build -o squiz-plan  ./cmd/squiz-plan
+go test ./... -count=1
 ```
 
-The templates and CSS are embedded via `//go:embed` in `pkg/renderer`, so the binary is fully self-contained.
+Templates and CSS are embedded via `//go:embed`; both binaries are fully self-contained.
 
 ## License
 

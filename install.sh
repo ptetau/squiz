@@ -59,7 +59,13 @@ printf '→ extracting\n'
 tar -C "$tmp" -xzf "$tmp/$archive"
 
 mkdir -p "$BIN_DIR"
-install -m 0755 "$tmp/squiz" "$BIN_DIR/squiz"
+# Install every binary the archive ships at its top level (squiz, squiz-plan, …).
+for bin_src in "$tmp"/squiz "$tmp"/squiz-plan; do
+  [ -e "$bin_src" ] || continue
+  bin_name=$(basename "$bin_src")
+  install -m 0755 "$bin_src" "$BIN_DIR/$bin_name"
+  printf '  binary:  %s/%s\n' "$BIN_DIR" "$bin_name"
+done
 
 # Install every SKILL.md the archive ships under skills/<name>/.
 for skill_src in "$tmp"/skills/*/SKILL.md; do
@@ -79,5 +85,8 @@ case ":$PATH:" in
     ;;
 esac
 
-printf '✓ installed squiz %s\n  binary:  %s/squiz\n' "$version" "$BIN_DIR"
+printf '✓ installed squiz %s\n' "$version"
 "$BIN_DIR/squiz" version 2>/dev/null || true
+if [ -x "$BIN_DIR/squiz-plan" ]; then
+  "$BIN_DIR/squiz-plan" version 2>/dev/null || true
+fi

@@ -1,0 +1,25 @@
+{
+  "items": [
+    {
+      "id": "CASE-1",
+      "title": "\"Did the heating fail while we were away?\"",
+      "desc": "Homeowner returns from a 10-day trip, opens the app, jumps to the timeframe of the trip, sees the temperature line for the living room and confirms it stayed above 16 °C the whole time.",
+      "art": "wf:phone-stats",
+      "refs": ["FR-2"]
+    },
+    {
+      "id": "CASE-2",
+      "title": "\"The bedroom is freezing tonight\"",
+      "desc": "Mid-winter, 2 am. Bedroom drops to 11 °C, the alert fires on the phone, homeowner gets up to investigate before the pipes freeze.",
+      "art": "sample:\"BEDROOM 11°C\"@mono",
+      "refs": ["FR-3"]
+    },
+    {
+      "id": "CASE-3",
+      "title": "\"What does our heating cost actually buy us?\"",
+      "desc": "End of winter. Homeowner exports a year of CSV, drops it into a spreadsheet next to the gas bill, decides whether next year's boiler tune-up is worth it.",
+      "art": "none",
+      "refs": ["FR-4"]
+    }
+  ]
+}

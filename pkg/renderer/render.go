@@ -14,6 +14,14 @@ import (
 //go:embed templates/index.html.tmpl templates/styles.css
 var assets embed.FS
 
+// ThemeCSS returns the embedded CSS bundle that defines the 8 squiz
+// themes. Exposed for sibling renderers (squiz-plan) that want the same
+// visual identity without re-embedding the file.
+func ThemeCSS() string {
+	b, _ := assets.ReadFile("templates/styles.css")
+	return string(b)
+}
+
 // {{squizId}} marker pattern. ID is [a-zA-Z][a-zA-Z0-9_-]*.
 var markerRE = regexp.MustCompile(`\{\{([a-zA-Z][a-zA-Z0-9_-]*)\}\}`)
 

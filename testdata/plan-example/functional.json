@@ -1,0 +1,32 @@
+{
+  "items": [
+    {
+      "id": "FR-1",
+      "title": "Log temperature every 60 s",
+      "desc": "Each sensor reports °C every minute; the logger writes one row per sensor per minute.",
+      "art": "wf:spark-rising",
+      "refs": ["OVR-1"]
+    },
+    {
+      "id": "FR-2",
+      "title": "Chart room history",
+      "desc": "Per-room view: last 24h, 7d, 30d, all-time. Touchable on a phone.",
+      "art": "wf:phone-stats",
+      "refs": ["OVR-1", "OVR-2"]
+    },
+    {
+      "id": "FR-3",
+      "title": "Anomaly alerts",
+      "desc": "Push a notification when a room is >5 °C outside its 7-day band for more than 20 minutes.",
+      "art": "wf:badge-new",
+      "refs": ["OVR-1"]
+    },
+    {
+      "id": "FR-4",
+      "title": "CSV export",
+      "desc": "Download all historical readings as CSV from the web UI. One file per room.",
+      "art": "wf:file-icons",
+      "refs": ["OVR-1"]
+    }
+  ]
+}

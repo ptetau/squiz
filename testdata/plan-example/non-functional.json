@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "id": "NFR-1",
+      "title": "Offline-first",
+      "desc": "All features work with the WAN disconnected. No background sync, no \"cloud login required\" splash.",
+      "art": "wf:lock",
+      "refs": ["OVR-3"]
+    },
+    {
+      "id": "NFR-2",
+      "title": "Low-power",
+      "desc": "Whole system draws < 5 W idle. Logger lives on a Pi Zero 2 W; sensors run on coin cells for > 12 months.",
+      "art": "wf:gauge",
+      "refs": ["OVR-3"]
+    },
+    {
+      "id": "NFR-3",
+      "title": "Local-only data",
+      "desc": "No data ever leaves the house network. Alerts use a local push gateway, not Apple/Google push.",
+      "refs": ["OVR-3"]
+    }
+  ]
+}

@@ -17,9 +17,19 @@ builds:
     ldflags:
       - -s -w
       - -X main.version={{.Version}}
+  - id: squiz-plan
+    binary: squiz-plan
+    main: ./cmd/squiz-plan
+    env:
+      - CGO_ENABLED=0
+    goos: [linux, darwin, windows]
+    goarch: [amd64, arm64]
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
 
 archives:
-  - builds: [squiz]
+  - builds: [squiz, squiz-plan]
     name_template: >-
       {{ .ProjectName }}_{{ .Version }}_
       {{- title .Os }}_

@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "id": "OVR-1",
+      "title": "Mission",
+      "desc": "Track temperature in 4 rooms of a home, alert on anomalies, and let the homeowner answer 'was the heating off when we were away?' months later."
+    },
+    {
+      "id": "OVR-2",
+      "title": "Audience",
+      "desc": "One homeowner. Comfortable with a phone, not with a CLI. Will never SSH into anything.",
+      "art": "wf:avatar-single"
+    },
+    {
+      "id": "OVR-3",
+      "title": "Hard constraints",
+      "desc": "Runs entirely on-premise: no cloud sync, no account, no internet dependency. Must survive a 2-week internet outage with full functionality."
+    }
+  ]
+}
