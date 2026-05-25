@@ -20,8 +20,9 @@ type validateError struct {
 
 // validateReport is the JSON shape printed when --json is set.
 type validateReport struct {
-	Valid  bool            `json:"valid"`
-	Errors []validateError `json:"errors"`
+	Valid    bool            `json:"valid"`
+	Errors   []validateError `json:"errors"`
+	Warnings []validateError `json:"warnings,omitempty"`
 }
 
 // cmdValidate loads a plan via planview.LoadPlan (which already runs the
@@ -54,11 +55,14 @@ func cmdValidate(args []string) {
 	plan, loadErr := planview.LoadPlan(indexPath)
 	if loadErr != nil {
 		path, msg := splitLoadError(loadErr.Error())
-		emitValidate(*jsonOut, []validateError{{Path: path, Message: msg}}, planCounts{})
+		emitValidate(*jsonOut, []validateError{{Path: path, Message: msg}}, nil, planCounts{})
 		os.Exit(1)
 	}
 
-	emitValidate(*jsonOut, nil, planCounts{
+	// v0.8.0 taste lints — soft warnings; never affect exit code.
+	lints := runLints(plan)
+
+	emitValidate(*jsonOut, nil, lints, planCounts{
 		sections: len(plan.Sections),
 		items:    countItems(plan),
 	})
@@ -90,14 +94,16 @@ func splitLoadError(s string) (path, msg string) {
 }
 
 // emitValidate writes the validation result in either text or JSON.
-// Text mode: one finding per line as `path: message`, ending with a
-// 1-line summary on a separate channel (stdout for success, stderr for
-// failure). JSON mode: the report struct on stdout.
-func emitValidate(asJSON bool, errs []validateError, counts planCounts) {
+// Text mode: one finding per line as `path: message`. Lint warnings get
+// the `warn: ` prefix and go to stderr. Ends with a 1-line summary on
+// stdout for success, stderr for failure. JSON mode: the report struct
+// (with `warnings` array) on stdout.
+func emitValidate(asJSON bool, errs, lints []validateError, counts planCounts) {
 	if asJSON {
 		report := validateReport{
-			Valid:  len(errs) == 0,
-			Errors: errs,
+			Valid:    len(errs) == 0,
+			Errors:   errs,
+			Warnings: lints,
 		}
 		if report.Errors == nil {
 			report.Errors = []validateError{}
@@ -113,6 +119,9 @@ func emitValidate(asJSON bool, errs []validateError, counts planCounts) {
 		} else {
 			fmt.Fprintln(os.Stderr, e.Message)
 		}
+	}
+	for _, e := range lints {
+		fmt.Fprintf(os.Stderr, "warn: %s: %s\n", e.Path, e.Message)
 	}
 	if len(errs) == 0 {
 		fmt.Fprintf(os.Stdout, "valid (%d section%s, %d item%s)\n",

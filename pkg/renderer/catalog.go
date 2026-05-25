@@ -10,9 +10,10 @@ import (
 
 // CatalogEntry is the JSON shape emitted by `squiz catalog <name> --json`.
 type CatalogEntry struct {
-	Name     string `json:"name"`
-	Desc     string `json:"desc"`
-	Category string `json:"category,omitempty"`
+	Name       string     `json:"name"`
+	Desc       string     `json:"desc"`
+	Category   string     `json:"category,omitempty"`
+	NaturalBox NaturalBox `json:"naturalBox"`
 }
 
 // ThemeInfo describes one of the 8 ship themes for `catalog themes`.
@@ -41,9 +42,13 @@ type DSLPrimitive struct {
 	Desc    string `json:"desc"`
 }
 
-// DSLCatalog is the canonical list of the 11 DSL primitives that
-// resolveDSL in dsl.go dispatches on.
+// DSLCatalog is the canonical list of DSL primitives that resolveDSL in
+// dsl.go dispatches on. Nouns (chart/icon/text shapes) come first; the
+// 7 annotation primitives (v0.8.0) that turn nouns into statements
+// follow. All are composable inside raw SVG via
+// `<use href="callout:..."/>`.
 var DSLCatalog = []DSLPrimitive{
+	// ── nouns ────────────────────────────────────────────────────────
 	{Grammar: `grid:NxM[@RATE]`, Desc: "N×M heatmap, RATE in [0,1]"},
 	{Grammar: `spark:[v,v,...]`, Desc: "sparkline from data"},
 	{Grammar: `bars:[v,v,...]`, Desc: "bar chart"},
@@ -55,6 +60,14 @@ var DSLCatalog = []DSLPrimitive{
 	{Grammar: `flow:[a,b,c]`, Desc: "L-to-R pipeline of named boxes (?icon=arch-name)"},
 	{Grammar: `box:label[?icon=NAME]`, Desc: "single labeled box"},
 	{Grammar: `arrow:"label"[?dir=DIR]`, Desc: "labeled arrow glyph"},
+	// ── annotation glue (v0.8.0) — overlay onto other primitives ─────
+	{Grammar: `callout:"label"@x,y->x2,y2`, Desc: "leader line + label pointing at a spot"},
+	{Grammar: `brace:"label"@x,y,w[?dir=DIR]`, Desc: "paren-style bracket spanning a range, labeled"},
+	{Grammar: `divider:vs[@x]`, Desc: "vertical dashed rule + 'vs' glyph for contrast splits"},
+	{Grammar: `badge:KIND@x,y`, Desc: "small overlay glyph: tick/cross/warn/star/dot"},
+	{Grammar: `range:LO-HI@x,y,w[?label=T]`, Desc: "numbered axis segment for ranges (3-50 people, etc.)"},
+	{Grammar: `baseline:N@x,y,w[?label=T]`, Desc: "horizontal dashed reference line (overlay metric targets)"},
+	{Grammar: `times:N[?label=T]`, Desc: "×N multiplier mark for quantity/repetition"},
 }
 
 // CatalogNames returns the list of supported catalog names for the top-level
@@ -67,9 +80,10 @@ func WFCatalog() []CatalogEntry {
 	out := make([]CatalogEntry, 0, len(WFLibrary))
 	for name := range WFLibrary {
 		out = append(out, CatalogEntry{
-			Name:     name,
-			Desc:     WFDescriptions[name],
-			Category: wfCategory[name],
+			Name:       name,
+			Desc:       WFDescriptions[name],
+			Category:   wfCategory[name],
+			NaturalBox: NaturalBoxOf(name),
 		})
 	}
 	sort.Slice(out, func(i, j int) bool { return out[i].Name < out[j].Name })
@@ -81,9 +95,10 @@ func ArchCatalog() []CatalogEntry {
 	out := make([]CatalogEntry, 0, len(ArchLibrary))
 	for name := range ArchLibrary {
 		out = append(out, CatalogEntry{
-			Name:     name,
-			Desc:     ArchDescriptions[name],
-			Category: archCategory[name],
+			Name:       name,
+			Desc:       ArchDescriptions[name],
+			Category:   archCategory[name],
+			NaturalBox: NaturalBoxOf(name),
 		})
 	}
 	sort.Slice(out, func(i, j int) bool { return out[i].Name < out[j].Name })

@@ -77,7 +77,13 @@ func cmdValidate(args []string) {
 
 	errors, warnings, squizCount, optionCount := validateDocument(doc)
 
-	emitValidate(*jsonOut, errors, warnings, validateCounts{
+	// Layer the v0.8.0 taste lints on top of the hard-error pass. These
+	// are warnings only — they never affect the exit code. They use the
+	// `warn:` prefix in text mode (distinct from the existing `warning:`
+	// prefix for marker warnings) so authors can grep them out separately.
+	lintWarnings := runLints(doc)
+
+	emitValidate(*jsonOut, errors, warnings, lintWarnings, validateCounts{
 		squizzes: squizCount,
 		options:  optionCount,
 	})
@@ -216,15 +222,21 @@ func emitValidateFatal(asJSON bool, path, msg string) {
 }
 
 // emitValidate writes the validation result in either text or JSON.
-// Text mode: one finding per line as `path: message`, warnings prefixed
-// `warning: `, ending with a 1-line summary. JSON mode: the report
-// struct. Exits cleanly — the caller decides exit code from len(errs).
-func emitValidate(asJSON bool, errs, warns []validateError, counts validateCounts) {
+// Text mode: one finding per line as `path: message`. Marker warnings get
+// the `warning: ` prefix (pre-v0.8.0 behaviour). Lint warnings get the
+// `warn: ` prefix (v0.8.0 taste lints). Both are folded into the JSON
+// report's single `warnings` array. Ends with a 1-line summary on
+// stdout/stderr depending on success/failure. Exits cleanly — the caller
+// decides exit code from len(errs).
+func emitValidate(asJSON bool, errs, warns, lints []validateError, counts validateCounts) {
 	if asJSON {
+		combined := make([]validateError, 0, len(warns)+len(lints))
+		combined = append(combined, warns...)
+		combined = append(combined, lints...)
 		report := validateReport{
 			Valid:    len(errs) == 0,
 			Errors:   errs,
-			Warnings: warns,
+			Warnings: combined,
 		}
 		if report.Errors == nil {
 			report.Errors = []validateError{}
@@ -243,6 +255,9 @@ func emitValidate(asJSON bool, errs, warns []validateError, counts validateCount
 	}
 	for _, e := range warns {
 		fmt.Fprintf(os.Stderr, "warning: %s: %s\n", e.Path, e.Message)
+	}
+	for _, e := range lints {
+		fmt.Fprintf(os.Stderr, "warn: %s: %s\n", e.Path, e.Message)
 	}
 	if len(errs) == 0 {
 		fmt.Fprintf(w, "valid (%d %s, %d option%s)\n",

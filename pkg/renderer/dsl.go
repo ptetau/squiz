@@ -37,6 +37,20 @@ func resolveDSL(s string) (svg string, hidden bool) {
 		return dslBox(args), false
 	case "arrow":
 		return dslArrow(args), false
+	case "callout":
+		return dslCallout(args), false
+	case "brace":
+		return dslBrace(args), false
+	case "divider":
+		return dslDivider(args), false
+	case "badge":
+		return dslBadge(args), false
+	case "range":
+		return dslRange(args), false
+	case "baseline":
+		return dslBaseline(args), false
+	case "times":
+		return dslTimes(args), false
 	default:
 		return errArt("unknown dsl: " + prefix), false
 	}

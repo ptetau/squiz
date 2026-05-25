@@ -26,8 +26,9 @@ func RenderArt(art string, letterIdx int) (svg string, hidden bool) {
 	case art == "none":
 		return "", true
 	case strings.HasPrefix(art, "<svg"):
-		// Raw SVG, passed through.
-		return art, false
+		// Raw SVG: pre-process for <use href="wf:…"/> / arch:/dsl-prefix
+		// composition refs (no-op when there are none).
+		return resolveUses(art), false
 	case strings.HasPrefix(art, "wf:"):
 		return resolveNamed(strings.TrimPrefix(art, "wf:"))
 	case strings.HasPrefix(art, "arch:"):
